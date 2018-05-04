@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
+	<!ENTITY % TemplateExtensionDTD SYSTEM "chrome://TemplateExtension/locale/TemplateExtension-pane.dtd">
+	%TemplateExtensionDTD;
+]>
+
+<?xml-stylesheet href="less://komodo/skin/global/global.less"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/buttons.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/views.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/scintilla.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/partviewer.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/widgets.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/codeintel.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/codeintel/sectionlist.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/hyperlinks.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/rxx/rxx-overlay.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/sleuth.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/autocomplete.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/find.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/debugger.css"	type="text/css" ?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/debugger.css"	type="text/css" ?>
+
+<?xml-stylesheet href="chrome://TemplateExtension/skin/pane.css"	type="text/css"?>
+
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script src="chrome://TemplateExtension/content/TemplateExtension.js" type="application/x-javascript"/>
+    <script src="chrome://komodo/content/library/less_loader.js"
+            type="application/x-javascript"/>
+	
+	<hbox>
+		<button
+			class="box-inherit button-menubutton-button"
+			label="callbackTest"
+			value="callbackTest-value"
+			oncommand="ko.extensions.TemplateExtension.callbackTest(event)"
+		/>
+
+        <button type="menu"
+                label="Test menu"
+                class="pane-text">
+            <menupopup>
+				<menuitem label="Menu item"
+						  value="manu item value"
+						  oncommand="ko.extensions.TemplateExtension.callbackTest(this.value)"
+				/>
+            </menupopup>
+        </button>
+		 
+	</hbox>
+	
+</page>

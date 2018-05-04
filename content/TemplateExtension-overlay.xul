@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
+	<!ENTITY % TemplateExtensionDTD SYSTEM "chrome://TemplateExtension/locale/TemplateExtension.dtd">
+	%TemplateExtensionDTD;
+]>
+<overlay id="templateOverlay"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	
+    <script src="chrome://TemplateExtension/content/TemplateExtension.js" type="application/x-javascript"/>
+	
+	<commandset id="allcommands">
+		<!--<command id="Tasks:HelloWorld" oncommand="alert('Hello World from template');"/>-->
+		<command id="Tasks:HelloWorld" oncommand="ko.extensions.TemplateExtension.menuTest('Hello World from TemplateExtension');"/>		
+		<!--<command id="Tasks:HelloWorld" oncommand="alert(ko.extensions.Template.property);"/>		-->
+	</commandset>
+	
+	<menupopup id="popup_tools">
+		<menuitem id="menu_template"
+				label="&menu.menu_item;"
+				observes="Tasks:HelloWorld"
+				class="menu-iconic-wide"/>
+	</menupopup>
+    
+	
+	
+	
+    <ko-pane id="workspace_bottom_area">
+        <browser type="ko-widget"
+                 id="findresults720_tabpanel"
+                 label="TemplateExtension-pane"
+                 src="chrome://TemplateExtension/content/TemplateExtension-pane.xul"
+                 tab_onfocus="ko.extensions.TemplateExtension.callbackTest();" />
+    </ko-pane>
+	
+	
+</overlay>

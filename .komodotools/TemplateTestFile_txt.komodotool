@@ -1,0 +1,8 @@
+{
+  "version": "1.0.12", 
+  "type": "template", 
+  "name": "TemplateTestFile.txt", 
+  "value": [
+    "file:///C:/Users/vilbur/AppData/Local/ActiveState/KomodoIDE/10.1/templates/My%20Templates/TemplateTestFile.txt"
+  ]
+}

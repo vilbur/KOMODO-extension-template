@@ -1,0 +1,12 @@
+
+
+
+
+
+
+content	TemplateExtension jar:TemplateExtension.jar!/content/
+skin	TemplateExtension classic/1.0 jar:TemplateExtension.jar!/skin/
+locale	TemplateExtension en-US jar:TemplateExtension.jar!/locale/en-US/
+
+
+overlay chrome://komodo/content/komodo.xul chrome://TemplateExtension/content/TemplateExtension-overlay.xul
