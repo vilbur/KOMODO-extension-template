@@ -10,19 +10,26 @@
 	
     <script src="chrome://TemplateExtension/content/TemplateExtension.js" type="application/x-javascript"/>
 	
+	<!--
+		COMMANDS
+	-->
 	<commandset id="allcommands">
-		<!--<command id="Tasks:HelloWorld" oncommand="alert('Hello World from template');"/>-->
 		<command id="Tasks:HelloWorld" oncommand="ko.extensions.TemplateExtension.menuTest('Hello World from TemplateExtension');"/>		
-		<!--<command id="Tasks:HelloWorld" oncommand="alert(ko.extensions.Template.property);"/>		-->
 	</commandset>
 	
-	<menupopup id="menu">
-		<menuitem id="menu_item"
+	<!--
+		MENU TOOLS
+	-->
+	<menupopup id="popup_tools">
+		<menuitem id="menu_template"
 				label="&menu.menu_item;"
 				observes="Tasks:HelloWorld"
 				class="menu-iconic-wide"/>
 	</menupopup>
-    
+	
+	<!--
+		EXTENSION PANE
+	-->
     <ko-pane id="workspace_bottom_area">
         <browser type="ko-widget"
 				label="&pane.label;"
