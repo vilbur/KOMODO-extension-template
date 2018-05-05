@@ -8,7 +8,7 @@
 		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
-    <script src="chrome://TemplateExtension/content/TemplateExtension.js" type="application/x-javascript"/>
+    <script src="chrome://TemplateExtension/content/js/TemplateExtension.js" type="application/x-javascript"/>
 	
 	<!--
 		COMMAND SET
@@ -33,7 +33,7 @@
     <ko-pane id="workspace_bottom_area">
         <browser type="ko-widget"
 				label="&pane.label;"
-				src="chrome://TemplateExtension/content/pane.xul"
+				src="chrome://TemplateExtension/content/xul/pane.xul"
 				tab_onfocus="ko.extensions.TemplateExtension.callbackTest();" />
 	</ko-pane>
 	
