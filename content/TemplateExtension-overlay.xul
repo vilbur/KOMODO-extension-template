@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
-	<!ENTITY % TemplateExtensionDTD SYSTEM "chrome://TemplateExtension/locale/TemplateExtension.dtd">
-	%TemplateExtensionDTD;
+	<!ENTITY % TemplateExtensionDTD SYSTEM "chrome://TemplateExtension/locale/TemplateExtension.dtd">%TemplateExtensionDTD;
 ]>
 <overlay id="templateOverlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
@@ -23,25 +22,11 @@
 				class="menu-iconic-wide"/>
 	</menupopup>
     
-
     <ko-pane id="workspace_bottom_area">
         <browser type="ko-widget"
                  label="TemplateExtension-pane"
-                 src="chrome://TemplateExtension/content/TemplateExtension-pane.xul"
+                 src="chrome://TemplateExtension/content/pane.xul"
                  tab_onfocus="ko.extensions.TemplateExtension.callbackTest();" />
     </ko-pane>
-	
-
-	<overlay id="AutoCodePrefOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	  <treechildren container="false" id="editorChildren">
-		<treeitem container="false" id="AutoCodeItem">
-		  <treerow>
-			<treecell class="treecell-indent" url="chrome://TemplateExtension/content/prefs.xul" label="AutoCode"/>
-		  </treerow>
-		</treeitem>
-	  </treechildren>
-	</overlay>
-
-
 	
 </overlay>

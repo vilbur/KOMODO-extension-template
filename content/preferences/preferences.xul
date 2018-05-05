@@ -30,7 +30,7 @@
         <groupbox orient="vertical" style="padding:10px 4px;">
             <caption label="TemplateExtension"/>
 			<vbox>
-				<description value="&test;"/>				
+				<description value="&preferences.test;"/>				
 			</vbox>
         </groupbox>
 
