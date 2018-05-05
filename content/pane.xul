@@ -4,28 +4,28 @@
 	<!ENTITY % paneDTD SYSTEM "chrome://TemplateExtension/locale/pane.dtd">%paneDTD;
 ]>
 
-<?xml-stylesheet href="less://komodo/skin/global/global.less"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/bindings/buttons.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/bindings/views.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/bindings/scintilla.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/bindings/partviewer.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/bindings/widgets.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/codeintel.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/codeintel/sectionlist.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/hyperlinks.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/rxx/rxx-overlay.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/sleuth.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/autocomplete.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/find.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/debugger.css"	type="text/css" ?>
-<?xml-stylesheet href="chrome://komodo/skin/bindings/debugger.css"	type="text/css" ?>
+<?xml-stylesheet type="text/css" href="less://komodo/skin/global/global.less"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/buttons.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/views.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/scintilla.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/partviewer.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/widgets.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/codeintel.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/codeintel/sectionlist.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/hyperlinks.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/rxx/rxx-overlay.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/sleuth.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/autocomplete.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/find.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/debugger.css"?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/debugger.css"?>
 
-<?xml-stylesheet href="chrome://TemplateExtension/skin/pane.css"	type="text/css" ?>
+<?xml-stylesheet type="text/css" href="chrome://TemplateExtension/skin/pane.css"?>
 
 <page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="console.log( 'TemplateExtension pane loaded' );" >
 
-    <script src="chrome://TemplateExtension/content/TemplateExtension.js"	type="application/x-javascript"/>
-    <script src="chrome://komodo/content/library/less_loader.js"	type="application/x-javascript"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
 	<hbox>
 		<button
