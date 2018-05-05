@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) 2000-2006 ActiveState Software Inc.
+     See the file LICENSE.txt for licensing information. -->
+
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<?xml-stylesheet href="chrome://TemplateExtension/skin/pane.css"	type="text/css"?>
+
+<overlay id="TemplateExtensionOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<treechildren id="panelChildren" class="TemplateExtension" >
+		  <treeitem insertafter="WindowsIntegration" advanced="true">
+			  <treerow>
+
+				<treecell
+					label="TemplateExtension"
+					class="treecell-indent"
+					url="chrome://TemplateExtension/content/preferences/preferences.xul"
+				/>
+
+			  </treerow>
+		  </treeitem>
+	</treechildren>
+
+</overlay>

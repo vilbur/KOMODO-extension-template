@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
+	<!ENTITY % preferencesDTD SYSTEM "chrome://TemplateExtension/locale/preferences.dtd">%preferencesDTD;
+]>
+
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin" ?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/global/global.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/buttons.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/widgets.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/bindings/listbox.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://komodo/skin/prefs/prefs.css" ?>
+
+<!--<?xml-stylesheet type="text/css" href="chrome://autocode/content/main/prefs/prefs.css" ?>-->
+
+
+<window
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	class="kodialog"
+	orient="vertical"
+	onload="onLoad();">
+
+	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
+
+
+    <vbox flex="1" class="autoscroll">
+
+        <groupbox orient="vertical" style="padding:10px 4px;">
+            <caption label="TemplateExtension"/>
+			<vbox>
+				<description value="&test;"/>				
+			</vbox>
+        </groupbox>
+
+    </vbox>
+
+</window>
