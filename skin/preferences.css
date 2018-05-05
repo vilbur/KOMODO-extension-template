@@ -1,0 +1,4 @@
+treechildren:before::-moz-tree-image {
+  list-style-image: url('chrome://TemplateExtension/skin/icons/icon.png');
+  margin-left: 8px;
+}

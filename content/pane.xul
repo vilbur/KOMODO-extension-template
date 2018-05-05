@@ -22,26 +22,25 @@
 
 <?xml-stylesheet href="chrome://TemplateExtension/skin/pane.css"	type="text/css" ?>
 
-<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="console.log( 'TemplateExtension pane loaded' );" >
 
-    <script src="chrome://TemplateExtension/content/TemplateExtension.js" type="application/x-javascript"/>
-    <script src="chrome://komodo/content/library/less_loader.js"
-            type="application/x-javascript"/>
-	
+    <script src="chrome://TemplateExtension/content/TemplateExtension.js"	type="application/x-javascript"/>
+    <script src="chrome://komodo/content/library/less_loader.js"	type="application/x-javascript"/>
+
 	<hbox>
 		<button
 			class="box-inherit button-menubutton-button"
-			label="callbackTest"
+			label="&button.test;"
 			value="callbackTest-value"
 			oncommand="ko.extensions.TemplateExtension.callbackTest(event)"
 		/>
 
         <button type="menu"
-                label="Test menu"
+                label="&menu.label;"
                 class="pane-text">
             <menupopup>
-				<menuitem label="Menu item"
-						  value="manu item value"
+				<menuitem label="&menu.item;"
+						  value="menu item value"
 						  oncommand="ko.extensions.TemplateExtension.callbackTest(this.value)"
 				/>
             </menupopup>
