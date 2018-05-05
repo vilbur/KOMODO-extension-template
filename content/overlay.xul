@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
-	<!ENTITY % TemplateExtensionDTD SYSTEM "chrome://TemplateExtension/locale/TemplateExtension.dtd">%TemplateExtensionDTD;
+	<!ENTITY % overlayDTD SYSTEM "chrome://TemplateExtension/locale/overlay.dtd">%overlayDTD;
 ]>
-
-
 
 <overlay id="templateOverlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
@@ -18,8 +16,8 @@
 		<!--<command id="Tasks:HelloWorld" oncommand="alert(ko.extensions.Template.property);"/>		-->
 	</commandset>
 	
-	<menupopup id="popup_tools">
-		<menuitem id="menu_template"
+	<menupopup id="menu">
+		<menuitem id="menu_item"
 				label="&menu.menu_item;"
 				observes="Tasks:HelloWorld"
 				class="menu-iconic-wide"/>
@@ -27,9 +25,9 @@
     
     <ko-pane id="workspace_bottom_area">
         <browser type="ko-widget"
-                 label="TemplateExtension-pane"
-                 src="chrome://TemplateExtension/content/pane.xul"
-                 tab_onfocus="ko.extensions.TemplateExtension.callbackTest();" />
-    </ko-pane>
+				label="&pane.label;"
+				src="chrome://TemplateExtension/content/pane.xul"
+				tab_onfocus="ko.extensions.TemplateExtension.callbackTest();" />
+	</ko-pane>
 	
 </overlay>
