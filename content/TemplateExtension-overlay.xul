@@ -2,6 +2,9 @@
 <!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
 	<!ENTITY % TemplateExtensionDTD SYSTEM "chrome://TemplateExtension/locale/TemplateExtension.dtd">%TemplateExtensionDTD;
 ]>
+
+
+
 <overlay id="templateOverlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
