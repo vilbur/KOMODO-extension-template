@@ -24,7 +24,7 @@
 
 <page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="console.log( 'TemplateExtension pane loaded' );" >
 
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
 	<hbox>

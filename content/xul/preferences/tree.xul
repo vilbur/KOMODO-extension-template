@@ -15,7 +15,7 @@
 				<treecell
 					label="TemplateExtension"
 					class="treecell-indent"
-					url="chrome://TemplateExtension/content/preferences/preferences.xul"
+					url="chrome://TemplateExtension/content/xul/preferences/preferences.xul"
 				/>
 
 			  </treerow>
