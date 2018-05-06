@@ -9,5 +9,5 @@ skin	TemplateExtension classic/1.0 jar:TemplateExtension.jar!/skin/
 locale	TemplateExtension en-US jar:TemplateExtension.jar!/locale/en-US/
 # #endif
 
-overlay chrome://komodo/content/komodo.xul	chrome://TemplateExtension/content/overlay.xul
-overlay chrome://komodo/content/pref/pref.xul	chrome://TemplateExtension/content/preferences/tree.xul
+overlay chrome://komodo/content/komodo.xul	chrome://TemplateExtension/content/xul/overlay.xul
+overlay chrome://komodo/content/pref/pref.xul	chrome://TemplateExtension/content/xul/preferences/tree.xul

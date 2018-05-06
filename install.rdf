@@ -3,9 +3,9 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
     <Description about="urn:mozilla:install-manifest">
         <em:id>TemplateExtension@yourdomain.org</em:id>
-        <em:name>Template Extension</em:name>
+        <em:name>TemplateExtension</em:name>
         <em:version>0.0.1</em:version>
-        <em:description>Template Extension Project</em:description>
+        <em:description>TemplateExtension Project</em:description>
         <em:creator>Lubor Vilbur Cerny</em:creator>
         <em:homepageURL>http://yourdomain.org/TemplateExtension</em:homepageURL>
         <em:type>2</em:type> <!-- type=extension --> 
