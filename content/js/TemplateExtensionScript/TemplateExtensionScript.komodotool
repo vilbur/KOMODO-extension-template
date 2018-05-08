@@ -1,0 +1,31 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "TemplateExtensionScript", 
+  "language": "JavaScript", 
+  "trigger_enabled": false, 
+  "value": [
+    "ko.extensions.TemplateExtension.TemplateExtensionScript = {};", 
+    "", 
+    "/** TemplateExtensionScript", 
+    " */", 
+    "var TemplateExtensionScript = (function()", 
+    "{", 
+    "\tfunction TemplateExtensionScript()", 
+    "\t{", 
+    "\t\t/** test", 
+    "\t\t */", 
+    "\t\tthis.test = function()", 
+    "\t\t{", 
+    "\t\t\talert( 'TemplateExtensionScript' ); ", 
+    "\t\t}; ", 
+    "\t}", 
+    "\treturn TemplateExtensionScript;", 
+    "})();", 
+    "TemplateExtensionScript.apply(ko.extensions.TemplateExtension.TemplateExtensionScript);"
+  ], 
+  "version": "1.0.12", 
+  "rank": 100, 
+  "async": false, 
+  "type": "macro", 
+  "trigger": "trigger_postopen"
+}

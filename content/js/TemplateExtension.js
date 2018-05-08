@@ -1,4 +1,3 @@
-
 /** TemplateExtension
  */
 ko.extensions.TemplateExtension = {};
@@ -12,9 +11,9 @@ ko.extensions.TemplateExtension = {};
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(true).off(false) : require('ko/console');
 				
 		/*--------   PUBLIC METHODS   --------------------------------------------------------------------------------------*/
-		/** menuTest
+		/** localizedTest
 		 */
-		this.menuTest = function(string)
+		this.localizedTest = function(string)
 		{
 			var bundleSvc = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
 			var _locale = bundleSvc.createBundle("chrome://TemplateExtension/locale/TemplateExtension.properties");
@@ -31,7 +30,7 @@ ko.extensions.TemplateExtension = {};
 		 */
 		this.callbackTest = function(value='')
 		{
-			console.log( value );			
+			alert( value );			
 		};
 		
 	}

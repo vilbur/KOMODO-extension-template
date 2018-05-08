@@ -8,8 +8,9 @@
 		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
-    <script src="chrome://TemplateExtension/content/js/TemplateExtension.js" type="application/x-javascript"/>
-	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>	
+
 	<!--
 		COMMAND SET
 	-->
@@ -21,10 +22,12 @@
 		MENU TOOLS
 	-->
 	<menupopup id="popup_tools">
-		<menuitem id="menu_template"
+		
+		<menuitem id="menu_extension_test"
 				label="&menu.menu_item;"
-				oncommand="ko.extensions.TemplateExtension.menuTest('Menu command')"
+				oncommand="ko.extensions.TemplateExtension.localizedTest('Menu command')"
 				class="menu-iconic-wide"/>
+		
 	</menupopup>
 	
 	<!--
@@ -34,7 +37,7 @@
         <browser type="ko-widget"
 				label="&pane.label;"
 				src="chrome://TemplateExtension/content/xul/pane.xul"
-				tab_onfocus="ko.extensions.TemplateExtension.callbackTest();" />
+				tab_onfocus="console.log( 'TemplateExtension pane focused' );" />
 	</ko-pane>
 	
 </overlay>
