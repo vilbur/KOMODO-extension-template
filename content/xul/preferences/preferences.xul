@@ -18,19 +18,34 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	class="kodialog"
-	orient="vertical"
-	onload="onLoad();">
+	orient="vertical">
 
 	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
 	
-    <vbox flex="1" class="autoscroll">
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/TemplateExtension.js"/>
 
-        <groupbox orient="vertical" style="padding:10px 4px;">
-            <caption label="TemplateExtension"/>
-			<vbox>
-				<description value="&preferences.test;"/>				
-			</vbox>
-        </groupbox>
+	
+	<vbox flex="1" class="autoscroll">
+		<groupbox id="TemplateExtension_preferences" orient="vertical" style="padding:10px 4px;"> 
+			<caption label="TemplateExtension"/> 
+			<vbox> 
+				<description value="&preferences.test;"/>
+				
+				<menulist>
+					<menupopup>
+						<menuitem label="option 1" value="1"/>
+						<menuitem label="Test"
+								  value="menu item value"
+								  oncommand="ko.extensions.TemplateExtension.callbackTest(this.value);"
+						/>
+					</menupopup>
+				</menulist>
+
+				
+				<checkbox id="te_pref_test" label="Test" checked="true"/>
+			</vbox> 
+		</groupbox> 
+ 
 
     </vbox>
 

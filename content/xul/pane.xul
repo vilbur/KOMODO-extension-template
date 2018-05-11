@@ -22,34 +22,59 @@
 
 <?xml-stylesheet type="text/css" href="chrome://TemplateExtension/skin/pane.css"?>
 
-<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="console.log( 'TemplateExtension pane loaded' );" >
+<page
+	id="TemplateExtension-pane"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	onload="ko.extensions.TemplateExtension.Pane();" >
 
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
-
+	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Controls.js"/>
+	
 	<hbox>
 		<button
 			class="box-inherit button-menubutton-button"
 			label="&button.test;"
 			value="callbackTest-value"
-			oncommand="ko.extensions.TemplateExtension.callbackTest(event)"
+			oncommand="ko.extensions.TemplateExtension.Pane.test();"
 		/>
 		<button
 			class="box-inherit button-menubutton-button"
 			label="TemplateExtensionScript.test()"
-			oncommand="ko.extensions.TemplateExtension.TemplateExtensionScript.test()"
+			oncommand="ko.extensions.TemplateExtension.callbackTest(event);" 
 		/>
-		
+		<button
+			class="box-inherit button-menubutton-button"
+			label="Controls list"
+			oncommand="ko.extensions.TemplateExtension.Pane.initPane();" 
+		/>
         <button type="menu"
                 label="&menu.label;"
                 class="pane-text">
             <menupopup>
-				<menuitem label="&menu.item;"
+				<menuitem label="Checkbox true"
 						  value="menu item value"
-						  oncommand="ko.extensions.TemplateExtension.callbackTest(this.value)"
+						  oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(true);"
+				/>
+				<menuitem label="Checkbox false"
+						  value="menu item value"
+						  oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(false);"
+				/>
+				<menuitem label="Checkbox toggle"
+						  value="menu item value"
+						  oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox();"
 				/>
             </menupopup>
         </button>
-		 
+		<textbox id="te_text_test" value=""/>
+		
+		
+		
+		<button label="Change" oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox('te_cbx_text')"/>
+		<checkbox id="te_cbx_text" label="Check for messages"/>
+
 	</hbox>
 	
 </page>

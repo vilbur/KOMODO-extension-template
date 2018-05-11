@@ -1,0 +1,20 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "ControlsTest", 
+  "language": "JavaScript", 
+  "trigger_enabled": false, 
+  "value": [
+    "if( typeof ko.extensions.TemplateExtension === 'undefined' )", 
+    "\tko.extensions.TemplateExtension = {};", 
+    "", 
+    "", 
+    "/** Test", 
+    " */", 
+    "new ko.extensions.TemplateExtension.Controls().getControlsValues();"
+  ], 
+  "version": "1.0.12", 
+  "rank": 100, 
+  "async": false, 
+  "type": "macro", 
+  "trigger": "trigger_postopen"
+}

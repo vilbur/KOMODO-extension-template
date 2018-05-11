@@ -9,7 +9,9 @@
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Controls.js"/>	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	<!--
 		COMMAND SET
@@ -37,7 +39,7 @@
         <browser type="ko-widget"
 				label="&pane.label;"
 				src="chrome://TemplateExtension/content/xul/pane.xul"
-				tab_onfocus="console.log( 'TemplateExtension pane focused' );" />
+				tab_onfocus="ko.extensions.TemplateExtension.Pane.initPane();" />
 	</ko-pane>
 	
 </overlay>
