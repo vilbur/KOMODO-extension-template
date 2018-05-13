@@ -8,7 +8,8 @@ ko.extensions.TemplateExtension.Controls = (function()
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		
 		var parent_node = _parent_node;
-		//this.Control	= {};
+		var prefix	= '';
+
 		/** initPane
 		 */
 		this.getControlsValues = function()
@@ -34,10 +35,12 @@ ko.extensions.TemplateExtension.Controls = (function()
 			var checkbox 	= window.getElementById(id);	
 			checkbox.checked = ! checkbox.checked ;
 		};
-		/** add
+		/** add controls to parent node
 		 */
 		this.add = function(type, attributes)
 		{
+			console.log( this.constructor.parent );
+			
 			if( ! Array.isArray(attributes) )
 				attributes = [attributes];
 			
@@ -50,7 +53,8 @@ ko.extensions.TemplateExtension.Controls = (function()
 		var addControlToParent = function(type, attributes)
 		{
 			var control	= new ko.extensions.TemplateExtension.Control()
-													 .type(type)
+													 .prefix(prefix)
+													 .type(type)													 
 												 	 .attributes(attributes)
 													 .get();
 			parent_node.appendChild(control);
@@ -72,7 +76,16 @@ ko.extensions.TemplateExtension.Controls = (function()
 			for(let i=elementList.length-1; i>-1;i--)
 				parent_node.removeChild(elementList[i]);
 		};
-
+		/** Set prefix for controls id`s
+		 *
+		 * @param	string	prefix
+		 * @return	self 
+		 */
+		this.prefix = function(_prefix='')
+		{
+			prefix = _prefix;
+			return this;
+		};
 		/** getPane
 		 */
 		var getPane = function()
