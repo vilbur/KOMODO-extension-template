@@ -25,7 +25,7 @@
 <page
 	id="TemplateExtension-pane"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-	onload="ko.extensions.TemplateExtension.Pane();" >
+	onload="ko.extensions.TemplateExtension.Pane.init();" >
 
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 	
@@ -48,7 +48,7 @@
 		<button
 			class="box-inherit button-menubutton-button"
 			label="Controls list"
-			oncommand="ko.extensions.TemplateExtension.Pane.initPane();" 
+			oncommand="ko.extensions.TemplateExtension.Pane.Controls.getControlsValues();" 
 		/>
         <button type="menu"
                 label="&menu.label;"

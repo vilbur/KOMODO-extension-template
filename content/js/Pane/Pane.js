@@ -9,35 +9,30 @@ ko.extensions.TemplateExtension.Pane = {};
 	
 	function Pane()
 	{
-		//var Controls	= new ko.extensions.TemplateExtension.Controls();
-		
-		this.test_prop = 'Pane property';
+		this.Controls = {};
 		
 		
-		///** Test
-		// */
-		//this.toggleCheckbox = function()
-		//{
-		//	var checkbox 	= document.getElementById('te_cbx_text');
-		//	//alert( checkbox.getAttribute('checked') );
-		//	checkbox.setAttribute('checked', (checkbox.getAttribute('checked') ? false : true)  );
-		//	//checkbox.setAttribute('checked', false  );			
-		//};
-
-		/** initPane
+		/** init
 		 */
-		this.initPane = function()
+		this.init = function()
 		{
 			console.log( 'Pane.initPane()' );
-			
-			var Controls	= new ko.extensions.TemplateExtension.Controls();
-			Controls.getControlsValues();
-			
-			//var pane	= document.getElementById('TemplateExtension-pane');
-			//var elementList = pane.childNodes;
-			//console.log( pane );
-			//console.log( elementList );	
+			this.Controls	= new ko.extensions.TemplateExtension.Controls(document.getElementById('TemplateExtension-pane'));
 		}; 
+
+		///** initPane
+		// */
+		//this.initPane = function()
+		//{
+		//	console.log( 'Pane.initPane()' );
+		//	this.Controls	= new ko.extensions.TemplateExtension.Controls(document.getElementById('TemplateExtension-pane'));
+		//
+		//	//var Controls	= new ko.extensions.TemplateExtension.Controls(document.getElementById('TemplateExtension-pane'));
+		//	//Controls.getControlsValues();
+		//	
+		//	this.Controls.getControlsValues();
+		//	
+		//}; 
 		
 		/** Test
 		 */
