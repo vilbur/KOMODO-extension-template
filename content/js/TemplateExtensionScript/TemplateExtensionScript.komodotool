@@ -4,7 +4,12 @@
   "language": "JavaScript", 
   "trigger_enabled": false, 
   "value": [
+    "", 
+    "", 
+    "", 
     "ko.extensions.TemplateExtension.TemplateExtensionScript = {};", 
+    "", 
+    "", 
     "", 
     "/** TemplateExtensionScript", 
     " */", 

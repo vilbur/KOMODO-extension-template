@@ -4,13 +4,9 @@
   "language": "JavaScript", 
   "trigger_enabled": false, 
   "value": [
-    "//ko.extensions.TemplateExtension.Controls.Control = {};", 
-    "", 
     "/** Control", 
     "*/", 
     "ko.extensions.TemplateExtension.Control = (function()", 
-    "//(function()", 
-    "//var Control = (function()", 
     "{", 
     "\t\t", 
     "\tfunction Control()", 
@@ -50,11 +46,7 @@
     "\t}", 
     "\treturn Control;", 
     "", 
-    "})();", 
-    "//})().apply(ko.extensions.TemplateExtension.Controls.Control);", 
-    "", 
-    "//})();", 
-    "//Control.apply(ko.extensions.TemplateExtension.Controls);"
+    "})();"
   ], 
   "version": "1.0.12", 
   "rank": 100, 

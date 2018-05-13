@@ -6,9 +6,6 @@ ko.extensions.TemplateExtension = {};
 
 	function TemplateExtension()
 	{
-
-
-		
 		/*--------   PRIVATE PROPERTIES   -------------------------------------------------------------------------------------*/
 		var _this	= this;
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(true).off(false) : require('ko/console');
@@ -31,12 +28,11 @@ ko.extensions.TemplateExtension = {};
 		};
 		/** 
 		 */
-		this.callbackTest = function(value='')
+		this.test = function(value='')
 		{
 			//alert( value );
 			alert( 'callbackTest' );
 
-			this.Prefs.test();
 		};
 		
 	}

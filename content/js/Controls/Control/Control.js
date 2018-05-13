@@ -1,10 +1,6 @@
-//ko.extensions.TemplateExtension.Controls.Control = {};
-
 /** Control
 */
 ko.extensions.TemplateExtension.Control = (function()
-//(function()
-//var Control = (function()
 {
 		
 	function Control()
@@ -45,7 +41,3 @@ ko.extensions.TemplateExtension.Control = (function()
 	return Control;
 
 })();
-//})().apply(ko.extensions.TemplateExtension.Controls.Control);
-
-//})();
-//Control.apply(ko.extensions.TemplateExtension.Controls);

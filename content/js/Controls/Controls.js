@@ -38,7 +38,7 @@ ko.extensions.TemplateExtension.Controls = (function()
 		 */
 		this.add = function(type, attributes)
 		{
-			if( ! Array.isArray(controls) )
+			if( ! Array.isArray(attributes) )
 				attributes = [attributes];
 			
 			for(let a=0; a<attributes.length;a++)
