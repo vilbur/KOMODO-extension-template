@@ -3,9 +3,12 @@
 ko.extensions.TemplateExtension.Controls = (function()
 {
 		
-	function Controls(_parent_node)
+	function Controls(_parent_node=null)
 	{
+		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
+		
 		var parent_node = _parent_node;
+		
 		/** initPane
 		 */
 		this.getControlsValues = function()
@@ -21,45 +24,44 @@ ko.extensions.TemplateExtension.Controls = (function()
 			
 			var elementList_hbox = elementList[4].childNodes;
 			console.log( elementList_hbox );
+			
 		};
 		
 		/** Test
 		 */
 		this.toggleCheckbox = function(id)
 		{
-			var checkbox 	= document.getElementById(id);	
+			var checkbox 	= window.getElementById(id);	
 			checkbox.checked = ! checkbox.checked ;
 		};
 		/** add
 		 */
 		this.add = function()
 		{
+			Logger.info(document, 'Controls: '+'document'); 
+			var button = document.createElement("button");
+			button.setAttribute("label","A new Button");
 			
+			parent_node.appendChild(button);
+
 		}; 
 		/** remove
 		 */
 		this.remove = function(node)
 		{
-			
-		}; 
-		/** empty
-		 */
-		this.empty = function(_parent_node=null)
-		{
-			//console.log( 'Controls.empty()' );
-			//var elementList = getParentNode(_parent_node).childNodes;
-			//
-			//for(let c=0; c<elementList.length;c++)
-			//	getParentNode(_parent_node).removeChild(elementList[c]);
 
-		};
-		/** getParentNode
-		 */
-		var getParentNode = function(_parent_node)
-		{
-			//return _parent_node ? _parent_node : this.parent_node;
 		}; 
-		
+		/** Empty parent node
+		 */
+		this.empty = function()
+		{
+			//console.log( '*/Controls.empty()' );
+			var elementList = parent_node.childNodes;
+			
+			for(let i=elementList.length-1; i>-1;i--)
+				parent_node.removeChild(elementList[i]);
+		};
+
 		/** getPane
 		 */
 		var getPane = function()

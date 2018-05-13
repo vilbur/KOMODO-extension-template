@@ -34,47 +34,46 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Controls.js"/>
 	
 	<hbox>
-		<button
-			class="box-inherit button-menubutton-button"
-			label="&button.test;"
-			value="callbackTest-value"
-			oncommand="ko.extensions.TemplateExtension.Pane.test();"
-		/>
-		<button
-			class="box-inherit button-menubutton-button"
-			label="TemplateExtensionScript.test()"
-			oncommand="ko.extensions.TemplateExtension.callbackTest(event);" 
-		/>
-		<button
-			class="box-inherit button-menubutton-button"
-			label="Controls list"
-			oncommand="ko.extensions.TemplateExtension.Pane.Controls.getControlsValues();" 
-		/>
-        <button type="menu"
-                label="&menu.label;"
-                class="pane-text">
-            <menupopup>
-				<menuitem label="Checkbox true"
-						  value="menu item value"
-						  oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(true);"
-				/>
-				<menuitem label="Checkbox false"
-						  value="menu item value"
-						  oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(false);"
-				/>
-				<menuitem label="Checkbox toggle"
-						  value="menu item value"
-						  oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox();"
-				/>
-            </menupopup>
-        </button>
-		<textbox id="te_text_test" value=""/>
+		<vbox>
+			<button
+				class="box-inherit button-menubutton-button"
+				label="getControlsValues()"
+				oncommand="ko.extensions.TemplateExtension.Pane.Controls.getControlsValues();" 
+			/>
+			<textbox id="te_text_test" value=""/>
+		</vbox>
 		
-		
-		
-		<button label="Change" oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox('te_cbx_text')"/>
-		<checkbox id="te_cbx_text" label="Check for messages"/>
+		<vbox>
+			<button type="menu"
+					label="&menu.label;"
+					class="pane-text">
+				<menupopup>
+					<menuitem
+						label="Items A"
+						oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(true);"
+					/>
+					<menuitem
+						label="Items B"
+						oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(false);"
+					/>
+					<menuitem
+						label="Empty"
+						oncommand="new ko.extensions.TemplateExtension.Controls( document.getElementById('switch_controls') ).empty();"
+					/>
+				</menupopup>
+			</button>
+			<box id="switch_controls" orient="vertical">
+				<checkbox id="te_cbx_test_A1" label="Test A 1"/>
+				<checkbox id="te_cbx_test_A2" label="Test A 2"/>
+			</box>
+			
+		</vbox>
 
+		<!--<button label="Change" oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox('te_cbx_text')"/>-->
+		<!--<checkbox id="te_cbx_text" label="Check for messages"/>-->
+
+
+		
 	</hbox>
 	
 </page>
