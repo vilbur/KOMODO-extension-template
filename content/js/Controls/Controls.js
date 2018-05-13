@@ -8,7 +8,7 @@ ko.extensions.TemplateExtension.Controls = (function()
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		
 		var parent_node = _parent_node;
-		
+		//this.Control	= {};
 		/** initPane
 		 */
 		this.getControlsValues = function()
@@ -36,22 +36,33 @@ ko.extensions.TemplateExtension.Controls = (function()
 		};
 		/** add
 		 */
-		this.add = function()
+		this.add = function(type, attributes)
 		{
-			Logger.info(document, 'Controls: '+'document'); 
-			var button = document.createElement("button");
-			button.setAttribute("label","A new Button");
+			if( ! Array.isArray(controls) )
+				attributes = [attributes];
 			
-			parent_node.appendChild(button);
-
+			for(let a=0; a<attributes.length;a++)
+				addControlToParent(type, attributes[a]);
+		};
+		
+		/** addControl
+		 */
+		var addControlToParent = function(type, attributes)
+		{
+			var control	= new ko.extensions.TemplateExtension.Control()
+													 .type(type)
+												 	 .attributes(attributes)
+													 .get();
+			parent_node.appendChild(control);
 		}; 
+		
 		/** remove
 		 */
 		this.remove = function(node)
 		{
 
 		}; 
-		/** Empty parent node
+		/** Remove all child nodes from parent_node
 		 */
 		this.empty = function()
 		{
@@ -72,7 +83,11 @@ ko.extensions.TemplateExtension.Controls = (function()
 			
 			//return (document.location.host = 'komodo' ? window.extension_panes.TemplateExtension : document).getElementById('TemplateExtension-pane');
 		}; 
-		
+		/** Test
+		 */
+		this.test = function(string='node') {
+			alert('ko.extensions.TemplateExtension.Controls("'+string+'")');
+		};
 	}
 	return Controls;
 
