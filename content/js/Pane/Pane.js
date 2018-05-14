@@ -1,23 +1,22 @@
+if( typeof ko.extensions.TemplateExtension === 'undefined'  )
+	ko.extensions.TemplateExtension = {};
 
  /** Pane
  */
 ko.extensions.TemplateExtension.Pane = {};
 (function()
 {
-	
-	
-	
 	function Pane()
 	{
-		this.Controls = {};
-		
+		this.UI = {};
 		
 		/** init
 		 */
 		this.init = function()
 		{
-			console.log( 'Pane.initPane()' );
-			this.Controls	= new ko.extensions.TemplateExtension.Controls(document.getElementById('TemplateExtension-pane'));
+			ko.statusBar.AddMessage('Pane.initPane()', 'TemplateExtension');
+			this.UI	= new ko.extensions.TemplateExtension.UI(document).prefix('te');
+			//this.UI.test();
 		}; 
 
 		///** initPane
@@ -25,15 +24,20 @@ ko.extensions.TemplateExtension.Pane = {};
 		//this.initPane = function()
 		//{
 		//	console.log( 'Pane.initPane()' );
-		//	this.Controls	= new ko.extensions.TemplateExtension.Controls(document.getElementById('TemplateExtension-pane'));
+		//	this.UI	= new ko.extensions.TemplateExtension.UI(document.getElementById('TemplateExtension-pane'));
 		//
-		//	//var Controls	= new ko.extensions.TemplateExtension.Controls(document.getElementById('TemplateExtension-pane'));
-		//	//Controls.getControlsValues();
+		//	//var UI	= new ko.extensions.TemplateExtension.UI(document.getElementById('TemplateExtension-pane'));
+		//	//UI.getControlsValues();
 		//	
-		//	this.Controls.getControlsValues();
+		//	this.UI.getControlsValues();
 		//	
 		//}; 
-		
+		/** test
+		 */
+		this.test = function()
+		{
+			alert( 'TemplateExtension.Document.test()' ); 
+		}; 
 		/** Test
 		 */
 		this.toggleCheckbox = function(id)

@@ -1,6 +1,7 @@
 /** TemplateExtension
  */
-ko.extensions.TemplateExtension = {};
+if( typeof ko.extensions.TemplateExtension === 'undefined'  )
+	ko.extensions.TemplateExtension = {};
 (function()
 {
 	function TemplateExtension()

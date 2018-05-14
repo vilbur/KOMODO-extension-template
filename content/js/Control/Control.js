@@ -1,3 +1,6 @@
+if( typeof ko.extensions.TemplateExtension === 'undefined'  )
+	ko.extensions.TemplateExtension = {};
+
 /** Control
 */
 ko.extensions.TemplateExtension.Control = (function()

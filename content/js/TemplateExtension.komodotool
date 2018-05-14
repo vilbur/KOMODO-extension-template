@@ -6,7 +6,8 @@
   "value": [
     "/** TemplateExtension", 
     " */", 
-    "ko.extensions.TemplateExtension = {};", 
+    "if( typeof ko.extensions.TemplateExtension === 'undefined'  )", 
+    "\tko.extensions.TemplateExtension = {};", 
     "(function()", 
     "{", 
     "\tfunction TemplateExtension()", 

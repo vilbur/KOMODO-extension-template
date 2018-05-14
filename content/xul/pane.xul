@@ -28,19 +28,21 @@
 	onload="ko.extensions.TemplateExtension.Pane.init();" >
 
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
-	
+
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/UI/UI.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Controls.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Control/Control.js"/>	
+
+
 
 	<hbox>
 		<vbox>
 			<button
 				class="box-inherit button-menubutton-button"
 				label="Test"
-				oncommand="ko.extensions.TemplateExtension.Document.test();" 
+				oncommand="ko.extensions.TemplateExtension.Pane.UI.test('Pane test');" 
 			/>
 			<textbox id="te_text_test" value=""/>
 		</vbox>
@@ -52,15 +54,14 @@
 				<menupopup>
 					<menuitem
 						label="Items A"
-						oncommand="new ko.extensions.TemplateExtension.Controls( 'switch_controls' ).add( 'checkbox', ['Checkbox A 1', 'Checkbox A 2'] );"
 					/>
 					<menuitem
 						label="Items B"
-						oncommand="new ko.extensions.TemplateExtension.Controls( 'switch_controls' ).add( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 					/>
 					<menuitem
 						label="Empty"
-						oncommand="new ko.extensions.TemplateExtension.Controls( 'switch_controls' ).empty();"
+						oncommand="ko.extensions.TemplateExtension.Pane.UI.$( '#switch_controls' ).empty();"
+
 					/>
 				</menupopup>
 			</button>
