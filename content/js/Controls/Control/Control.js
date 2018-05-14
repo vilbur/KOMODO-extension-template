@@ -5,9 +5,8 @@ ko.extensions.TemplateExtension.Control = (function()
 		
 	function Control()
 	{
-
-		
 		var node	= null;
+		var prefix	= '';
 		
 		/** Set type of node
 		 * @param	string	type	Type of node
@@ -16,24 +15,58 @@ ko.extensions.TemplateExtension.Control = (function()
 		this.type = function(type)
 		{
 			node = document.createElement(type);
-			return this;  
+			return this;
 		}; 
-		/** setAttributes
+		/** Set attributes of node
+		 * @param	object|string	attributes	Object of attributes for element, STRING is treated as label
 		 *
 		 * @return	self
 		 */
 		this.attributes = function(attributes)
 		{
+			if( typeof attributes === 'string' )
+				attributes = {label: attributes};	
+			
 			for(var attribute in attributes)
 				if (attributes.hasOwnProperty(attribute))
-					node.setAttribute( attribute,attributes[attribute] );
+					node.setAttribute( attribute, attributes[attribute] );
+
+			setDefaultId();	
 					
 			return this; 
 		};
+		/** Set prefix for controls id`s
+		 *
+		 * @param	string	prefix
+		 * @return	self 
+		 */
+		this.prefix = function(_prefix='')
+		{
+			prefix = _prefix;
+			return this;
+		};
+		
+		/** Set default Id by prefix and sanitized label if not id defined
+		 */
+		var setDefaultId = function()
+		{
+			/** Get Label
+			 */
+			var getLabel = function()
+			{
+				return ( prefix ? prefix + '_' : '' ) + node.getAttribute('label').replace(/[\s-]/gi, '_').toLowerCase();
+			};
+			
+			if( ! node.hasAttribute('id') )
+				node.setAttribute( 'id', getLabel() );
+		}; 
+		
+		
 		/** get
 		 */
 		this.get = function()
 		{
+			console.log( node );
 			return node;
 		}; 
 		

@@ -32,7 +32,8 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Controls.js"/>
-	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Control/Control.js"/>		
+
 	<hbox>
 		<vbox>
 			<button
@@ -50,15 +51,15 @@
 				<menupopup>
 					<menuitem
 						label="Items A"
-						oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(true);"
+						oncommand="new ko.extensions.TemplateExtension.Controls( 'switch_controls' ).add( 'checkbox', ['Checkbox A 1', 'Checkbox A 2'] );"
 					/>
 					<menuitem
 						label="Items B"
-						oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox(false);"
+						oncommand="new ko.extensions.TemplateExtension.Controls( 'switch_controls' ).add( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 					/>
 					<menuitem
 						label="Empty"
-						oncommand="new ko.extensions.TemplateExtension.Controls( document.getElementById('switch_controls') ).empty();"
+						oncommand="new ko.extensions.TemplateExtension.Controls( 'switch_controls' ).empty();"
 					/>
 				</menupopup>
 			</button>

@@ -6,9 +6,11 @@ ko.extensions.TemplateExtension.Controls = (function()
 	function Controls(_parent_node=null)
 	{
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
-		
-		var parent_node = _parent_node;
-		var prefix	= '';
+		//var _document	= document;
+		//var parent_node = getParentNode(_parent_node);
+		var parent_node = typeof _parent_node === 'string' ? document.getElementById(_parent_node) : _parent_node;
+		//var parent_node =  document.getElementById(_parent_node);		
+		var prefix	= 'te';
 
 		/** initPane
 		 */
@@ -17,17 +19,12 @@ ko.extensions.TemplateExtension.Controls = (function()
 			console.log( 'Controls.getControlsValues()' );
 			console.log( parent_node );
 
-			//var pane	= document.getElementById('TemplateExtension-pane');			
-			
 			var elementList = parent_node.childNodes;
 			console.log( elementList[4] );
 			
-			
 			var elementList_hbox = elementList[4].childNodes;
 			console.log( elementList_hbox );
-			
 		};
-		
 		/** Test
 		 */
 		this.toggleCheckbox = function(id)
@@ -47,7 +44,6 @@ ko.extensions.TemplateExtension.Controls = (function()
 			for(let a=0; a<attributes.length;a++)
 				addControlToParent(type, attributes[a]);
 		};
-		
 		/** addControl
 		 */
 		var addControlToParent = function(type, attributes)
@@ -57,6 +53,7 @@ ko.extensions.TemplateExtension.Controls = (function()
 													 .type(type)													 
 												 	 .attributes(attributes)
 													 .get();
+			Logger.info(control, 'Controls: '+'control'); 
 			parent_node.appendChild(control);
 		}; 
 		
@@ -86,6 +83,20 @@ ko.extensions.TemplateExtension.Controls = (function()
 			prefix = _prefix;
 			return this;
 		};
+		
+		/** Get parent element
+		 *
+		 * @param	string	parent_node
+		 */
+		var getParentNode = function(_parent_node)
+		{
+			return _document.getElementById(_parent_node);
+			if( _parent_node )
+				return typeof _parent_node === 'string' ? document.getElementById(_parent_node) : _parent_node;
+			else
+				return _parent_node;
+		};
+		
 		/** getPane
 		 */
 		var getPane = function()
