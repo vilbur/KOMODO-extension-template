@@ -3,14 +3,18 @@
 ko.extensions.TemplateExtension = {};
 (function()
 {
-
 	function TemplateExtension()
 	{
-		/*--------   PRIVATE PROPERTIES   -------------------------------------------------------------------------------------*/
 		var _this	= this;
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(true).off(false) : require('ko/console');
-				
-		/*--------   PUBLIC METHODS   --------------------------------------------------------------------------------------*/
+		
+		/** init
+		 */
+		this.initDcoument = function()
+		{
+			ko.statusBar.AddMessage('initDcoument()', 'TemplateExtension');
+		}; 
+		
 		/** localizedTest
 		 */
 		this.localizedTest = function(string)

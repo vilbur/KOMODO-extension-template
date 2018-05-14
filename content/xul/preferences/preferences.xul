@@ -28,7 +28,7 @@
 	<vbox flex="1" class="autoscroll">
 		<groupbox id="TemplateExtension_preferences" orient="vertical" style="padding:10px 4px;"> 
 			<caption label="TemplateExtension"/> 
-			<vbox> 
+			<vbox id="TemplateExtension_box"> 
 				<description value="&preferences.test;"/>
 				
 				<menulist>

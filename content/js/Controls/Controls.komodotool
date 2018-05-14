@@ -4,8 +4,11 @@
   "language": "JavaScript", 
   "trigger_enabled": false, 
   "value": [
-    " /** Controls", 
-    " */", 
+    "if( typeof ko.extensions.TemplateExtension === 'undefined'  )", 
+    "\tko.extensions.TemplateExtension = {};", 
+    "\t", 
+    "/** Controls", 
+    "*/", 
     "ko.extensions.TemplateExtension.Controls = (function()", 
     "{", 
     "\t\t", 

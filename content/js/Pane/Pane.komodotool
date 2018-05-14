@@ -4,6 +4,8 @@
   "language": "JavaScript", 
   "trigger_enabled": false, 
   "value": [
+    "if( typeof ko.extensions.TemplateExtension === 'undefined'  )", 
+    "\tko.extensions.TemplateExtension = {};", 
     "", 
     " /** Pane", 
     " */", 

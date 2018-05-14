@@ -9,7 +9,8 @@
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Controls/Controls.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Control/Control.js"/>		
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		

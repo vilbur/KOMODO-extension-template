@@ -1,0 +1,21 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "DocumentTest", 
+  "language": "JavaScript", 
+  "trigger_enabled": false, 
+  "value": [
+    "/** Get document of extension`s pane", 
+    " */", 
+    "var getPaneDocument = function()", 
+    "{", 
+    "\tconsole.log( ko.extensions.TemplateExtension.Document.get('pane') );", 
+    "};", 
+    "", 
+    "getPaneDocument();"
+  ], 
+  "version": "1.0.12", 
+  "rank": 100, 
+  "async": false, 
+  "type": "macro", 
+  "trigger": "trigger_postopen"
+}
