@@ -8,6 +8,7 @@ ko.extensions.TemplateExtension.Control = (function()
 		
 	function Control()
 	{
+		var $	= require('ko/dom');
 		var node	= null;
 		var prefix	= '';
 		
@@ -17,7 +18,8 @@ ko.extensions.TemplateExtension.Control = (function()
 		 */
 		this.type = function(type)
 		{
-			node = document.createElement(type);
+			node = document.createElement(type);						
+
 			return this;
 		}; 
 		/** Set attributes of node
@@ -33,9 +35,9 @@ ko.extensions.TemplateExtension.Control = (function()
 			for(var attribute in attributes)
 				if (attributes.hasOwnProperty(attribute))
 					node.setAttribute( attribute, attributes[attribute] );
+			
+			setDefaultId();
 
-			setDefaultId();	
-					
 			return this; 
 		};
 		/** Set prefix for controls id`s

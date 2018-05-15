@@ -6,16 +6,34 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 ko.extensions.TemplateExtension.UI = (function()
 {
 		
-	function UI(_parent_selector=null)
+	function UI(_document=null)
 	{
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		
-		//var parent_node	= typeof _parent_node === 'string' ? document.getElementById(_parent_node) : _parent_node;
 		var $	= require('ko/dom');
-		var parent_selector	= _parent_selector;
+		var document	= _document ? _document : document;
+		var parent	= $(document);		
 		var prefix	= 'te';
 		var values	= {};
 
+		/** QUery selector in document
+		 */
+		this.$ = function(selector)
+		{
+			return $(selector, document);
+		};
+		/** Set parent element e.g.: fori adding of controls
+		 *
+		 * @param	string	parent_selector
+		 * @return	self 
+		 */
+		this.parent = function(parent_selector)
+		{
+			parent = $(parent_selector, document);
+			return this;
+		};
+		
+		
 		/** Get values of uI in parent node
 		 * @return	{id: value}	Object of control`s ids and values
 		 */
@@ -36,36 +54,18 @@ ko.extensions.TemplateExtension.UI = (function()
 		};
 		/** add uI to parent node
 		 */
-		this.add = function(type, attributes)
+		this.append = function(type, attributes)
 		{
-			console.log( this.constructor.parent );
+			console.log( 'UI.append()' );
 			
 			if( ! Array.isArray(attributes) )
 				attributes = [attributes];
 			
 			for(let a=0; a<attributes.length;a++)
 				addControlToParent(type, attributes[a]);
-		};
-		/** remove
-		 */
-		this.remove = function(node)
-		{
 
-		}; 
-		/** Remove all child nodes from parent_node
-		 */
-		this.empty = function()
-		{
-			//alert( 'empty()' );  
-			//$(parent_selector).empty();
-			require('ko/dom')(parent_selector, document).empty();			
-			//require("ko/dom")('#switch_uI').empty();
-			//console.log( '*/UI.empty()' );
-			//var elementList = parent_node.childNodes;
-			//
-			//for(let i=elementList.length-1; i>-1;i--)
-			//	parent_node.removeChild(elementList[i]);
 		};
+
 		/** Set prefix for uI id`s
 		 *
 		 * @param	string	prefix
@@ -87,13 +87,15 @@ ko.extensions.TemplateExtension.UI = (function()
 		 */
 		var addControlToParent = function(type, attributes)
 		{
-			var control	= new ko.extensions.TemplateExtension.Control()
+			console.log( 'UI.addControlToParent()' );
+
+			var node	= new ko.extensions.TemplateExtension.Control()
 													 .prefix(prefix)
 													 .type(type)													 
 												 	 .attributes(attributes)
 													 .get();
-			Logger.info(control, 'UI: '+'control'); 
-			parent_node.appendChild(control);
+
+			parent.append( node );
 		};
 		/** Get values form child nodes
 		 * @param	array	child_nodes	Element list of child nodes

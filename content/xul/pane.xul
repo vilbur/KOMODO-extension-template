@@ -57,6 +57,8 @@
 					/>
 					<menuitem
 						label="Items B"
+						oncommand="ko.extensions.TemplateExtension.Pane.UI.parent('#switch_controls').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+
 					/>
 					<menuitem
 						label="Empty"
