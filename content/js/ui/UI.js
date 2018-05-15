@@ -2,8 +2,9 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 	
 /** UI
+ * 
 */
-ko.extensions.TemplateExtension.UI = (function()
+ko.extensions.TemplateExtension.UI = (function() 
 {
 		
 	function UI(_document=null)
@@ -48,7 +49,7 @@ ko.extensions.TemplateExtension.UI = (function()
 		/** Test
 		 */
 		this.toggleCheckbox = function(id)
-		{
+		{ 
 			var checkbox 	= window.getElementById(id);	
 			checkbox.checked = ! checkbox.checked ;
 		};
@@ -89,7 +90,7 @@ ko.extensions.TemplateExtension.UI = (function()
 		{
 			console.log( 'UI.addControlToParent()' );
 
-			var node	= new ko.extensions.TemplateExtension.Control()
+			var node	= new ko.extensions.TemplateExtension.Node()
 													 .prefix(prefix)
 													 .type(type)													 
 												 	 .attributes(attributes)

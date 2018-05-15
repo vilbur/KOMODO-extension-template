@@ -30,12 +30,10 @@
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/UI/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Pane/Pane.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Control/Control.js"/>	
-
-
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
 
 	<hbox>
 		<vbox>

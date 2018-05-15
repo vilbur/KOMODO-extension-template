@@ -1,12 +1,12 @@
 if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 
-/** Control
+/** Node
 */
-ko.extensions.TemplateExtension.Control = (function()
+ko.extensions.TemplateExtension.Node = (function()
 {
 		
-	function Control()
+	function Node()
 	{
 		var $	= require('ko/dom');
 		var node	= null;
@@ -25,7 +25,7 @@ ko.extensions.TemplateExtension.Control = (function()
 		/** Set attributes of node
 		 * @param	object|string	attributes	Object of attributes for element, STRING is treated as label
 		 *
-		 * @return	self
+		 * @return	self 
 		 */
 		this.attributes = function(attributes)
 		{
@@ -38,9 +38,9 @@ ko.extensions.TemplateExtension.Control = (function()
 			
 			setDefaultId();
 
-			return this; 
+			return this;  
 		};
-		/** Set prefix for controls id`s
+		/** Set prefix for nodes id`s
 		 *
 		 * @param	string	prefix
 		 * @return	self 
@@ -76,6 +76,6 @@ ko.extensions.TemplateExtension.Control = (function()
 		}; 
 		
 	}
-	return Control;
+	return Node;
 
 })();
