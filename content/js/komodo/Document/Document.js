@@ -2,7 +2,8 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 
 /** Get extension`s window.document
- * Allow access to extenion`s window from *.komodotool scripts, for example for testing
+ * Allow access to extenion`s window from scripts
+ * @example for independent testing via uerscript
  * 
  */
 ko.extensions.TemplateExtension.Document = {};

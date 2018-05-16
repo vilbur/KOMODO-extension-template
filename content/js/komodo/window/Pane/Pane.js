@@ -17,6 +17,7 @@ ko.extensions.TemplateExtension.Pane = {};
 			
 			ko.statusBar.AddMessage('Pane.init()', 'TemplateExtension');
 			this.UI  = new ko.extensions.TemplateExtension.UI(document);
+			
 		}; 
 		/** test
 		 */
@@ -34,4 +35,5 @@ ko.extensions.TemplateExtension.Pane = {};
 		};
 	}
 	return Pane;
+
 })().apply(ko.extensions.TemplateExtension.Pane);

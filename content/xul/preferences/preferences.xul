@@ -32,18 +32,18 @@
 	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />-->
 	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Prefs/Prefs.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>			
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/UI/UI.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Prefs/Prefs.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Pane/Pane.js"/>			
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Node/Node.js"/>
+    <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		-->
 
 	
 	<vbox id="TemplateExtension-prefs" class="autoscroll">
 		<caption  label="TemplateExtension"/> 
 		<groupbox orient="vertical"> 
-			<vbox style="max-width:256px;"  >
+			<vbox style="max-width:256px">
 				<description value="&preferences.test;"/>
 				<button
 					label="Controls values to console"
@@ -63,10 +63,18 @@
 				<checkbox id="pref_test" label="Test" checked="true"/>
 				
 			</vbox>
-			
+
 			
 		</groupbox> 
-
+		<spacer flex="1"/>				
+		<hbox>
+			<spacer flex="1"/>
+			<button
+				class="box-inherit button-menubutton-button"
+				label="Save"
+				oncommand=""
+			/>
+		</hbox>
 
     </vbox>
 

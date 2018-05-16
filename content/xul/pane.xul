@@ -31,22 +31,22 @@
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/UI/UI.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Node/Node.js"/>
 
 	<hbox>
 		<vbox>
 			<button
 				class="box-inherit button-menubutton-button"
 				label="Test"
-				oncommand="ko.extensions.TemplateExtension.test();" 
+				oncommand="ko.extensions.TemplateExtension.Pane.UI.test();" 
 			/>
 			<button
-				class="box-inherit button-menubutton-button"
+				class="box-inheritX button-menubutton-buttonX"
 				label="Get values"
-				oncommand="console.log( ko.extensions.TemplateExtension.UI.values('#TemplateExtension-pane') );" 
+				oncommand="console.log( ko.extensions.TemplateExtension.Pane.UI.values('#TemplateExtension-pane') );" 
 			/>
 			<textbox id="te_text_test" value="Lorem"/>
 		</vbox>
@@ -61,12 +61,12 @@
 					/>
 					<menuitem
 						label="Items B"
-						oncommand="ko.extensions.TemplateExtension.Pane.UI.parent('#switch_controls').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+						oncommand="ko.extensions.TemplateExtension.Pane.UI.parent('#te_controls_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 
 					/>
 					<menuitem
 						label="Empty"
-						oncommand="ko.extensions.TemplateExtension.Pane.UI.$( '#switch_controls' ).empty();"
+						oncommand="ko.extensions.TemplateExtension.Pane.UI.$( '#te_controls_box' ).empty();"
 
 					/>
 				</menupopup>
