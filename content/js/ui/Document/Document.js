@@ -2,7 +2,7 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 
 /** Get extension`s window.document
- *  Used for testing for example
+ * Allow access to extenion`s window from *.komodotool scripts, for example for testing
  * 
  */
 ko.extensions.TemplateExtension.Document = {};
@@ -10,7 +10,7 @@ ko.extensions.TemplateExtension.Document = {};
 {
 	function Document()
 	{
-		var extension_name	= 'TemplateExtension';
+		var host_name	= 'TemplateExtension';
 		
 		/** Get window.document of extension
 		 * 
@@ -22,7 +22,7 @@ ko.extensions.TemplateExtension.Document = {};
 		this.get = function(filename)
 		{
 			var windows	= require("ko/windows").getAll();
-			var rx_extension	= new RegExp( extension_name, 'gi');
+			var rx_host_name	= new RegExp( host_name, 'gi');
 			var rx_filename	= new RegExp( filename + '.xul$', 'gi');			
 			
 			for(let w=0; w<windows.length;w++)
@@ -30,7 +30,7 @@ ko.extensions.TemplateExtension.Document = {};
 				var window_frame	= windows[w].frameElement;
 				var window_location	= window_frame ? window_frame.contentWindow.document.location : null;
 				
-				if( window_frame && window_location.host.match(rx_extension) && window_location.pathname.match( rx_filename ) )
+				if( window_frame && window_location.host.match(rx_host_name) && window_location.pathname.match( rx_filename ) )
 					return  windows[w].frameElement.contentWindow.document;		
 			}
 		};

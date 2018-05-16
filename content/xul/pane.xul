@@ -43,6 +43,11 @@
 				label="Test"
 				oncommand="ko.extensions.TemplateExtension.test();" 
 			/>
+			<button
+				class="box-inherit button-menubutton-button"
+				label="Controls values"
+				oncommand="alert( ko.extensions.TemplateExtension.UI.values() );" 
+			/>
 			<textbox id="te_text_test" value=""/>
 		</vbox>
 		
@@ -66,7 +71,7 @@
 					/>
 				</menupopup>
 			</button>
-			<box id="switch_controls" orient="vertical">
+			<box id="te_controls_box" orient="vertical">
 				<checkbox id="te_cbx_test_A1" label="Test A 1"/>
 				<checkbox id="te_cbx_test_A2" label="Test A 2"/>
 			</box>

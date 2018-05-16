@@ -5,7 +5,6 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
  * 
 */
 ko.extensions.TemplateExtension.UI = (function()
-//var UI = (function() 									  
 {
 		
 	function UI(_document=null)
@@ -49,11 +48,11 @@ ko.extensions.TemplateExtension.UI = (function()
 		/** Get values of uI in parent node
 		 * @return	{id: value}	Object of control`s ids and values
 		 */
-		this.getUIValues = function()
+		this.values = function()
 		{
 			values	= {};
 			
-			setValuesFormChildNodes(parent_node.childNodes);
+			setValuesFormChildNodes(parent.children());
 			
 			return values;
 		};
@@ -128,5 +127,3 @@ ko.extensions.TemplateExtension.UI = (function()
 	return UI;
 
 })();
-
-//ko.extensions.TemplateExtension.UI = UI;
