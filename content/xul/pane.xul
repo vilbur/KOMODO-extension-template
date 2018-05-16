@@ -45,10 +45,10 @@
 			/>
 			<button
 				class="box-inherit button-menubutton-button"
-				label="Controls values"
+				label="Get values"
 				oncommand="alert( ko.extensions.TemplateExtension.UI.values() );" 
 			/>
-			<textbox id="te_text_test" value=""/>
+			<textbox id="te_text_test" value="Lorem"/>
 		</vbox>
 		
 		<vbox>

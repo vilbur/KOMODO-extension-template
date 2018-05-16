@@ -28,13 +28,15 @@ ko.extensions.TemplateExtension.UI = (function()
 			return this;
 		};
 		 
-		/** QUery selector in document
+		/** Query selector in document
+		 * @param	string	selector	Selector of node
+		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
 		 */
 		this.$ = function(selector)
 		{
 			return $(selector, document);
 		};
-		/** Set parent element e.g.: fori adding of controls
+		/** Set parent element e.g.: for adding of nodes
 		 *
 		 * @param	string	parent_selector
 		 * @return	self 
@@ -44,15 +46,26 @@ ko.extensions.TemplateExtension.UI = (function()
 			parent = $(parent_selector, document);
 			return this;
 		};
-		
-		/** Get values of uI in parent node
-		 * @return	{id: value}	Object of control`s ids and values
+		/** Set prefix for uI id`s
+		 *
+		 * @param	string	prefix
+		 * @return	self 
 		 */
-		this.values = function()
+		this.prefix = function(_prefix='')
+		{
+			prefix = _prefix;
+			return this;
+		};
+		
+		/** Get values of parent node controls
+		 * @param	string	parent_selector
+		 * @return	{id: value}	Object of node ids and values
+		 */
+		this.values = function(parent_selector)
 		{
 			values	= {};
-			
-			setValuesFormChildNodes(parent.children());
+
+			setValuesFormChildNodes( $(parent_selector, document).children() );
 			
 			return values;
 		};
@@ -76,24 +89,11 @@ ko.extensions.TemplateExtension.UI = (function()
 				addControlToParent(type, attributes[a]);
 
 		};
-
-		/** Set prefix for uI id`s
-		 *
-		 * @param	string	prefix
-		 * @return	self 
-		 */
-		this.prefix = function(_prefix='')
-		{
-			prefix = _prefix;
-			return this;
-		};
-		
 		/** Test
 		 */
 		this.test = function(string='node') {
 			alert('UI.test("'+string+'")');
 		};
-		
 		/** addControl
 		 */
 		var addControlToParent = function(type, attributes)
@@ -112,15 +112,16 @@ ko.extensions.TemplateExtension.UI = (function()
 		 * @param	array	child_nodes	Element list of child nodes
 		 */
 		var setValuesFormChildNodes = function(child_nodes)
-		{			
-			for(let i=0; i<child_nodes.length;i++)
-			{				
-				if( ['textbox', 'checkbox'].indexOf( child_nodes[i].nodeName ) > -1 )
-					values[child_nodes[i].id] = child_nodes[i].nodeName == 'checkbox' ? child_nodes[i].checked : child_nodes[i].value;
-				
-				else if( child_nodes[i].childNodes )
-					setValuesFormChildNodes(child_nodes[i].childNodes);
-			}
+		{
+			//console.log( child_nodes._elements );
+			child_nodes.each(function()
+			{
+				if( ! Object.keys(this.childNodes).length ){
+					if( this.id )
+						values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;					
+				}else
+					setValuesFormChildNodes( $(this.childNodes) );
+			});
 		}; 
 
 	}

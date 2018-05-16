@@ -1,39 +1,46 @@
-/** getControlsBox
+/** get UI class
  */
 var UI = function()
 {
 	return new ko.extensions.TemplateExtension.UI( ko.extensions.TemplateExtension.Document.get('pane')); 
 }; 
-/** getControlsBox
+/** get te_controls_box element
  */
-var getControlsBox = function()
+var controlsBoxParent = function()
 {
-	return UI().$('#te_controls_box'); 
+	return UI().parent('#te_controls_box');
 }; 
 
 /** addUI
  */
 var addUI = function()
 {
-	//getControlsBox().append( 'button', {label: 'Single button', oncommand: 'alert("TEST")'} );
-	//getControlsBox().append( 'button', [{label: 'Button A'}, {label: 'Button B'}] );
+	//controlsBoxParent().append( 'button', {label: 'Single button', oncommand: 'alert("TEST")'} )
+	//controlsBoxParent().append( 'button', [{label: 'Button A'}, {label: 'Button B'}] );
 	
-	getControlsBox().append( 'checkbox', ['Checkbox A', {label: 'Checkbox B', checked:true}] );  		
+	controlsBoxParent().append( 'checkbox', ['Checkbox A', {label: 'Checkbox B', checked:true}] );  		
 };
 
 /** emptyElement
  */
 var emptyElement = function()
 {
-	getControlsBox().empty();  
+	UI().$('#te_controls_box').empty();  
 	
 };
 
-/** getUIValues
+/** getValuesFromAllPane
  */
-var getUIValues = function()
+var getValuesFromPane = function()
 {
-	var values = getControlsBox().values();
+	var values = UI().values('#TemplateExtension-pane');
+	console.log( values );
+};
+/** getValuesFromParentNode
+ */
+var getValuesFromParentNode = function()
+{
+	var values = UI().values('#te_controls_box');
 	console.log( values );
 };
 //ko.extensions.TemplateExtension.test("TEST")
@@ -41,7 +48,8 @@ var getUIValues = function()
 	RUN TESTS
 -----------------------------------------
 */
-//getControlsBox()
-emptyElement();
+//controlsBoxParent()
+//emptyElement();
 //addUI();
-//getUIValues();
+getValuesFromPane();
+getValuesFromParentNode();
