@@ -10,15 +10,16 @@ var Prefs = (function()
 {
 	function Prefs()
 	{ 
+		var prefs	= require("ko/prefs");
 		this.UI = {};
-		 
+
 		/** init
 		 */
 		this.init = function()
 		{
 			console.log( window );
 			console.log( window.frameElement.contentWindow.document );			
-			
+			alert( komodoWindow().ko.extensions.TemplateExtension.constructor.name );  
 			this.UI  = komodoWindow().ko.extensions.TemplateExtension._new('UI').document(window.frameElement.contentWindow.document);
 			//this.UI.test();
 		}; 
@@ -40,15 +41,45 @@ var Prefs = (function()
 		{
 			return ko.windowManager.getMainWindow();
 		}; 
-		/** Test
+				/** Set prefix for nodes id`s
+		 *
+		 * @param	string	prefix
+		 * @return	self 
 		 */
-		this.toggleCheckbox = function(id)
+		this.prefix = function(_prefix='')
 		{
-			console.log( 'Prefs.toggleCheckbox()' );
-			var checkbox 	= document.getElei
-			mentById(id);	
-			checkbox.checked = ! checkbox.checked ;
+			prefix = _prefix;
+			return this;
 		};
+		/**  
+		 */
+		var setKomodoPreferences = (function(key, value)
+		{
+			var type = typeof value;
+
+			if ( key && value !== null )
+				if      ( type=="string" ) prefs.setString	( key,	value);
+				else if ( type=="number" ) prefs.setLong	( key,	parseInt(value));
+				else if ( type=="boolean") prefs.setBoolean	( key,	value == 1 ? true : false );
+		});
+		/**  
+		 */
+		var getKomodoPreferences = (function(key, value_default)
+		{
+			var type	= typeof value_default;
+			
+			if(prefs.hasPref(key))
+				try {
+					if      ( type=="string" ) return prefs.getString	(key);
+					else if ( type=="number" ) return prefs.getLong	(key);
+					else if ( type=="boolean") return prefs.getBoolean	(key);			
+				}
+				catch(e) {
+					alert( 'Function ko.extensions.getKomodoPreferences()\n\nkey = '+key+'\nvalue_default = '+value_default+'\n\n value_default has wrong DATATYPE ');
+				}
+			return value_default;
+		});
+		
 	}
 	return Prefs;
 
@@ -83,7 +114,6 @@ function addControl()
 	//ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.Pref.UI.parent('#TemplateExtension_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );
 
 }
-
 
 
 

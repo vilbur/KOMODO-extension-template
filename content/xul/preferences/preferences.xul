@@ -18,8 +18,8 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	class="kodialog"
-	onload="window.Prefs.init();"
 	orient="vertical"
+	onload="window.Prefs.init();"
 >
 	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
 
@@ -41,8 +41,8 @@
 	
 	<vbox class="autoscroll">
 		<caption  label="TemplateExtension"/> 
-		<groupbox id="te_preferences" orient="vertical"> 
-			<vbox id="te_pref_box"    style="max-width:256px;"  >
+		<groupbox orient="vertical"> 
+			<vbox style="max-width:256px;"  >
 				<description value="&preferences.test;"/>
 				<button
 					label="Controls values to console"
@@ -58,7 +58,8 @@
 					</menupopup>
 				</menulist>
 				
-				<!--<checkbox id="te_pref_test" label="Test" checked="true"/>-->
+				<checkbox id="te_pref_test" label="Test" checked="true"/>
+				
 			</vbox>
 			
 			

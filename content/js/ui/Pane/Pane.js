@@ -2,7 +2,6 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 
 /** Pane
-
 */
 ko.extensions.TemplateExtension.Pane = {};
 
@@ -15,6 +14,7 @@ ko.extensions.TemplateExtension.Pane = {};
 		 */
 		this.init = function()
 		{
+			
 			ko.statusBar.AddMessage('Pane.init()', 'TemplateExtension');
 			this.UI  = new ko.extensions.TemplateExtension.UI(document).prefix('te'); 
 		}; 

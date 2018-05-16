@@ -14,7 +14,6 @@ ko.extensions.TemplateExtension.UI = (function()
 		var $	= require('ko/dom');
 		var document	= _document ? _document : document;
 		var parent	= $(document);		
-		var prefix	= 'te';
 		var values	= {};
 
 		/** Set document
@@ -46,17 +45,6 @@ ko.extensions.TemplateExtension.UI = (function()
 			parent = $(parent_selector, document);
 			return this;
 		};
-		/** Set prefix for uI id`s
-		 *
-		 * @param	string	prefix
-		 * @return	self 
-		 */
-		this.prefix = function(_prefix='')
-		{
-			prefix = _prefix;
-			return this;
-		};
-		
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
 		 * @return	{id: value}	Object of node ids and values
@@ -102,7 +90,6 @@ ko.extensions.TemplateExtension.UI = (function()
 			console.log( 'UI.addControlToParent()' );
 
 			var node	= new ko.extensions.TemplateExtension.Node()
-													 .prefix(prefix)
 													 .type(type)													 
 												 	 .attributes(attributes)
 													 .get();
