@@ -1,11 +1,11 @@
-if( typeof window.Prefs === 'undefined'  )
-	window.Prefs = {};
+if( typeof window.PrefsWindow === 'undefined'  )
+	window.PrefsWindow = {};
 		
-/** Prefs
+/** PrefsWindow
 */
-var Prefs = (function()
+var PrefsWindow = (function()
 {
-	function Prefs()
+	function PrefsWindow()
 	{ 
 		//var prefs	= require("ko/prefs");
 		var prefs	= ko.prefs;		
@@ -24,7 +24,7 @@ var Prefs = (function()
 		 */ 
 		this.test = function()
 		{
-			alert( 'Prefs.test()' );
+			alert( 'PrefsWindow.test()' );
 			//this.UI.parent('#te_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );
 		};
 		/** Get Komodo main window 
@@ -85,16 +85,16 @@ var Prefs = (function()
 		});
 		
 	}
-	return Prefs;
+	return PrefsWindow;
 
 })();
 	
-Prefs.apply(window.Prefs);
+PrefsWindow.apply(window.PrefsWindow);
 
 function onloadTest(){
 	
 	alert( 'onloadTest' );
-	//Prefs.apply(window.Prefs);
-	//window.Prefs.init();
+	//PrefsWindow.apply(window.PrefsWindow);
+	//window.PrefsWindow.init();
 }
 

@@ -19,7 +19,7 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	class="kodialog"
 	orient="vertical"
-	onload="window.Prefs.init();"
+	onload="window.PrefsWindow.init();"
 >
 	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
 
@@ -34,8 +34,8 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/UI/UI.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Prefs/Prefs.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Pane/Pane.js"/>			
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/PrefsWindow/PrefsWindow.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Node/Node.js"/>
     <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		-->
 
@@ -47,14 +47,14 @@
 				<description value="&preferences.test;"/>
 				<button
 					label="Controls values to console"
-					oncommand="console.log( window.Prefs.UI.values('#TemplateExtension-prefs') );" 
+					oncommand="console.log( window.PrefsWindow.UI.values('#TemplateExtension-prefs') );" 
 				/>
 				<menulist id="menu">
 					<menupopup>
 						<menuitem label="option 1" value="1"/>
 						<menuitem label="Add controls test"
 								  value="menu item value"
-								  oncommand="window.Prefs.UI.parent('#TemplateExtension-prefs').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+								  oncommand="window.PrefsWindow.UI.parent('#TemplateExtension-prefs').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 						/>
 						
 					</menupopup>
