@@ -18,29 +18,43 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	class="kodialog"
-	orient="vertical">
-
+	onload="window.Prefs.init();"
+	orient="vertical"
+>
 	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
+
+	<script type="application/x-javascript;version=1.7" src="chrome://xtk/content/xtk.js"/>
+	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/logging.js"/>-->
+	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/dialogs.js"/>-->
+	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/windowManager.js"/>
+	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/filepickers.js"/>-->
+	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/uriparse.js"/>-->
+	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />-->
 	
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Prefs/Prefs.js"/>		
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	
 	<vbox flex="1" class="autoscroll">
-		<groupbox id="TemplateExtension_preferences" orient="vertical" style="padding:10px 4px;"> 
+		<groupbox id="te_preferences" orient="vertical" style="padding:10px 4px;"> 
 			<caption label="TemplateExtension"/> 
-			<vbox id="TemplateExtension_box"> 
+			<vbox id="te_pref_box"> 
 				<description value="&preferences.test;"/>
 				
 				<menulist>
 					<menupopup>
 						<menuitem label="option 1" value="1"/>
-						<menuitem label="Test"
+						<menuitem label="test"
 								  value="menu item value"
-								  oncommand="ko.extensions.TemplateExtension.callbackTest(this.value);"
+									oncommand="window.Prefs.test();"
 						/>
 					</menupopup>
 				</menulist>
-
 				
 				<checkbox id="te_pref_test" label="Test" checked="true"/>
 			</vbox> 

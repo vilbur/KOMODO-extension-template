@@ -1,41 +1,27 @@
 if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 
- /** Pane
- */
+/** Pane
+
+*/
 ko.extensions.TemplateExtension.Pane = {};
+
 (function()
 {
 	function Pane()
 	{
 		this.UI = {};
-		
 		/** init
 		 */
 		this.init = function()
 		{
-			ko.statusBar.AddMessage('Pane.initPane()', 'TemplateExtension');
-			this.UI	= new ko.extensions.TemplateExtension.UI(document).prefix('te');
-			//this.UI.test();
+			ko.statusBar.AddMessage('Pane.init()', 'TemplateExtension');
+			this.UI  = new ko.extensions.TemplateExtension.UI(document).prefix('te'); 
 		}; 
-
-		///** initPane
-		// */
-		//this.initPane = function()
-		//{
-		//	console.log( 'Pane.initPane()' );
-		//	this.UI	= new ko.extensions.TemplateExtension.UI(document.getElementById('TemplateExtension-pane'));
-		//
-		//	//var UI	= new ko.extensions.TemplateExtension.UI(document.getElementById('TemplateExtension-pane'));
-		//	//UI.getControlsValues();
-		//	
-		//	this.UI.getControlsValues();
-		//	
-		//}; 
 		/** test
 		 */
 		this.test = function()
-		{
+		{ 
 			alert( 'TemplateExtension.Document.test()' ); 
 		}; 
 		/** Test
@@ -48,6 +34,4 @@ ko.extensions.TemplateExtension.Pane = {};
 		};
 	}
 	return Pane;
-
 })().apply(ko.extensions.TemplateExtension.Pane);
-

@@ -74,7 +74,12 @@ ko.extensions.TemplateExtension.Node = (function()
 			console.log( node );
 			return node;
 		}; 
-		
+		/** test
+		 */ 
+		this.test = function()
+		{
+			alert( 'TemplateExtension.Node.test()' ); 
+		}; 
 	}
 	return Node;
 

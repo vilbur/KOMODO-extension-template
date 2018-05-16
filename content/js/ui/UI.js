@@ -4,7 +4,8 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 /** UI
  * 
 */
-ko.extensions.TemplateExtension.UI = (function() 
+ko.extensions.TemplateExtension.UI = (function()
+//var UI = (function() 									  
 {
 		
 	function UI(_document=null)
@@ -17,6 +18,17 @@ ko.extensions.TemplateExtension.UI = (function()
 		var prefix	= 'te';
 		var values	= {};
 
+		/** Set document
+		 *
+		 * @param	string	document
+		 * @return	self 
+		 */
+		this.document = function(_document)
+		{
+			document = _document;
+			return this;
+		};
+		 
 		/** QUery selector in document
 		 */
 		this.$ = function(selector)
@@ -33,7 +45,6 @@ ko.extensions.TemplateExtension.UI = (function()
 			parent = $(parent_selector, document);
 			return this;
 		};
-		
 		
 		/** Get values of uI in parent node
 		 * @return	{id: value}	Object of control`s ids and values
@@ -81,7 +92,7 @@ ko.extensions.TemplateExtension.UI = (function()
 		/** Test
 		 */
 		this.test = function(string='node') {
-			alert('ko.extensions.TemplateExtension.UI("'+string+'")');
+			alert('UI.test("'+string+'")');
 		};
 		
 		/** addControl
@@ -117,3 +128,5 @@ ko.extensions.TemplateExtension.UI = (function()
 	return UI;
 
 })();
+
+//ko.extensions.TemplateExtension.UI = UI;

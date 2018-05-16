@@ -2,6 +2,9 @@
  */
 if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
+
+	
+//var TemplateExtension = (function()
 (function()
 {
 	function TemplateExtension()
@@ -22,6 +25,7 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 		{
 			var bundleSvc = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
 			var _locale = bundleSvc.createBundle("chrome://TemplateExtension/locale/TemplateExtension.properties");
+			
 			/** GetLocalizedString
 			 */
 			var GetLocalizedString = function(str) {
@@ -31,12 +35,24 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 			alert('ko.extensions.TemplateExtension.Test("'+string+'")\n\n'+GetLocalizedString('property.property_test') );
 			
 		};
-		/** 
+		/** Get new instance of object in this
+		 * @example _new('UI') get new instance of this.UI()  
 		 */
+		this._new = function(_class)
+		{
+			return new this[_class]();				
+		}; 
+		/** 
+		 */ 
 		this.test = function(value='')
 		{
-			//alert( value );
-			alert( 'callbackTest' );
+			alert( 'TemplateExtension.test()' );
+			
+			//console.log( ko.windowManager.getMainWindow() );
+			//console.log( ko.windowManager.getMainWindow().ko );
+			
+			//ko.windowManager.getMainWindow().ko.TemplateExtension.test();
+			
 
 		};
 		
@@ -45,3 +61,4 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	return TemplateExtension;
 
 })().apply(ko.extensions.TemplateExtension);
+//TemplateExtension.apply(ko.extensions.TemplateExtension);

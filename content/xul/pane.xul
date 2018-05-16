@@ -25,14 +25,15 @@
 <page
 	id="TemplateExtension-pane"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-	onload="ko.extensions.TemplateExtension.Pane.init();" >
+	onload="ko.extensions.TemplateExtension.Pane.init();"
+>
 
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
 
 	<hbox>
@@ -40,7 +41,7 @@
 			<button
 				class="box-inherit button-menubutton-button"
 				label="Test"
-				oncommand="ko.extensions.TemplateExtension.Pane.UI.test('Pane test');" 
+				oncommand="ko.extensions.TemplateExtension.test();" 
 			/>
 			<textbox id="te_text_test" value=""/>
 		</vbox>

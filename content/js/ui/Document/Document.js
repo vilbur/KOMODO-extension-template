@@ -2,6 +2,7 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	ko.extensions.TemplateExtension = {};
 
 /** Get extension`s window.document
+ *  Used for testing for example
  * 
  */
 ko.extensions.TemplateExtension.Document = {};
@@ -9,10 +10,11 @@ ko.extensions.TemplateExtension.Document = {};
 {
 	function Document()
 	{
-		var extension_name	= 'templateextension';
+		var extension_name	= 'TemplateExtension';
 		
-		/** Get window.document of 
-		 * @example  get document of pane.xul or preferences.xul
+		/** Get window.document of extension
+		 * 
+		 * @example  get('preferences') return document of preferences.xul
 		 * 
 		 * @param	string	filename	Basename of *.xul file
 		 * @return	object	document
