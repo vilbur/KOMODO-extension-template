@@ -94,7 +94,8 @@ ko.extensions.TemplateExtension.UI = (function()
 		this.test = function(string='node') {
 			alert('UI.test("'+string+'")');
 		};
-		/** addControl
+		/** Add controls to parent element
+		 * Adding has smart features E.G.: auto adding of id
 		 */
 		var addControlToParent = function(type, attributes)
 		{

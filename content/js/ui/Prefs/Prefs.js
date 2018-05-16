@@ -20,15 +20,15 @@ var Prefs = (function()
 			console.log( window.frameElement.contentWindow.document );			
 			
 			this.UI  = komodoWindow().ko.extensions.TemplateExtension._new('UI').document(window.frameElement.contentWindow.document);
-			this.UI.test();
+			//this.UI.test();
 		}; 
    
 		/** test
 		 */ 
 		this.test = function()
 		{
-			alert( 'Prefs.test()' );
-			this.UI.parent('#te_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );
+			//alert( 'Prefs.test()' );
+			//this.UI.parent('#te_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );
 
 		};
 		/** Get Komodo main window 

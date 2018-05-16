@@ -34,32 +34,36 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Prefs/Prefs.js"/>		
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	
-	<vbox flex="1" class="autoscroll">
-		<groupbox id="te_preferences" orient="vertical" style="padding:10px 4px;"> 
-			<caption label="TemplateExtension"/> 
-			<vbox id="te_pref_box"> 
+	<vbox class="autoscroll">
+		<caption  label="TemplateExtension"/> 
+		<groupbox id="te_preferences" orient="vertical"> 
+			<vbox id="te_pref_box"    style="max-width:256px;"  >
 				<description value="&preferences.test;"/>
-				
-				<menulist>
+				<button
+					label="Controls values to console"
+					oncommand="console.log( window.Prefs.UI.values('#te_pref_box') );" 
+				/>
+				<menulist id="te_menu">
 					<menupopup>
 						<menuitem label="option 1" value="1"/>
-						<menuitem label="test"
+						<menuitem label="Add controls test"
 								  value="menu item value"
-									oncommand="window.Prefs.test();"
+								  oncommand="window.Prefs.UI.parent('#te_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 						/>
 					</menupopup>
 				</menulist>
 				
-				<checkbox id="te_pref_test" label="Test" checked="true"/>
-			</vbox> 
+				<!--<checkbox id="te_pref_test" label="Test" checked="true"/>-->
+			</vbox>
+			
+			
 		</groupbox> 
- 
+
 
     </vbox>
 

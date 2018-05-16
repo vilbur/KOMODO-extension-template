@@ -47,13 +47,6 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 		this.test = function(value='')
 		{
 			alert( 'TemplateExtension.test()' );
-			
-			//console.log( ko.windowManager.getMainWindow() );
-			//console.log( ko.windowManager.getMainWindow().ko );
-			
-			//ko.windowManager.getMainWindow().ko.TemplateExtension.test();
-			
-
 		};
 		
 	}
