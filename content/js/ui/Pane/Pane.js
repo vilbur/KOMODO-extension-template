@@ -16,11 +16,11 @@ ko.extensions.TemplateExtension.Pane = {};
 		{
 			
 			ko.statusBar.AddMessage('Pane.init()', 'TemplateExtension');
-			this.UI  = new ko.extensions.TemplateExtension.UI(document).prefix('te'); 
+			this.UI  = new ko.extensions.TemplateExtension.UI(document);
 		}; 
 		/** test
 		 */
-		this.test = function()
+		this.test = function() 
 		{ 
 			alert( 'TemplateExtension.Document.test()' ); 
 		}; 

@@ -11,6 +11,7 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 	{
 		var _this	= this;
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(true).off(false) : require('ko/console');
+	
 		
 		/** localizedTest
 		 */
@@ -28,6 +29,15 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 			alert('ko.extensions.TemplateExtension.Test("'+string+'")\n\n'+GetLocalizedString('property.property_test') );
 			
 		};
+		///** Register preferences
+		// *
+		// */
+		//var registerPreferences = function()
+		//{
+		//	alert( 'registerPreferences' );
+		//	require("ko/prefs").registerCategory('TemplateExtension', 'chrome://TemplateExtension/content/xul/preferences/preferences.xul', '#Environment');
+		//
+		//}; 
 		/** Get new instance of object in this
 		 * @example _new('UI') get new instance of this.UI()  
 		 */
@@ -42,6 +52,7 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 			alert( 'TemplateExtension.test()' );
 		};
 		
+		//registerPreferences();
 	}
 
 	return TemplateExtension;

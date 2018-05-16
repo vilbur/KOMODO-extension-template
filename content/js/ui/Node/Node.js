@@ -10,7 +10,6 @@ ko.extensions.TemplateExtension.Node = (function()
 	{
 		var $	= require('ko/dom');
 		var node	= null;
-		var prefix	= '';
 		
 		/** Set type of node
 		 * @param	string	type	Type of node
@@ -40,18 +39,7 @@ ko.extensions.TemplateExtension.Node = (function()
 
 			return this;  
 		};
-		/** Set prefix for nodes id`s
-		 *
-		 * @param	string	prefix
-		 * @return	self 
-		 */
-		this.prefix = function(_prefix='')
-		{
-			prefix = _prefix;
-			return this;
-		};
-		
-		/** Set default Id by prefix and sanitized label if not id defined
+		/** Set default Id by sanitized label if not id defined
 		 */
 		var setDefaultId = function()
 		{
@@ -59,7 +47,7 @@ ko.extensions.TemplateExtension.Node = (function()
 			 */
 			var getLabel = function()
 			{
-				return ( prefix ? prefix + '_' : '' ) + node.getAttribute('label').replace(/[\s-]/gi, '_').toLowerCase();
+				return node.getAttribute('label').replace(/[\s-]/gi, '_').toLowerCase();
 			};
 			
 			if( ! node.hasAttribute('id') )

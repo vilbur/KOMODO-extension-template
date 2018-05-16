@@ -34,31 +34,33 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/UI.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Prefs/Prefs.js"/>		
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Prefs/Prefs.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Pane/Pane.js"/>			
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/ui/Node/Node.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	
-	<vbox class="autoscroll">
+	<vbox id="TemplateExtension-prefs" class="autoscroll">
 		<caption  label="TemplateExtension"/> 
 		<groupbox orient="vertical"> 
 			<vbox style="max-width:256px;"  >
 				<description value="&preferences.test;"/>
 				<button
 					label="Controls values to console"
-					oncommand="console.log( window.Prefs.UI.values('#te_pref_box') );" 
+					oncommand="console.log( window.Prefs.UI.values('#TemplateExtension-prefs') );" 
 				/>
-				<menulist id="te_menu">
+				<menulist id="menu">
 					<menupopup>
 						<menuitem label="option 1" value="1"/>
 						<menuitem label="Add controls test"
 								  value="menu item value"
-								  oncommand="window.Prefs.UI.parent('#te_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+								  oncommand="window.Prefs.UI.parent('#TemplateExtension-prefs').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 						/>
+						
 					</menupopup>
 				</menulist>
 				
-				<checkbox id="te_pref_test" label="Test" checked="true"/>
+				<checkbox id="pref_test" label="Test" checked="true"/>
 				
 			</vbox>
 			

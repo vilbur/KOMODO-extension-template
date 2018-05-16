@@ -26,7 +26,7 @@
     "\t\t}; ", 
     "\t\t/** test", 
     "\t\t */", 
-    "\t\tthis.test = function()", 
+    "\t\tthis.test = function() ", 
     "\t\t{ ", 
     "\t\t\talert( 'TemplateExtension.Document.test()' ); ", 
     "\t\t}; ", 
