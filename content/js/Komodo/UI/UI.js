@@ -44,17 +44,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
-		/** Set parent element e.g.: for adding of nodes
-		 *
-		 * @param	string	selector
-		 * @return	self 
-		 */
-		this.parent = function(selector=null)
-		{
-			alert( 'UI.parent() DEPRECATED use .node()' );
-			//parent = $(parent_selector, document);
-			return this;
-		};
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
 		 * @return	{id: value}	Object of node ids and values
@@ -127,20 +116,11 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
-		        
-		/** Test
-		 */
-		this.toggleCheckbox = function(id)
-		{ 
-			var checkbox 	= window.getElementById(id);	
-			checkbox.checked = ! checkbox.checked ;
-		};
-		/** Test
-		 */
-		this.test = function()
-		{
-			alert('UI.test()');
-		};
+		
+		/*---------------------------------------
+			PRIVATE
+		-----------------------------------------
+		*/
 		/** Add controls to parent element
 		 * Adding has smart features E.G.: auto adding of id
 		 */
@@ -173,46 +153,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					setValuesFormChildNodes( $(this.childNodes) );
 			});
 		}; 
-
+		/** Test
+		 */
+		this.test = function()
+		{
+			alert('UI.test()');
+		};
+		
 	}
 	return UI;
 
 })();
-
-
-
-//$.create("groupbox", {id: "xemmet-main"},
-//	$.create('caption', {label: caption})
-//	
-//	('vbox align="left"', {id: "xemmet-main-vbox"},
-//		$.create
-//		('textbox', {id:            "xemmet_css_langs",
-//					 flex:          "1",
-//					 pref:          "true",
-//					 prefstring:    "xemmet_css_languages",
-//					 prefattribute: "value",
-//					 placeholder:   "Additional CSS Language Names that Xemmet should run on"})
-//		('textbox', {id:            "xemmet_html_langs",
-//					 flex:          "1",
-//					 pref:          "true",
-//					 prefstring:    "xemmet_html_languages",
-//					 prefattribute: "value",
-//					 placeholder:   "Additional HTML Language Names that Xemmet should run on"})
-//	)
-//);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
