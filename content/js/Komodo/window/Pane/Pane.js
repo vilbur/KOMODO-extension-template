@@ -12,7 +12,7 @@
 		this.init = function()
 		{
 			ko.statusBar.AddMessage('TemplateExtension.Komodo.Pane.init()', 'Extension');
-			this.UI  = new ko.extensions.TemplateExtension.UI().document(document);			
+			this.UI  = new ko.extensions.TemplateExtension.Komodo.UI().document(document);			
 		}; 
 		/** test
 		 */

@@ -21,7 +21,6 @@
 		var _this	= this;
 		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 	
-		
 		/** localizedTest
 		 */
 		this.localizedTest = function(string)
@@ -38,6 +37,14 @@
 			alert('ko.extensions.TemplateExtension.Test("'+string+'")\n\n'+GetLocalizedString('property.property_test') );
 			
 		};
+		/** Get new instance of object in this
+		 * @example _new('UI') get new instance of this.UI()  
+		 */
+		this._new = function(_class)
+		{
+			return new this.Komodo[_class]();
+		};
+		
 		///** Register preferences
 		// *
 		// */
@@ -47,13 +54,7 @@
 		//	require("ko/prefs").registerCategory('TemplateExtension', 'chrome://TemplateExtension/content/xul/preferences/preferences.xul', '#Environment');
 		//
 		//}; 
-		/** Get new instance of object in this
-		 * @example _new('UI') get new instance of this.UI()  
-		 */
-		this._new = function(_class)
-		{
-			return new this[_class]();
-		};
+
 		/** 
 		 */ 
 		this.test = function(value='')

@@ -10,6 +10,17 @@ ko.extensions.TemplateExtension.Komodo.Document = {};
 	{
 		var host_name	= 'TemplateExtension';
 		
+		/** Set host name of document for identification of *.xul file
+		 *
+		 * @param	string	host_name
+		 * @return	self 
+		 */
+		this.hostName = function(_host_name='')
+		{
+			host_name = _host_name;
+			return this;
+		};
+		
 		/** Get window.document of extension
 		 * 
 		 * @example  get('preferences') return document of preferences.xul

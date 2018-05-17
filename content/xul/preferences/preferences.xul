@@ -34,6 +34,7 @@
 	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Komodo/Komodo.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/UI.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Prefs/Prefs.js"/>	
@@ -62,18 +63,31 @@
 					label="Controls values to console"
 					oncommand="console.log( PrefsWindow().UI.values('#TemplateExtension-prefs') );" 
 				/>
-				<menulist id="menu">
-					<menupopup>
-						<menuitem label="option 1" value="1"/>
-						<menuitem label="Add controls test"
-								  value="menu item value"
-								  oncommand="window.PrefsWindow.UI.parent('#TemplateExtension-prefs').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
-						/>
-						
-					</menupopup>
-				</menulist>
+				<button
+					label="Add controls test"
+					oncommand="PrefsWindow().UI.node('#TemplateExtension-prefs').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+				/>
 				
-				<checkbox id="pref_test" label="Test" checked="true"/>
+
+
+				<vbox id="pref_set_test" class="pref-set">
+					<menulist id="menu">
+						<menupopup>
+							<menuitem label="Items A"
+									  value="items-a"
+								oncommand="PrefsWindow().UI.node('.pref-set-container').empty().append( 'checkbox', ['Checkbox A 1', 'Checkbox A 2'] );"
+							/>
+							<menuitem label="Items B"
+									  value="items-B"
+								oncommand="PrefsWindow().UI.node('.pref-set-container').empty().append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+							/>
+						</menupopup>
+					</menulist>
+					<box class="pref-set-container" orient="vertical">
+				
+					</box>
+				</vbox>
+				
 				
 			</vbox>
 
@@ -85,7 +99,7 @@
 			<button
 				class="box-inherit button-menubutton-button"
 				label="Save"
-				oncommand=""
+				oncommand="PrefsWindow().save()"
 			/>
 		</hbox>
 

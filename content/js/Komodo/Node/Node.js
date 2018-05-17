@@ -1,6 +1,6 @@
 /** Node
 */
-ko.extensions.TemplateExtension.Node = (function()
+ko.extensions.TemplateExtension.Komodo.Node = (function()
 {
 		
 	function Node()

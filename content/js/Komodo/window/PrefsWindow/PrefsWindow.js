@@ -4,7 +4,8 @@
 {
 	function PrefsWindow()
 	{ 
-		var prefs	= ko.prefs;
+		//var prefs	= ko.prefs;
+		var koPrefs	= require("ko/prefs");
 		var pref_types	= ['String', 'Long', 'Boolean'];
 		this.UI = {};
  
@@ -17,13 +18,18 @@
 			
 			this.UI  = ko.extensions.TemplateExtension._new('UI').document(document_prefs);
 		}; 
-		
+		/** save
+		 */ 
+		this.save = function()
+		{
+			alert( 'PrefsWindow.save()' );
+			ko.extensions.TemplateExtension.Komodo.savePreferences('PrefsWindow');
+		};
 		/** test
 		 */ 
 		this.test = function()
 		{
 			alert( 'PrefsWindow.test()' );
-			//this.UI.parent('#te_pref_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );
 		};
 	
 	}

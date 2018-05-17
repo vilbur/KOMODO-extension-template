@@ -5,10 +5,10 @@
 var setupNamespaces = (function()
 {
 	ko.extensions.TemplateExtension = {
-		//Objects:{},
 		Komodo:
 		{
 			Document:	{},
+			Prefs:	{},			
 			Pane:	{},
 			PrefsWindow:	{},
 		},

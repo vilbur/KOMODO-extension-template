@@ -1,7 +1,7 @@
 /** UI
  * 
 */
-ko.extensions.TemplateExtension.UI = (function()
+ko.extensions.TemplateExtension.Komodo.UI = (function()
 {
 		
 	function UI(_document=null)
@@ -10,7 +10,8 @@ ko.extensions.TemplateExtension.UI = (function()
 		
 		var $	= require('ko/dom');
 		var document	= document;
-		var parent	= $(document);		
+		var node	= null;
+		var parent	= $(document);				
 		var values	= {};
 
 		/** Set document
@@ -23,7 +24,6 @@ ko.extensions.TemplateExtension.UI = (function()
 			document = _document;
 			return this;
 		};
-		 
 		/** Query selector in document
 		 * @param	string	selector	Selector of node
 		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
@@ -32,38 +32,46 @@ ko.extensions.TemplateExtension.UI = (function()
 		{
 			return $(selector, document);
 		};
-		/** Set parent element e.g.: for adding of nodes
+		/** Set node element 
 		 *
 		 * @param	string	parent_selector
 		 * @return	self 
 		 */
-		this.parent = function(parent_selector)
+		this.node = function(selector)
 		{
-			parent = $(parent_selector, document);
+			if( selector )
+				node = $(selector, document);
+			
+			return this;
+		};
+		/** Set parent element e.g.: for adding of nodes
+		 *
+		 * @param	string	selector
+		 * @return	self 
+		 */
+		this.parent = function(selector=null)
+		{
+			alert( 'UI.parent() DEPRECATED use .node()' );
+			//parent = $(parent_selector, document);
 			return this;
 		};
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
 		 * @return	{id: value}	Object of node ids and values
 		 */
-		this.values = function(parent_selector)
+		this.values = function(selector=null)
 		{
+			this.node(selector);
 			//alert('UI.values()');
-			console.log(  document );
+			//console.log(  document );
 			values	= {};
 
 			setValuesFormChildNodes( $(parent_selector, document).children() );
 			
 			return values;
 		};
-		/** Test
-		 */
-		this.toggleCheckbox = function(id)
-		{ 
-			var checkbox 	= window.getElementById(id);	
-			checkbox.checked = ! checkbox.checked ;
-		};
-		/** add uI to parent node
+
+		/** Append nodes to  node
 		 */
 		this.append = function(type, attributes)
 		{
@@ -75,6 +83,27 @@ ko.extensions.TemplateExtension.UI = (function()
 			for(let a=0; a<attributes.length;a++)
 				addControlToParent(type, attributes[a]);
 
+		};
+		/** Remove child element
+		 * @param	string	selector	Selector of node
+		 * @return	self
+		 */
+		this.empty = function(selector=null)
+		{
+			console.log( 'UI.append()' );
+			this.node(selector);
+
+			node.empty();
+			
+			return this;
+		};
+		
+		/** Test
+		 */
+		this.toggleCheckbox = function(id)
+		{ 
+			var checkbox 	= window.getElementById(id);	
+			checkbox.checked = ! checkbox.checked ;
 		};
 		/** Test
 		 */
@@ -88,12 +117,11 @@ ko.extensions.TemplateExtension.UI = (function()
 		{
 			console.log( 'UI.addControlToParent()' );
 
-			var node	= new ko.extensions.TemplateExtension.Node()
+			var node_new	= new ko.extensions.TemplateExtension.Komodo.Node()
 													 .type(type)													 
 												 	 .attributes(attributes)
 													 .get();
-
-			parent.append( node );
+			node.append( node_new );
 		};
 		/** Get values form child nodes
 		 * @param	array	child_nodes	Element list of child nodes

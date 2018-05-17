@@ -2,7 +2,7 @@
  */
 var UI = function()
 {
-	return new ko.extensions.TemplateExtension.UI( ko.extensions.TemplateExtension.Komodo.Document.get('pane')); 
+	return new ko.extensions.TemplateExtension.Komodo.UI( ko.extensions.TemplateExtension.Komodo.Document.get('pane')); 
 }; 
 /** get te_controls_box element
  */

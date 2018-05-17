@@ -1,9 +1,6 @@
-//if( typeof window.Prefs === 'undefined'  )
-//	window.Prefs = {};
-
 /** Prefs
 */
-var Prefs = (function()
+(function()
 {
 	function Prefs()
 	{ 
@@ -66,13 +63,4 @@ var Prefs = (function()
 	}
 	return Prefs;
 
-})();
-	
-//Prefs.apply(window.Prefs);
-
-function onloadTest(){
-	
-	alert( 'onloadTest' );
-	//Prefs.apply(window.Prefs);
-	//window.Prefs.init();
-}
+})().apply(ko.extensions.TemplateExtension.Komodo.Prefs);
