@@ -1,16 +1,25 @@
 /** TemplateExtension
  */
-if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	ko.extensions.TemplateExtension = {};
+/** Setup namespaces
+ */
+//var setupNamespaces = (function()
+//{
+//	if( typeof ko.extensions.TemplateExtension === 'undefined'  )
+//		ko.extensions.TemplateExtension = {};
+//		
+//	//if( typeof ko.extensions.TemplateExtension.Komodo === 'undefined'  )
+//	ko.extensions.TemplateExtension.Pane = {};
+//		
+//})(); 
 
-	
+
 //var TemplateExtension = (function()
 (function()
 {
 	function TemplateExtension()
 	{
 		var _this	= this;
-		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(true).off(false) : require('ko/console');
+		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 	
 		
 		/** localizedTest
@@ -50,6 +59,7 @@ if( typeof ko.extensions.TemplateExtension === 'undefined'  )
 		this.test = function(value='')
 		{
 			alert( 'TemplateExtension.test()' );
+			console.log( window.frameElement.contentWindow.document.location );
 		};
 		
 		//registerPreferences();

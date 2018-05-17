@@ -1,0 +1,30 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "Komodo", 
+  "language": "JavaScript", 
+  "trigger_enabled": false, 
+  "value": [
+    "/** Komodo", 
+    " */", 
+    "(function()", 
+    "{", 
+    "\tfunction Komodo()", 
+    "\t{", 
+    "\t\t/** test", 
+    "\t\t */", 
+    "\t\tthis.test = function()", 
+    "\t\t{", 
+    "\t\t\talert( 'Komodo' );", 
+    "\t\t\treturn new ko.extensions.TemplateExtension.Komodo();", 
+    "\t\t}; ", 
+    "\t}", 
+    "\treturn Komodo;", 
+    "", 
+    "})().apply(ko.extensions.TemplateExtension.Komodo);"
+  ], 
+  "version": "1.0.12", 
+  "rank": 100, 
+  "async": false, 
+  "type": "macro", 
+  "trigger": "trigger_postopen"
+}

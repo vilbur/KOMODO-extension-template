@@ -8,13 +8,15 @@
 		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/UI/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Pane/Pane.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/PrefsWindow/PrefsWindow.js"/>		
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Node/Node.js"/>
-    <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		-->
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/UI.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Prefs/Prefs.js"/>	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/PrefsWindow/PrefsWindow.js"/>		
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Node/Node.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	<!--
 		COMMAND SET
@@ -42,7 +44,7 @@
         <browser type="ko-widget"
 				label="&pane.label;"
 				src="chrome://TemplateExtension/content/xul/pane.xul"
-				tab_onfocus="ko.extensions.TemplateExtension.Pane.initPane();" />
+				tab_onfocus="ko.extensions.TemplateExtension.Komodo.Pane.initPane();" />
 	</ko-pane>
 	
 </overlay>

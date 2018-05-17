@@ -25,28 +25,36 @@
 <page
 	id="TemplateExtension-pane"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-	onload="ko.extensions.TemplateExtension.Pane.init();"
+	onload="ko.extensions.TemplateExtension.Komodo.Pane.init();"
 >
 
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/UI/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/PrefsWindow/PrefsWindow.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Node/Node.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/UI.js"/>
+    <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Prefs/Prefs.js"/>	-->
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/Pane/Pane.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/PrefsWindow/PrefsWindow.js"/>		
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Node/Node.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	<hbox>
 		<vbox>
 			<button
-				class="box-inherit button-menubutton-button"
-				label="Test"
-				oncommand="ko.extensions.TemplateExtension.Pane.UI.test();" 
+				label="TemplateExtension.test()"
+				oncommand="ko.extensions.TemplateExtension.test();" 
 			/>
 			<button
-				class="box-inheritX button-menubutton-buttonX"
+				label="Komodo.Pane.test()"
+				tooltiptext="TemplateExtension.Komodo.Pane.test()"
+				oncommand="ko.extensions.TemplateExtension.Komodo.Pane.test();" 
+			/>
+			<button
 				label="Get values"
-				oncommand="console.log( ko.extensions.TemplateExtension.Pane.UI.values('#TemplateExtension-pane') );" 
+				tooltiptext="Get values to console"
+				oncommand="console.log( ko.extensions.TemplateExtension.Komodo.Pane.UI.values('#TemplateExtension-pane') );" 
 			/>
 			<textbox id="te_text_test" value="Lorem"/>
 		</vbox>
@@ -61,12 +69,11 @@
 					/>
 					<menuitem
 						label="Items B"
-						oncommand="ko.extensions.TemplateExtension.Pane.UI.parent('#te_controls_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
-
+						oncommand="ko.extensions.TemplateExtension.Komodo.Pane.UI.parent('#te_controls_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 					/>
 					<menuitem
 						label="Empty"
-						oncommand="ko.extensions.TemplateExtension.Pane.UI.$( '#te_controls_box' ).empty();"
+						oncommand="ko.extensions.TemplateExtension.Komodo.Pane.UI.$( '#te_controls_box' ).empty();"
 
 					/>
 				</menupopup>
@@ -78,7 +85,7 @@
 			
 		</vbox>
 
-		<!--<button label="Change" oncommand="ko.extensions.TemplateExtension.Pane.toggleCheckbox('te_cbx_text')"/>-->
+		<!--<button label="Change" oncommand="ko.extensions.TemplateExtension.Komodo.Pane.toggleCheckbox('te_cbx_text')"/>-->
 		<!--<checkbox id="te_cbx_text" label="Check for messages"/>-->
 
 

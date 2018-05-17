@@ -1,6 +1,3 @@
-if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	ko.extensions.TemplateExtension = {};
-	
 /** UI
  * 
 */
@@ -9,10 +6,10 @@ ko.extensions.TemplateExtension.UI = (function()
 		
 	function UI(_document=null)
 	{
-		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
+		//var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		
 		var $	= require('ko/dom');
-		var document	= _document ? _document : document;
+		var document	= document;
 		var parent	= $(document);		
 		var values	= {};
 
@@ -51,6 +48,8 @@ ko.extensions.TemplateExtension.UI = (function()
 		 */
 		this.values = function(parent_selector)
 		{
+			//alert('UI.values()');
+			console.log(  document );
 			values	= {};
 
 			setValuesFormChildNodes( $(parent_selector, document).children() );
@@ -79,8 +78,8 @@ ko.extensions.TemplateExtension.UI = (function()
 		};
 		/** Test
 		 */
-		this.test = function(string='node') {
-			alert('UI.test("'+string+'")');
+		this.test = function() {
+			alert('UI.test()');
 		};
 		/** Add controls to parent element
 		 * Adding has smart features E.G.: auto adding of id
@@ -101,7 +100,9 @@ ko.extensions.TemplateExtension.UI = (function()
 		 */
 		var setValuesFormChildNodes = function(child_nodes)
 		{
-			//console.log( child_nodes._elements );
+			//console.log( child_nodes );
+			//Logger.info(child_nodes, 'UI: '+'child_nodes'); 
+			
 			child_nodes.each(function()
 			{
 				if( ! Object.keys(this.childNodes).length ){

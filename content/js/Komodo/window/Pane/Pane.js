@@ -1,9 +1,6 @@
-if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	ko.extensions.TemplateExtension = {};
-
 /** Pane
 */
-ko.extensions.TemplateExtension.Pane = {};
+//ko.extensions.TemplateExtension.Komodo.Pane = {};
 
 (function()
 {
@@ -14,16 +11,14 @@ ko.extensions.TemplateExtension.Pane = {};
 		 */
 		this.init = function()
 		{
-			
-			ko.statusBar.AddMessage('Pane.init()', 'TemplateExtension');
-			this.UI  = new ko.extensions.TemplateExtension.UI(document);
-			
+			ko.statusBar.AddMessage('TemplateExtension.Komodo.Pane.init()', 'Extension');
+			this.UI  = new ko.extensions.TemplateExtension.UI().document(document);			
 		}; 
 		/** test
 		 */
 		this.test = function() 
 		{ 
-			alert( 'TemplateExtension.Document.test()' ); 
+			alert( 'TemplateExtension.Komodo.Pane.test()' ); 
 		}; 
 		/** Test
 		 */
@@ -36,4 +31,4 @@ ko.extensions.TemplateExtension.Pane = {};
 	}
 	return Pane;
 
-})().apply(ko.extensions.TemplateExtension.Pane);
+})().apply(ko.extensions.TemplateExtension.Komodo.Pane);

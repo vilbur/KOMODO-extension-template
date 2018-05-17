@@ -1,8 +1,10 @@
 
-if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	ko.extensions.TemplateExtension = {};
+
+//if( typeof ko.extensions.TemplateExtension === 'undefined'  )
+	//ko.extensions.TemplateExtension = {};
 	
-ko.extensions.TemplateExtension.TemplateExtensionScript = {};
+
+//ko.extensions.TemplateExtension.TemplateExtensionScript = {};
 
 
 

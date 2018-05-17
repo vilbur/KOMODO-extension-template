@@ -2,7 +2,7 @@
  */
 var getPaneDocument = function()
 {
-	console.log( ko.extensions.TemplateExtension.Document.get('pane') );
+	console.log( ko.extensions.TemplateExtension.Komodo.Document.get('pane') );
 };
 
 getPaneDocument();

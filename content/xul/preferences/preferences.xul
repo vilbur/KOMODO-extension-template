@@ -19,8 +19,9 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	class="kodialog"
 	orient="vertical"
-	onload="window.PrefsWindow.init();"
+	onload="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.Komodo.PrefsWindow.init();"
 >
+	<!--onload="window.PrefsWindow.init();"	-->
 	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
 
 	<script type="application/x-javascript;version=1.7" src="chrome://xtk/content/xtk.js"/>
@@ -31,13 +32,15 @@
 	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/uriparse.js"/>-->
 	<!--<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />-->
 	
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/UI/UI.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Document/Document.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/Pane/Pane.js"/>			
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/window/PrefsWindow/PrefsWindow.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/komodo/Node/Node.js"/>
-    <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		-->
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/UI.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Prefs/Prefs.js"/>	
+    <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/Pane/Pane.js"/>-->
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/PrefsWindow/PrefsWindow.js"/>		
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Node/Node.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
 	
 	<vbox id="TemplateExtension-prefs" class="autoscroll">
@@ -46,8 +49,18 @@
 			<vbox style="max-width:256px">
 				<description value="&preferences.test;"/>
 				<button
+					label="PrefsWindow().test()"
+					tooltiptext="PrefsWindow().test()" 
+					oncommand="PrefsWindow().test();" 
+				/>
+				<button
+					label="UI.test()"
+					tooltiptext="PrefsWindow().UI.test()" 
+					oncommand="PrefsWindow().UI.test();" 
+				/>
+				<button
 					label="Controls values to console"
-					oncommand="console.log( window.PrefsWindow.UI.values('#TemplateExtension-prefs') );" 
+					oncommand="console.log( PrefsWindow().UI.values('#TemplateExtension-prefs') );" 
 				/>
 				<menulist id="menu">
 					<menupopup>

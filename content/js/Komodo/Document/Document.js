@@ -1,12 +1,9 @@
-if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	ko.extensions.TemplateExtension = {};
-
 /** Get extension`s window.document
- * Allow access to extenion`s window from scripts
- * @example for independent testing via uerscript
- * 
+ *
+ * @example  Document.get('preferences') return document of preferences.xul
+ *
  */
-ko.extensions.TemplateExtension.Document = {};
+ko.extensions.TemplateExtension.Komodo.Document = {};
 (function()
 {
 	function Document()
@@ -39,9 +36,9 @@ ko.extensions.TemplateExtension.Document = {};
 		 */
 		this.test = function()
 		{
-			alert( 'TemplateExtension.Document.test()' ); 
+			alert( 'TemplateExtension.Komodo.Document.test()' ); 
 		}; 
 	}
 	return Document;
 
-})().apply(ko.extensions.TemplateExtension.Document);
+})().apply(ko.extensions.TemplateExtension.Komodo.Document);

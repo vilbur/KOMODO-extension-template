@@ -1,6 +1,3 @@
-if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	ko.extensions.TemplateExtension = {};
-
 /** Node
 */
 ko.extensions.TemplateExtension.Node = (function()
