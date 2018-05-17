@@ -25,13 +25,16 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 		 */
 		this.attributes = function(attributes)
 		{
+			if( ! attributes )
+				return this; 
+			
 			if( typeof attributes === 'string' )
 				attributes = {label: attributes};	
 			
 			for(var attribute in attributes)
 				if (attributes.hasOwnProperty(attribute))
 					node.setAttribute( attribute, attributes[attribute] );
-			
+		
 			setDefaultId();
 
 			return this;  

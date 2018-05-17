@@ -71,18 +71,48 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return values;
 		};
 
-		/** Append nodes to  node
+		/** Append new nodes to node
+		 *  If children are defined, then parent node became this.node
+		 *
+		 * @example 
+		 *		.append('checkbox', 'Checkbox 1')	// single node, attribute is label
+		 *		.append('checkbox', {label: 'Checkbox 1'})	// single node with attributes		 
+		 *		.append('checkbox', ['Checkbox 1', 'Checkbox 2'])	// multiple nodes
+		 *		.append('checkbox', [{label: 'Checkbox 1'}, {label: 'Checkbox 2'}])	// multiple nodes with attributes
+		 *
+		 *		.append('groupbox')	// append node without attributes
+		 *		.append('groupbox', {id: 'gp_id'})	// parent node with attributes
+		 *		.append('groupbox', null, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// parent node with children
+		 *		.append('groupbox', {id: 'gp_id'}, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// parent node with attributes and children
+		 *
+		 * @param	string	type	Type of node to append
+		 * @param	null|string|object|[object] 	[attributes]	Attributes for controls, define array of strings or array of objects for adding multiple nodes* 
+		 * @param	[type, attributes]	children	Array of these parameters for repeating append() function
+		 *
+		 * @return	self 
 		 */
-		this.append = function(type, attributes)
+		this.append = function(type, attributes=null, children=null)
 		{
 			console.log( 'UI.append()' );
-			
-			if( ! Array.isArray(attributes) )
-				attributes = [attributes];
+			var node_new	= null;
+			/** Sanitize attributes
+			 */
+			var sanitizeAttributes = (function()
+			{
+				if( ! attributes )
+					attributes = {};
+				
+				if( ! Array.isArray(attributes) )
+					attributes = [attributes];				
+			})(); 
 			
 			for(let a=0; a<attributes.length;a++)
-				addControlToParent(type, attributes[a]);
-
+				node_new = addControlToParent(type, typeof attributes[a] !== 'undefined' ? attributes[a] : null );
+			
+			if( children )
+				this.node(node_new).append(children[0], children[1], children[2]);
+			
+			return this;
 		};
 		/** Remove child element
 		 * @param	string	selector	Selector of node
@@ -97,7 +127,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
-		
+		        
 		/** Test
 		 */
 		this.toggleCheckbox = function(id)
@@ -107,7 +137,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		};
 		/** Test
 		 */
-		this.test = function() {
+		this.test = function()
+		{
 			alert('UI.test()');
 		};
 		/** Add controls to parent element
@@ -122,6 +153,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 												 	 .attributes(attributes)
 													 .get();
 			node.append( node_new );
+			
+			return node_new;
 		};
 		/** Get values form child nodes
 		 * @param	array	child_nodes	Element list of child nodes
@@ -145,3 +178,41 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 	return UI;
 
 })();
+
+
+
+//$.create("groupbox", {id: "xemmet-main"},
+//	$.create('caption', {label: caption})
+//	
+//	('vbox align="left"', {id: "xemmet-main-vbox"},
+//		$.create
+//		('textbox', {id:            "xemmet_css_langs",
+//					 flex:          "1",
+//					 pref:          "true",
+//					 prefstring:    "xemmet_css_languages",
+//					 prefattribute: "value",
+//					 placeholder:   "Additional CSS Language Names that Xemmet should run on"})
+//		('textbox', {id:            "xemmet_html_langs",
+//					 flex:          "1",
+//					 pref:          "true",
+//					 prefstring:    "xemmet_html_languages",
+//					 prefattribute: "value",
+//					 placeholder:   "Additional HTML Language Names that Xemmet should run on"})
+//	)
+//);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

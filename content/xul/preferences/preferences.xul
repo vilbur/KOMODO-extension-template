@@ -65,10 +65,9 @@
 				/>
 				<button
 					label="Add controls test"
-					oncommand="PrefsWindow().UI.node('#TemplateExtension-prefs').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+					oncommand="PrefsWindow().UI.node('#TemplateExtension-prefs').append( 'groupbox', null, ['checkbox', ['Control 1', 'Control 2']] ).append( 'groupbox', null, ['textbox'] );"
 				/>
-				
-
+				 
 
 				<vbox id="pref_set_test" class="pref-set">
 					<menulist id="menu">
@@ -88,8 +87,8 @@
 					</box>
 				</vbox>
 				
-				
 			</vbox>
+				<textbox id="" value="Lorem Ipsum"/>
 
 			
 		</groupbox> 
