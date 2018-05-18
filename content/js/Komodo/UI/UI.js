@@ -7,7 +7,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 	function UI(_document=null)
 	{
 		//var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
-		
+		var self	= this;
 		var $	= require('ko/dom');
 		var document	= document;
 		var node	= null;
@@ -54,7 +54,18 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			//return $(selector, parent ? parent : document);
 			return $(selector, document);		
 		};
-
+		/** Create new node
+		 * @param	string	type	Type of node
+		 * @param	object|string	attributes	Object of attributes for element, STRING is treated as label
+		 * @return self
+		 */
+		this.create = function(type, attributes)
+		{
+			return new ko.extensions.TemplateExtension.Komodo.Node()
+										 .type(type)													 
+										 .attributes(attributes)
+										 .get();
+		}; 
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
 		 * @return	{id: value}	Object of node ids and values
@@ -94,7 +105,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.append = function(type, attributes=null, children=null)
 		{
 			//console.log( 'UI.append()' );
-			var node_new	= null;
+			var child_node	= null;
 			/** Sanitize attributes
 			 */
 			var sanitizeAttributes = (function()
@@ -104,13 +115,22 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				
 				if( ! Array.isArray(attributes) )
 					attributes = [attributes];				
-			})(); 
+			})();
+			/** Add controls to parent element
+			 * Adding has smart features E.G.: auto adding of id
+			 */
+			var appendChild = function(type, attributes)
+			{	
+				child_node	= self.create(type, attributes);
+
+				node.append( child_node );
+			};
 			
 			for(let a=0; a<attributes.length;a++)
-				node_new = addControlToParent(type, typeof attributes[a] !== 'undefined' ? attributes[a] : null );
+				appendChild(type, typeof attributes[a] !== 'undefined' ? attributes[a] : null );
 			
 			if( children )
-				this.node(node_new).append(children[0], children[1], children[2]);
+				this.node(child_node).append(children[0], children[1], children[2]);
 			
 			return this;
 		};
@@ -160,7 +180,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			//console.log( perfset_values );
 			//console.log( prefset_menu );
 			
-			
 			/** Create perfset_template
 			 *
 			 * @param	object	controls_data	Container-id: {control id-label: value}
@@ -196,21 +215,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		-----------------------------------------
 		*/
 
-		/** Add controls to parent element
-		 * Adding has smart features E.G.: auto adding of id
-		 */
-		var addControlToParent = function(type, attributes)
-		{
-			//console.log( 'UI.addControlToParent()' );
-
-			var node_new	= new ko.extensions.TemplateExtension.Komodo.Node()
-													 .type(type)													 
-												 	 .attributes(attributes)
-													 .get();
-			node.append( node_new );
-			
-			return node_new;
-		};
 
 		/** Get values form child nodes
 		 * @param	array	child_nodes	Element list of child nodes
