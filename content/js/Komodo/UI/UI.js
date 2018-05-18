@@ -213,13 +213,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				//console.log( 'menuitem' );
 				//console.log( this.create('menuitem', container_id ) );				
 				
-				prefset_menu.append( self.create('menuitem', container_id ) );
+				//prefset_menu.append( self.create('menuitem', container_id ) );
 				
 				var controls_labels	= Object.keys(controls_data);
 				self.node(prefset_id).append(container_type);
 				
-				//for(let c=0; c<controls_labels.length;c++)
-					//self.node(prefset_id).append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
+				for(let c=0; c<controls_labels.length;c++)
+					self.node(prefset_id).append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
 
 			};
 			
