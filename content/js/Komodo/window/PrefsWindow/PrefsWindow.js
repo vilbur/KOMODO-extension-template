@@ -32,7 +32,6 @@
 					'Control 2': true,
 				},
 			}
-			
 		};
 		/** init
 		 */
@@ -46,7 +45,7 @@
 			//console.log( TemplateExtension() );
 			//console.log( this.UI );			
 			
-			createPrefSetTemplates();
+			//createPrefSetTemplates();
 			
 		}; 
 		/** save

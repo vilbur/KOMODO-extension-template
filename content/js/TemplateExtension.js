@@ -69,4 +69,9 @@
 	return TemplateExtension;
 
 })().apply(ko.extensions.TemplateExtension);
-//TemplateExtension.apply(ko.extensions.TemplateExtension);
+
+function TemplateExtension()
+{
+	return ko.extensions.TemplateExtension;
+}
+

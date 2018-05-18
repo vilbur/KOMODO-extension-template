@@ -59,7 +59,7 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 		 */
 		this.get = function()
 		{
-			console.log( node );
+			//console.log( node );
 			return node;
 		}; 
 		/** test

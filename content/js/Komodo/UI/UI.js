@@ -1,10 +1,11 @@
 /** UI
- * 
+* Manage extension`s ui elements
+*
 */
 ko.extensions.TemplateExtension.Komodo.UI = (function()
 {
 		
-	function UI(_document=null)
+	function UI()
 	{
 		//var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		var self	= this;
@@ -15,9 +16,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			SETUP
 		-----------------------------------------
 		*/
-		/** Set document
+		/** Set document where UI is operating, pane or preferences window
 		 *
-		 * @param	string	document
+		 * @param	string	_document
 		 * @return	self 
 		 */
 		this.document = function(_document)
@@ -55,10 +56,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 *		.create('groupbox', {id: 'gp_id'}, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with attributes and children
 		 *
 		 * @param	string	type	Type of node to append
-		 * @param	null|string|object|[object] 	[attributes]	Attributes for controls, define array of strings or array of objects for adding multiple nodes* 
-		 * @param	[type, attributes]	children	Array of these parameters for repeating append() function
+		 * @param	null|string|object|[object] 	[attributes]	Attributes for controls, define array of strings or array of objects for adding multiple nodes 
+		 * @param	[type, attributes]	children	Array of attributes [type, attributes, create] for nested loop of create() function
 		 * 
-		 * @return array created nodes
+		 * @return element|[elements] created node or array of created nodes
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
@@ -86,10 +87,11 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			if( children )
 				this.append( lastNode, this.create(children[0], children[1], children[2]) );
 			
-			return created_nodes;
+			return created_nodes.length > 1 ? created_nodes : created_nodes.pop() ;
 		}; 
+
 		/** Get values of parent node controls
-		 * @param	string	parent_selector
+		 * @param	string	selector
 		 * @param	mixed	only_prefs	if not false, then take only nodes without attribute prefs="false"
 		 * @return	{id: value}	Object of node ids and values
 		 */
@@ -160,9 +162,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return this;
 		};
 		
-		/** Vreate prefset dom
+		/** Create prefset dom with menu and toggable containers with controls
 		 *
-		 * @param	string	prefset_id	Id of dom container where all containers are inserted
+		 * @param	string	prefset_selector	Id of dom wrapper where menu abd all containers are inserted
 		 * @param	object	perfset_template	Representation of container xul structure
 		 * @param	object	perfset_values	Data for pref set`s controls
 		 *
@@ -179,62 +181,90 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * 		}
 		 * 
 		 */
-		this.createPrefSet = function(prefset_id, perfset_template, perfset_values)
+		this.createPrefSet = function(prefset_selector, perfset_template, perfset_values)
 		{
-			var container_type = Object.keys(perfset_template).pop();
+			var container_type	= Object.keys(perfset_template).pop();			
 			var control_types	= perfset_template[container_type];
-			//var prefset_node	= this.node('#'+prefset_id);
-			
-			//////var prefset_menu	= this.$('menupopup', '#'+prefset_id);
-			//////var prefset_menu	= this.$('menupopup', '#'+prefset_id);
-			
-			///** prefset_menu
-			// */
-			//var prefset_menu = (function()
-			//{
-			//	self.node(prefset_id).append('menulist',null, ['menupopup'] );
-			//
-			//	return self.$('menupopup', prefset_id);
-			//})(); 
+			var containers_ids	= Object.keys(perfset_values);		
+			console.log(  'prefset_selector: ' + prefset_selector );
+			/** prefset_menu
+			 */
+			var addMenu = (function()
+			{
+				self.append( prefset_selector, self.create('menulist', null, ['menupopup']) );
+			})(); 
 
-			//console.log('UI.createPrefSet: ' +prefset_id);
-			//console.log( perfset_template );
-			//console.log( perfset_values );
-			//console.log( 'prefset_menu' );
-			//console.log( prefset_menu );			
-			
 			/** Create perfset_template
 			 *
 			 * @param	object	controls_data	Container-id: {control id-label: value}
 			 */
-			var createContainer = function(container_id, controls_data)
+			var createContainer = function(container_index, container_id, controls_data)
 			{
-				//console.log('UI.createContainer: ' +container_id);
-				//console.log( 'menuitem' );
-				//console.log( this.create('menuitem', container_id ) );				
-				
-				//prefset_menu.append( self.create('menuitem', container_id ) );
-				
+				var class_shown	= prefset_selector+'-shown';
 				var controls_labels	= Object.keys(controls_data);
-				self.node(prefset_id).append(container_type);
+				
+				/** container
+				 */
+				var container = (function()
+				{
+					var _class	= container_index===0 ? class_shown 	: '';
+					var display	= container_index===0 ? 'block'	: 'none';
+					var element	= self.create(container_type, {id: container_id, class:class_shown , style:'display:'+display});
+					
+					self.append( prefset_selector, element);
+					return element;
+				})(); 
+				
+				/** addMenuItem
+				 */
+				var addMenuItem = (function()
+				{
+					var toggle_containers= [
+						"var class_shown='"+class_shown+"'",
+						"var element_hide=document.getElementsByClassName(class_shown)[0]",
+						"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
+						
+						"if(element_hide==element_show)return", // return if clicked same element
+						
+						"element_show.classList.add(class_shown)", // show new container
+						"element_show.style.display = 'block'",
+
+						"element_hide.classList.remove(class_shown)", // hide old element
+						"element_hide.style.display = 'none'",
+					];
+					
+					var menu_item	= self.create('menuitem', {label: container_id, oncommand: toggle_containers.join(';')} );
+
+					self.append( prefset_selector + ' menupopup', menu_item );
+				})(); 
+				  
+				/** Append control to container
+				 */
+				var appendControlToContainer = function(index)
+				{
+					var control_type	= control_types[index];
+					var data	=  {'label': controls_labels[index], 'checked':controls_data[controls_labels[index]] };
+
+					self.append( '#'+container_id,  self.create(control_type, data) );
+				}; 
 				
 				for(let c=0; c<controls_labels.length;c++)
-					self.node(prefset_id).append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
-
+					appendControlToContainer(c);
 			};
 			
-			//var prefset_node	= this.node(prefset_id);
-			var containers_ids	= Object.keys(perfset_values);		
-			//console.log( containers_ids );
+			console.log( containers_ids );
 			for(let i=0; i<containers_ids.length;i++)
-				createContainer( containers_ids[i], perfset_values[containers_ids[i]] );
+				createContainer(i, containers_ids[i], perfset_values[containers_ids[i]] );
+				
+			self.$( prefset_selector + ' menulist' ).element().selectedIndex = 0;
+
 		};
 	
 		/** Test
 		 */
-		this.test = function()
+		this.test = function(string='')
 		{
-			alert('UI.test()');
+			alert('UI.test('+string+')');
 		};
 		
 	}
