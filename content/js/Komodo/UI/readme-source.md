@@ -63,11 +63,11 @@
 __createPrefSet()__  - this code creates working element below  
 ``` JavaScript  
     var template = {groupbox: ['checkbox', 'checkbox']};  
-    var values     = {'conteiner-1-A':{  
+    var values     = {'Container A':{  
                             'Control A 1': true,  
                             'Control A 2': false,  
                         },  
-                      'conteiner-1-B':{  
+                      'Container B':{  
                             'Control B 1': false,  
                             'Control B 2': true,  
                         },  

@@ -64,7 +64,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.create = function(type, attributes=null, children=null)
 		{
 			//console.log( 'UI.create()' );
-
 			/** Sanitize attributes
 			 */
 			attributes = (function()
@@ -198,7 +197,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			 *
 			 * @param	object	controls_data	Container-id: {control id-label: value}
 			 */
-			var createContainer = function(container_index, container_id, controls_data)
+			var createContainer = function(container_index, container_label, controls_data)
 			{
 				var class_shown	= prefset_selector+'-shown';
 				var controls_labels	= Object.keys(controls_data);
@@ -209,7 +208,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				{
 					var _class	= container_index===0 ? class_shown 	: '';
 					var display	= container_index===0 ? 'block'	: 'none';
-					var element	= self.create(container_type, {id: container_id, class:class_shown , style:'display:'+display});
+					var element	= self.create(container_type, { label: container_label, class:class_shown , style:'display:'+display});
+					//var element	= self.create(container_type, { id:container_label.replace(/[\s-]/gi, '_').toLowerCase(), label: container_label, class:class_shown , style:'display:'+display });					
 					
 					self.append( prefset_selector, element);
 					return element;
@@ -219,7 +219,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				 */
 				var addMenuItem = (function()
 				{
-					var toggle_containers= [
+					var toggle_containers =
+					[
 						"var class_shown='"+class_shown+"'",
 						"var element_hide=document.getElementsByClassName(class_shown)[0]",
 						"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
@@ -233,7 +234,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 						"element_hide.style.display = 'none'",
 					];
 					
-					var menu_item	= self.create('menuitem', {label: container_id, oncommand: toggle_containers.join(';')} );
+					var menu_item	= self.create('menuitem', { id: container_label+'item', label: container_label, oncommand: toggle_containers.join(';')} );
 
 					self.append( prefset_selector + ' menupopup', menu_item );
 				})(); 
@@ -243,9 +244,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				var appendControlToContainer = function(index)
 				{
 					var control_type	= control_types[index];
-					var data	=  {'label': controls_labels[index], 'checked':controls_data[controls_labels[index]] };
+					var data	= {'label': controls_labels[index], 'value':controls_data[controls_labels[index]] };
 
-					self.append( '#'+container_id,  self.create(control_type, data) );
+					self.append( '#'+container.getAttribute('id'), self.create(control_type, data) );
 				}; 
 				
 				for(let c=0; c<controls_labels.length;c++)
