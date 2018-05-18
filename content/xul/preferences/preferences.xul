@@ -70,25 +70,23 @@
 				 
 
 				<vbox id="pref_set_test" class="pref-set">
-					<menulist id="menu">
+					<menulist class="menu">
 						<menupopup>
 							<menuitem label="Items A"
 									  value="items-a"
-								oncommand="PrefsWindow().UI.node('.pref-set-container').empty().append( 'checkbox', ['Checkbox A 1', 'Checkbox A 2'] );"
+								oncommand="PrefsWindow().UI.node('#pref_set_test').append( 'checkbox', ['Checkbox A 1', 'Checkbox A 2'] );"
 							/>
 							<menuitem label="Items B"
 									  value="items-B"
-								oncommand="PrefsWindow().UI.node('.pref-set-container').empty().append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+								oncommand="PrefsWindow().UI.node('#pref_set_test').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
 							/>
 						</menupopup>
 					</menulist>
-					<box class="pref-set-container" orient="vertical">
-				
-					</box>
+
 				</vbox>
 				
 			</vbox>
-				<textbox id="" value="Lorem Ipsum"/>
+				<!--<textbox id="" value="Lorem Ipsum"/>-->
 
 			
 		</groupbox> 
@@ -98,7 +96,7 @@
 			<button
 				class="box-inherit button-menubutton-button"
 				label="Save"
-				oncommand="PrefsWindow().save()"
+				oncommand="PrefsWindow().save();"
 			/>
 		</hbox>
 

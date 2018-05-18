@@ -1,9 +1,6 @@
 /** PrefsWindow
  *
  *
- *
- *
- * 
  */
 (function()
 {
@@ -15,7 +12,15 @@
 		var pref_types	= ['String', 'Long', 'Boolean'];
 		
 		this.UI = {};
- 
+		/** 
+		 */
+		var perfset_templates =
+		{
+			pref_set_test:{
+				groupbox: ['checkbox', 'checkbox'],
+				//['textbox']
+			}
+		};
 		this.data = {
 			pref_set_test: {
 				'conteiner-A':{
@@ -28,7 +33,7 @@
 				},
 			}
 			
-		}
+		};
 		/** init
 		 */
 		this.init = function()
@@ -55,61 +60,12 @@
 		 */
 		var createPrefSetTemplates = function()
 		{
-			/** 
+			/** Iterate perfset_templates
 			 */
-			var templates =
-			{
-				pref_set_test:{
-					groupbox: ['checkbox', 'checkbox'],
-					//['textbox']
-				}
-			};
+			var pref_set_ids = Object.keys(perfset_templates);
 			
-			/** Set pref set
-			 */
-			var createPrefSet = function(prefset_id)
-			{
-				var container_type = Object.keys(templates[prefset_id]).pop();
-				var control_types	= templates[prefset_id][container_type];
-				var prefset_node	= self.UI.node('#'+prefset_id);
-				/** Create template
-				 *
-				 * @param	object	controls_data	Container-id: {control id-label: value}
-				 * @example	controls_data =
-				 * 	{
-				 *		'conteiner-A':{
-				 * 			'Control 1': true,
-				 * 			'Control 2': false,
-				 * 		}
-				 * 	}
-				 */
-				var createContainer = function(container_id, controls_data)
-				{
-					var controls_labels	= Object.keys(controls_data);
-					var container_node	= prefset_node.append(container_type);
-					//console.log('createContainer');
-					//console.log( container_id );
-					//console.log( controls_data );					
-					//console.log( controls_labels );
-					
-					for(let c=0; c<controls_labels.length;c++)
-						container_node = container_node.append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
-				};
-				var prefsets_data	= self.data[prefset_id];
-				var containers_ids	= Object.keys(prefsets_data);
-				//console.log('createPrefSet:'+prefset_id);
-				//console.log( prefsets_data );
-				//console.log( containers_ids );				
-
-				for(let i=0; i<containers_ids.length;i++)
-					createContainer( containers_ids[i], prefsets_data[containers_ids[i]] );
-			};
-			
-			/** Iterate templates
-			 */
-			var pref_set_ids = Object.keys(templates);
 			for(let i=0; i<pref_set_ids.length;i++)
-				createPrefSet(pref_set_ids[i]);
+				self.UI.createPrefSet( pref_set_ids[i], perfset_templates[pref_set_ids[i]], self.data[pref_set_ids[i]] );
 				
 		};
 		

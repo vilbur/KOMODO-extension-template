@@ -14,6 +14,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		var parent	= $(document);				
 		var values	= {};
 
+		/*---------------------------------------
+			SETUP
+		-----------------------------------------
+		*/
 		/** Set document
 		 *
 		 * @param	string	document
@@ -24,14 +28,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			document = _document;
 			return this;
 		};
-		/** Query selector in document
-		 * @param	string	selector	Selector of node
-		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
-		 */
-		this.$ = function(selector)
-		{
-			return $(selector, document);
-		};
+
 		/** Set node element 
 		 *
 		 * @param	string	parent_selector
@@ -44,6 +41,20 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
+		
+		/** Query selector in document
+		 * 
+		 * @param	string	selector	Selector of node
+		 * @param	string	selector	Selector of parent, if null, then current document is used
+		 * 
+		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
+		 */
+		this.$ = function(selector, parent=null)
+		{
+			//return $(selector, parent ? parent : document);
+			return $(selector, document);		
+		};
+
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
 		 * @return	{id: value}	Object of node ids and values
@@ -82,7 +93,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.append = function(type, attributes=null, children=null)
 		{
-			console.log( 'UI.append()' );
+			//console.log( 'UI.append()' );
 			var node_new	= null;
 			/** Sanitize attributes
 			 */
@@ -103,13 +114,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
+		
 		/** Remove child element
 		 * @param	string	selector	Selector of node
 		 * @return	self
 		 */
 		this.empty = function(selector=null)
 		{
-			console.log( 'UI.append()' );
+			//console.log( 'UI.empty()' );
 			this.node(selector);
 
 			node.empty();
@@ -117,16 +129,79 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return this;
 		};
 		
+		/** Vreate prefset dom
+		 *
+		 * @param	string	prefset_id	Id of dom container where all containers are inserted
+		 * @param	object	perfset_template	Representation of container xul structure
+		 * @param	object	perfset_values	Data for pref set`s controls
+		 *
+		 * @example
+		 *		perfset_template = {
+		 *			pref_set_test:{ groupbox: ['checkbox', 'checkbox'] }
+		 * 		}
+		 * 
+		 * 		perfset_values = {
+		 *			'conteiner-A':{
+		 * 				'Control 1': true,
+		 * 				'Control 2': false,
+		 * 			}
+		 * 		}
+		 * 
+		 */
+		this.createPrefSet = function(prefset_id, perfset_template, perfset_values)
+		{
+			var container_type = Object.keys(perfset_template).pop();
+			var control_types	= perfset_template[container_type];
+			var prefset_node	= this.node('#'+prefset_id);
+			//var prefset_menu	= $('menupopup', '#'+prefset_id);
+
+			//console.log('UI.createPrefSet: ' +prefset_id);
+			//console.log( perfset_template );
+			//console.log( perfset_values );
+			//console.log( prefset_menu );
+			
+			
+			/** Create perfset_template
+			 *
+			 * @param	object	controls_data	Container-id: {control id-label: value}
+			 */
+			var createContainer = function(container_id, controls_data)
+			{
+				//console.log('UI.createContainer: ' +container_id);
+				//console.log( controls_data );
+				
+				//menu.append('menuitem', {label: container_id});
+				
+				var controls_labels	= Object.keys(controls_data);
+				var container_node	= prefset_node.append(container_type);
+				
+				
+				for(let c=0; c<controls_labels.length;c++)
+					container_node.append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
+
+			};
+			
+			
+			
+			var containers_ids	= Object.keys(perfset_values);		
+			//console.log( containers_ids );
+			for(let i=0; i<containers_ids.length;i++)
+				createContainer( containers_ids[i], perfset_values[containers_ids[i]] );
+				
+			
+		};
+	
 		/*---------------------------------------
 			PRIVATE
 		-----------------------------------------
 		*/
+
 		/** Add controls to parent element
 		 * Adding has smart features E.G.: auto adding of id
 		 */
 		var addControlToParent = function(type, attributes)
 		{
-			console.log( 'UI.addControlToParent()' );
+			//console.log( 'UI.addControlToParent()' );
 
 			var node_new	= new ko.extensions.TemplateExtension.Komodo.Node()
 													 .type(type)													 
@@ -136,6 +211,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return node_new;
 		};
+
 		/** Get values form child nodes
 		 * @param	array	child_nodes	Element list of child nodes
 		 */
