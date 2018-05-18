@@ -66,6 +66,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
+			var created_nodes = [];
+
 			/** Sanitize attributes
 			 */
 			var sanitizeAttributes = (function()
@@ -86,13 +88,18 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 											 .get();
 			}; 
 			
-			var created_nodes = [];
 			
 			for(let a=0; a<attributes.length;a++)
-				created_nodes.push( createNode( typeof attributes[a] !== 'undefined' ? attributes[a] : null ) );
+				created_nodes.push( createNode( attributes[a] ) );
+			 
+			/** Last node
+			 */
+			var lastNode = created_nodes[created_nodes.length-1];
+			
+			if( children )
+				this.append( lastNode, this.create(children[0], children[1], children[2]) );
 			
 			return created_nodes;
-			
 		}; 
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
@@ -139,10 +146,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			for(let e=0; e<elements.length;e++)
 				parent.append( elements[e] );
-			
-			//if( children )
-				//this.node(child_node).append(children[0], children[1], children[2]);
-			
+
 			return this;
 		};
 		
