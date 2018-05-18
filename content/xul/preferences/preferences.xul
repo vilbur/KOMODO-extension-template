@@ -64,24 +64,30 @@
 					oncommand="console.log( PrefsWindow().UI.values('#TemplateExtension-prefs') );" 
 				/>
 				<button
-					label="Add controls test"
-					oncommand="PrefsWindow().UI.node('#TemplateExtension-prefs').append( 'groupbox', null, ['checkbox', ['Control 1', 'Control 2']] ).append( 'groupbox', null, ['textbox'] );"
+					label="Add checkboxes test"
+					oncommand="PrefsWindow().UI.append('#TemplateExtension-prefs', PrefsWindow().UI.create( 'checkbox', ['Control 1', 'Control 2']) );"
 				/>
-				 
-
+				<button
+					label="Add textboxes test"
+					oncommand="PrefsWindow().UI.append('#TemplateExtension-prefs', PrefsWindow().UI.create( 'groupbox', null, ['textbox', ['Textbox 1', 'Textbox 2']]) );"
+				/>
+				<button
+					label="Add groupbox test"
+					oncommand="PrefsWindow().UI.append('#TemplateExtension-prefs', PrefsWindow().UI.create( 'menulist', null, ['menupopup', null, ['menuitem', ['Item 1', 'Item 2']]] ) );"
+				/>
 				<vbox id="pref_set_test" class="pref-set">
-					<menulist class="menu">
-						<menupopup>
-							<menuitem label="Items A"
+					<!--<menulist>-->
+						<!--<menupopup >-->
+<!--							<menuitem label="Items A"
 									  value="items-a"
 								oncommand="PrefsWindow().UI.node('#pref_set_test').append( 'checkbox', ['Checkbox A 1', 'Checkbox A 2'] );"
 							/>
 							<menuitem label="Items B"
 									  value="items-B"
 								oncommand="PrefsWindow().UI.node('#pref_set_test').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
-							/>
-						</menupopup>
-					</menulist>
+							/>-->
+						<!--</menupopup>-->
+					<!--</menulist>-->
 
 				</vbox>
 				

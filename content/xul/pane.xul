@@ -45,17 +45,17 @@
 		<vbox>
 			<button
 				label="TemplateExtension.test()"
-				oncommand="ko.extensions.TemplateExtension.test();" 
+				oncommand="TemplateExtension().test();" 
 			/>
 			<button
 				label="Komodo.Pane.test()"
 				tooltiptext="TemplateExtension.Komodo.Pane.test()"
-				oncommand="ko.extensions.TemplateExtension.Komodo.Pane.test();" 
+				oncommand="TemplateExtension().Komodo.Pane.test();" 
 			/>
 			<button
 				label="Get values"
 				tooltiptext="Get values to console"
-				oncommand="console.log( ko.extensions.TemplateExtension.Komodo.Pane.UI.values('#TemplateExtension-pane') );" 
+				oncommand="console.log( TemplateExtension().Komodo.Pane.UI.values('#TemplateExtension-pane') );" 
 			/>
 			<textbox id="te_text_test" value="Lorem"/>
 		</vbox>
@@ -70,11 +70,11 @@
 					/>
 					<menuitem
 						label="Items B"
-						oncommand="ko.extensions.TemplateExtension.Komodo.Pane.UI.parent('#te_controls_box').append( 'checkbox', ['Checkbox B 1', 'Checkbox B 2'] );"
+						oncommand="TemplateExtension().Komodo.Pane.UI.append('#te_controls_box', TemplateExtension().Komodo.Pane.UI.create('checkbox', ['Checkbox B 1', 'Checkbox B 2']) );"
 					/>
 					<menuitem
 						label="Empty"
-						oncommand="ko.extensions.TemplateExtension.Komodo.Pane.UI.$( '#te_controls_box' ).empty();"
+						oncommand="TemplateExtension().Komodo.Pane.UI.$( '#te_controls_box' ).empty();"
 
 					/>
 				</menupopup>

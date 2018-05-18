@@ -12,7 +12,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		var document	= document;
 		var node	= null;
 		var parent	= $(document);				
-		var values	= {};
 
 		/*---------------------------------------
 			SETUP
@@ -29,18 +28,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return this;
 		};
 
-		/** Set node element 
-		 *
-		 * @param	node|string input	Node element or selector
-		 * @return	self 
-		 */
-		this.node = function(input)
-		{
-			node = typeof input === 'string' ? this.$(input) : input;
-
-			return this;
-		};
-		
 		/** Query selector in document
 		 * 
 		 * @param	string	selector	Selector of node
@@ -52,46 +39,48 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			//if( ! selector.match(/^[#\.]/) )
 			//	selector = '#' +selector;
-			
 			parent = parent ? this.$(parent).element() : document;
-			
-			//return $(selector, parent ? parent : document);
-			//return $(selector, document);
+
 			return $(selector, parent);
 		};
-		/** Create new node
-		 * @param	string	type	Type of node
-		 * @param	object|string	attributes	Object of attributes for element, STRING is treated as label
-		 * @return self
+		/** Create dom element or array of elements
+		 * 
+		 * @example 
+		 *		.create('checkbox', 'Checkbox 1')	// single node, attribute is label
+		 *		.create('checkbox', {label: 'Checkbox 1'})	// single node with attributes		 
+		 *		.create('checkbox', ['Checkbox 1', 'Checkbox 2'])	// multiple nodes
+		 *		.create('checkbox', [{label: 'Checkbox 1'}, {label: 'Checkbox 2'}])	// multiple nodes with attributes
+		 *
+		 *		.create('groupbox')	// node without attributes
+		 *		.create('groupbox', {id: 'gp_id'})	// node with attributes
+		 *		.create('groupbox', null, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with children
+		 *		.create('groupbox', {id: 'gp_id'}, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with attributes and children
+		 *
+		 * @param	string	type	Type of node to append
+		 * @param	null|string|object|[object] 	[attributes]	Attributes for controls, define array of strings or array of objects for adding multiple nodes* 
+		 * @param	[type, attributes]	children	Array of these parameters for repeating append() function
+		 * 
+		 * @return array created nodes
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
-			var created_nodes = [];
+			//console.log( 'UI.create()' );
 
 			/** Sanitize attributes
 			 */
-			var sanitizeAttributes = (function()
+			attributes = (function()
 			{
-				if( ! attributes )
-					attributes = {};
-				
-				if( ! Array.isArray(attributes) )
-					attributes = [attributes];				
+				return ! attributes ? [{}] : ( ! Array.isArray(attributes) ? [attributes] : attributes );				
 			})();
-			/** 
-			 */
-			var createNode = function(node_attributes)
+
+			var created_nodes = attributes.map(function(node_attributes)
 			{
 				return new ko.extensions.TemplateExtension.Komodo.Node()
 											 .type(type)													 
 											 .attributes(node_attributes)
 											 .get();
-			}; 
-			
-			
-			for(let a=0; a<attributes.length;a++)
-				created_nodes.push( createNode( attributes[a] ) );
-			 
+			});
+			//console.log( created_nodes );
 			/** Last node
 			 */
 			var lastNode = created_nodes[created_nodes.length-1];
@@ -105,40 +94,41 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * @param	string	parent_selector
 		 * @return	{id: value}	Object of node ids and values
 		 */
-		this.values = function(selector=null)
+		this.values = function(selector, parent=null)
 		{
-			this.node(selector);
-			//alert('UI.values()');
-			//console.log(  document );
-			values	= {};
+			var values	= {};
 
-			setValuesFormChildNodes( $(parent_selector, document).children() );
+			/** Get values form child nodes
+			 * @param	array	child_nodes	Element list of child nodes
+			 */
+			var setValuesFormChildNodes = function(child_nodes)
+			{
+				child_nodes.each(function()
+				{
+					if( ! Object.keys(this.childNodes).length ){
+						if( this.id )
+							values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;					
+					}else
+						setValuesFormChildNodes( $(this.childNodes) );
+				});
+			}; 
+
+			setValuesFormChildNodes( this.$(selector, parent).children() );
 			
 			return values;
 		};
 
-		/** Append new nodes to node
-		 *  If children are defined, then parent node became this.node
+		/** Append new children to node
 		 *
-		 * @example 
-		 *		.append('checkbox', 'Checkbox 1')	// single node, attribute is label
-		 *		.append('checkbox', {label: 'Checkbox 1'})	// single node with attributes		 
-		 *		.append('checkbox', ['Checkbox 1', 'Checkbox 2'])	// multiple nodes
-		 *		.append('checkbox', [{label: 'Checkbox 1'}, {label: 'Checkbox 2'}])	// multiple nodes with attributes
-		 *
-		 *		.append('groupbox')	// append node without attributes
-		 *		.append('groupbox', {id: 'gp_id'})	// parent node with attributes
-		 *		.append('groupbox', null, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// parent node with children
-		 *		.append('groupbox', {id: 'gp_id'}, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// parent node with attributes and children
-		 *
-		 * @param	string	type	Type of node to append
-		 * @param	null|string|object|[object] 	[attributes]	Attributes for controls, define array of strings or array of objects for adding multiple nodes* 
-		 * @param	[type, attributes]	children	Array of these parameters for repeating append() function
-		 *
+		 * @param	node|string 	parent	Node element or selector of parent to append children
+		 * @param	element|array	elements	Element to append
+		 * 
 		 * @return	self 
 		 */
 		this.append = function( parent, elements )
 		{
+			//console.log( 'UI.append()' );
+			//console.log( elements );
 			parent = this.$(parent);
 			
 			if( ! Array.isArray(elements) )
@@ -156,10 +146,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.empty = function(selector=null)
 		{
-			//console.log( 'UI.empty()' );
-			this.node(selector);
-
-			node.empty();
+			this.$(selector, parent).empty();
 			
 			return this;
 		};
@@ -222,8 +209,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				var controls_labels	= Object.keys(controls_data);
 				self.node(prefset_id).append(container_type);
 				
-				
-				
 				//for(let c=0; c<controls_labels.length;c++)
 					//self.node(prefset_id).append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
 
@@ -236,27 +221,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				createContainer( containers_ids[i], perfset_values[containers_ids[i]] );
 		};
 	
-		/*---------------------------------------
-			PRIVATE
-		-----------------------------------------
-		*/
-		/** Get values form child nodes
-		 * @param	array	child_nodes	Element list of child nodes
-		 */
-		var setValuesFormChildNodes = function(child_nodes)
-		{
-			//console.log( child_nodes );
-			//Logger.info(child_nodes, 'UI: '+'child_nodes'); 
-			
-			child_nodes.each(function()
-			{
-				if( ! Object.keys(this.childNodes).length ){
-					if( this.id )
-						values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;					
-				}else
-					setValuesFormChildNodes( $(this.childNodes) );
-			});
-		}; 
 		/** Test
 		 */
 		this.test = function()
