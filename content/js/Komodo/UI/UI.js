@@ -51,8 +51,11 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.$ = function(selector, parent=null)
 		{
+			parent = parent ? $(parent, document).element() : document;
+			
 			//return $(selector, parent ? parent : document);
-			return $(selector, document);		
+			//return $(selector, document);
+			return $(selector, parent);				
 		};
 		/** Create new node
 		 * @param	string	type	Type of node
@@ -104,7 +107,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.append = function(type, attributes=null, children=null)
 		{
-			//console.log( 'UI.append()' );
 			var child_node	= null;
 			/** Sanitize attributes
 			 */
@@ -117,7 +119,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					attributes = [attributes];				
 			})();
 			/** Add controls to parent element
-			 * Adding has smart features E.G.: auto adding of id
 			 */
 			var appendChild = function(type, attributes)
 			{	
@@ -173,12 +174,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var container_type = Object.keys(perfset_template).pop();
 			var control_types	= perfset_template[container_type];
 			var prefset_node	= this.node('#'+prefset_id);
-			//var prefset_menu	= $('menupopup', '#'+prefset_id);
+			var prefset_menu	= this.$('menupopup', '#'+prefset_id);
 
 			//console.log('UI.createPrefSet: ' +prefset_id);
 			//console.log( perfset_template );
 			//console.log( perfset_values );
-			//console.log( prefset_menu );
+			//console.log( 'prefset_menu' );
+			//console.log( prefset_menu );			
 			
 			/** Create perfset_template
 			 *
@@ -187,35 +189,29 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var createContainer = function(container_id, controls_data)
 			{
 				//console.log('UI.createContainer: ' +container_id);
-				//console.log( controls_data );
+				//console.log( 'menuitem' );
+				//console.log( this.create('menuitem', container_id ) );				
 				
-				//menu.append('menuitem', {label: container_id});
+				prefset_menu.append( self.create('menuitem', container_id ) );
 				
 				var controls_labels	= Object.keys(controls_data);
 				var container_node	= prefset_node.append(container_type);
-				
 				
 				for(let c=0; c<controls_labels.length;c++)
 					container_node.append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
 
 			};
 			
-			
-			
 			var containers_ids	= Object.keys(perfset_values);		
 			//console.log( containers_ids );
 			for(let i=0; i<containers_ids.length;i++)
 				createContainer( containers_ids[i], perfset_values[containers_ids[i]] );
-				
-			
 		};
 	
 		/*---------------------------------------
 			PRIVATE
 		-----------------------------------------
 		*/
-
-
 		/** Get values form child nodes
 		 * @param	array	child_nodes	Element list of child nodes
 		 */
