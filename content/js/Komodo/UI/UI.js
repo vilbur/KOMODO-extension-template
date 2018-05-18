@@ -9,9 +9,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		//var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		var self	= this;
 		var $	= require('ko/dom');
-		var document	= document;
-		var node	= null;
-		var parent	= $(document);				
+		var document	= document;		
 
 		/*---------------------------------------
 			SETUP
@@ -78,7 +76,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				return new ko.extensions.TemplateExtension.Komodo.Node()
 											 .type(type)													 
 											 .attributes(node_attributes)
-											 .get();
+				 							 .get();
 			});
 			//console.log( created_nodes );
 			/** Last node
@@ -92,9 +90,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		}; 
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
+		 * @param	mixed	only_prefs	if not false, then take only nodes without attribute prefs="false"
 		 * @return	{id: value}	Object of node ids and values
 		 */
-		this.values = function(selector, parent=null)
+		this.values = function(selector, only_prefs=false)
 		{
 			var values	= {};
 
@@ -103,17 +102,27 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			 */
 			var setValuesFormChildNodes = function(child_nodes)
 			{
+				/** Test if getting only preferences,
+				 * 		if so, then if control has not attribute prefs="false"
+				 */
+				var preference = function(element)
+				{
+					return only_prefs===false || element.getAttribute('prefs')!=='false';
+				}; 
+				
 				child_nodes.each(function()
 				{
 					if( ! Object.keys(this.childNodes).length ){
-						if( this.id )
-							values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;					
+						//console.log(  this.id +':'+ preference(this) );
+						if( this.id && preference(this) )
+							values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;
+							
 					}else
 						setValuesFormChildNodes( $(this.childNodes) );
 				});
 			}; 
 
-			setValuesFormChildNodes( this.$(selector, parent).children() );
+			setValuesFormChildNodes( this.$(selector).children() );
 			
 			return values;
 		};
@@ -204,7 +213,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				//console.log( 'menuitem' );
 				//console.log( this.create('menuitem', container_id ) );				
 				
-				//prefset_menu.append( self.create('menuitem', container_id ) );
+				prefset_menu.append( self.create('menuitem', container_id ) );
 				
 				var controls_labels	= Object.keys(controls_data);
 				self.node(prefset_id).append(container_type);
