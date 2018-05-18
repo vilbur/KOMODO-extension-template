@@ -208,7 +208,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				{
 					var _class	= container_index===0 ? class_shown 	: '';
 					var display	= container_index===0 ? 'block'	: 'none';
-					var element	= self.create(container_type, { label: container_label, class:class_shown , style:'display:'+display});
+					var element	= self.create(container_type, { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
 					//var element	= self.create(container_type, { id:container_label.replace(/[\s-]/gi, '_').toLowerCase(), label: container_label, class:class_shown , style:'display:'+display });					
 					
 					self.append( prefset_selector, element);
@@ -234,7 +234,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 						"element_hide.style.display = 'none'",
 					];
 					
-					var menu_item	= self.create('menuitem', { id: container_label+'item', label: container_label, oncommand: toggle_containers.join(';')} );
+					var menu_item	= self.create('menuitem', { 'id': container_label+'item', 'label': container_label, 'oncommand': toggle_containers.join(';')} );
 
 					self.append( prefset_selector + ' menupopup', menu_item );
 				})(); 
@@ -244,9 +244,28 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				var appendControlToContainer = function(index)
 				{
 					var control_type	= control_types[index];
-					var data	= {'label': controls_labels[index], 'value':controls_data[controls_labels[index]] };
-
-					self.append( '#'+container.getAttribute('id'), self.create(control_type, data) );
+					var control_data	= {'label': controls_labels[index], 'value':controls_data[controls_labels[index]] };
+					var control	= self.create(control_type, control_data);
+					
+					/** Add label if not checkbox 
+					 */
+					var label = (function()
+					{
+						if( control_type==='checkbox' )
+							return;
+						
+						var hbox_label = self.create( 'hbox', null,[ 'label', {'value': controls_labels[index], 'control': control.getAttribute('id')} ] );
+									 
+						self.append( '#'+container.getAttribute('id'), hbox_label );
+						
+						return hbox_label;
+					})(); 
+					
+					var parent	= label ? label : self.$('#'+container.getAttribute('id'));
+					
+					self.$(parent).append( control );
+					
+					//self.append( '#'+container.getAttribute('id'), control );					
 				}; 
 				
 				for(let c=0; c<controls_labels.length;c++)

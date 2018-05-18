@@ -62,15 +62,16 @@
 # Examples  
 __createPrefSet()__  - this code creates working element below  
 ``` JavaScript  
-    var template = {groupbox: ['checkbox', 'checkbox']};  
-    var values     = {'Container A':{  
-                            'Control A 1': true,  
-                            'Control A 2': false,  
+	var template = {groupbox: ['checkbox', 'textbox']};  
+    var values   = {  
+                        'Container A':{  
+                            'Control A':    false,  
+                            'Enter Text':   'Foo Text',  
                         },  
-                      'Container B':{  
-                            'Control B 1': false,  
-                            'Control B 2': true,  
-                        },  
+                        'Container B':{  
+                            'Control B':    true,  
+                            'Enter Text':   '',  
+                        }  
                     };  
 
 	paneUI().createPrefSet('#pref_set_test', template, values );  
