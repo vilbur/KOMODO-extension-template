@@ -31,14 +31,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 		/** Set node element 
 		 *
-		 * @param	string	parent_selector
+		 * @param	node|string input	Node element or selector
 		 * @return	self 
 		 */
-		this.node = function(selector)
+		this.node = function(input)
 		{
-			if( selector )
-				node = $(selector, document);
-			
+			node = typeof input === 'string' ? this.$(input) : input;
+
 			return this;
 		};
 		
@@ -51,23 +50,49 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.$ = function(selector, parent=null)
 		{
-			parent = parent ? $(parent, document).element() : document;
+			//if( ! selector.match(/^[#\.]/) )
+			//	selector = '#' +selector;
+			
+			parent = parent ? this.$(parent).element() : document;
 			
 			//return $(selector, parent ? parent : document);
 			//return $(selector, document);
-			return $(selector, parent);				
+			return $(selector, parent);
 		};
 		/** Create new node
 		 * @param	string	type	Type of node
 		 * @param	object|string	attributes	Object of attributes for element, STRING is treated as label
 		 * @return self
 		 */
-		this.create = function(type, attributes)
+		this.create = function(type, attributes=null, children=null)
 		{
-			return new ko.extensions.TemplateExtension.Komodo.Node()
-										 .type(type)													 
-										 .attributes(attributes)
-										 .get();
+			/** Sanitize attributes
+			 */
+			var sanitizeAttributes = (function()
+			{
+				if( ! attributes )
+					attributes = {};
+				
+				if( ! Array.isArray(attributes) )
+					attributes = [attributes];				
+			})();
+			/** 
+			 */
+			var createNode = function(node_attributes)
+			{
+				return new ko.extensions.TemplateExtension.Komodo.Node()
+											 .type(type)													 
+											 .attributes(node_attributes)
+											 .get();
+			}; 
+			
+			var created_nodes = [];
+			
+			for(let a=0; a<attributes.length;a++)
+				created_nodes.push( createNode( typeof attributes[a] !== 'undefined' ? attributes[a] : null ) );
+			
+			return created_nodes;
+			
 		}; 
 		/** Get values of parent node controls
 		 * @param	string	parent_selector
@@ -105,33 +130,18 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 *
 		 * @return	self 
 		 */
-		this.append = function(type, attributes=null, children=null)
+		this.append = function( parent, elements )
 		{
-			var child_node	= null;
-			/** Sanitize attributes
-			 */
-			var sanitizeAttributes = (function()
-			{
-				if( ! attributes )
-					attributes = {};
-				
-				if( ! Array.isArray(attributes) )
-					attributes = [attributes];				
-			})();
-			/** Add controls to parent element
-			 */
-			var appendChild = function(type, attributes)
-			{	
-				child_node	= self.create(type, attributes);
-
-				node.append( child_node );
-			};
+			parent = this.$(parent);
 			
-			for(let a=0; a<attributes.length;a++)
-				appendChild(type, typeof attributes[a] !== 'undefined' ? attributes[a] : null );
+			if( ! Array.isArray(elements) )
+				elements = [elements];	
 			
-			if( children )
-				this.node(child_node).append(children[0], children[1], children[2]);
+			for(let e=0; e<elements.length;e++)
+				parent.append( elements[e] );
+			
+			//if( children )
+				//this.node(child_node).append(children[0], children[1], children[2]);
 			
 			return this;
 		};
@@ -173,8 +183,19 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			var container_type = Object.keys(perfset_template).pop();
 			var control_types	= perfset_template[container_type];
-			var prefset_node	= this.node('#'+prefset_id);
-			var prefset_menu	= this.$('menupopup', '#'+prefset_id);
+			//var prefset_node	= this.node('#'+prefset_id);
+			
+			//////var prefset_menu	= this.$('menupopup', '#'+prefset_id);
+			//////var prefset_menu	= this.$('menupopup', '#'+prefset_id);
+			
+			///** prefset_menu
+			// */
+			//var prefset_menu = (function()
+			//{
+			//	self.node(prefset_id).append('menulist',null, ['menupopup'] );
+			//
+			//	return self.$('menupopup', prefset_id);
+			//})(); 
 
 			//console.log('UI.createPrefSet: ' +prefset_id);
 			//console.log( perfset_template );
@@ -192,16 +213,19 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				//console.log( 'menuitem' );
 				//console.log( this.create('menuitem', container_id ) );				
 				
-				prefset_menu.append( self.create('menuitem', container_id ) );
+				//prefset_menu.append( self.create('menuitem', container_id ) );
 				
 				var controls_labels	= Object.keys(controls_data);
-				var container_node	= prefset_node.append(container_type);
+				self.node(prefset_id).append(container_type);
 				
-				for(let c=0; c<controls_labels.length;c++)
-					container_node.append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
+				
+				
+				//for(let c=0; c<controls_labels.length;c++)
+					//self.node(prefset_id).append(control_types[c], {'label': controls_labels[c], 'checked':controls_data[controls_labels[c]] });
 
 			};
 			
+			//var prefset_node	= this.node(prefset_id);
 			var containers_ids	= Object.keys(perfset_values);		
 			//console.log( containers_ids );
 			for(let i=0; i<containers_ids.length;i++)
