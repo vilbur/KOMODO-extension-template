@@ -102,7 +102,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.values = function(selector, only_prefs=false)
 		{
-			//console.log(  'UI.values(): ' + selector );
+			console.log(  'UI.values(): ' + selector );
 			var values	= {};
 
 			/** Get values form child nodes
@@ -137,7 +137,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			}; 
 
 			getValuesFormChildNodes( this.$(selector).children() );
-			
+			//console.log( values );
 			return values;
 		};
 

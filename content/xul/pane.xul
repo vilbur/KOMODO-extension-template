@@ -43,24 +43,6 @@
 
 	<hbox>
 		<vbox>
-			<button
-				label="TemplateExtension.test()"
-				oncommand="TemplateExtension().test();" 
-			/>
-			<button
-				label="Komodo.Pane.test()"
-				tooltiptext="TemplateExtension.Komodo.Pane.test()"
-				oncommand="TemplateExtension().Komodo.Pane.test();" 
-			/>
-			<button
-				label="Get values"
-				tooltiptext="Get values to console"
-				oncommand="console.log( TemplateExtension().Komodo.Pane.UI.values('#TemplateExtension-pane') );" 
-			/>
-			<textbox id="te_text_test" value="Lorem"/>
-		</vbox>
-		
-		<vbox>
 			<button type="menu"
 					label="&menu.label;"
 					class="pane-text">

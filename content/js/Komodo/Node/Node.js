@@ -50,14 +50,25 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 			if( type=='checkbox' && attribute=='value' )
 				attribute = 'checked';
 			
-			
-			node.setAttribute( attribute, value );
+			if( attribute=='tooltip' )
+				attribute = 'tooltiptext';
 
+			node.setAttribute( attribute, value );
 		}; 
 		/** Set default Id by sanitized label if not id defined
 		 */
 		var setDefaultId = function()
 		{
+			/** Is auto id control
+			 */
+			var isAutoIdControl = function()
+			{
+				return ['button'].indexOf( node.nodeName ) === -1;
+			}; 
+			
+			if( ! isAutoIdControl() )
+				return; 
+			
 			/** Get Label
 			 */
 			var sanitizeId = function(id)
