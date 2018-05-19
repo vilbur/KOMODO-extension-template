@@ -80,7 +80,9 @@
 			</button>
 			
 		</vbox>
-
+<!--		<vbox id="te_controls_box">
+			
+		</vbox>-->
 		<!--<button label="Change" oncommand="ko.extensions.TemplateExtension.Komodo.Pane.toggleCheckbox('te_cbx_text')"/>-->
 		<!--<checkbox id="te_cbx_text" label="Check for messages"/>-->
 

@@ -78,7 +78,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 											 .attributes(node_attributes)
 				 							 .get();
 			});
-			//console.log( created_nodes );
+			console.log( 'created_nodes' );
+			console.log( created_nodes[0] );			
 			/** Last node
 			 */
 			var lastNode = created_nodes[created_nodes.length-1];
@@ -141,12 +142,38 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			//console.log( elements );
 			parent = this.$(parent);
 			
+			/** Parent id exists
+			 */
+			var parentIdExists = function()
+			{
+				if( typeof parent.element()!=='undefined' )
+					return true;
+				
+				alert( 'UI.append()\nPARENT DOES NOT EXISTS: '+parent.element().getAttribute('id') );
+				return false;
+			}; 
+			
+			/** Id not exists
+			 */
+			var childIdExists = function(id)
+			{							
+				if( typeof  self.$('#'+id).element()!=='undefined' )
+					return true;
+				
+				alert( 'UI.append()\nCHILD ID ALREADY EXISTS: '+id );
+				return false;
+			};
+			
+			if( ! parentIdExists() )
+				return;
+			
 			if( ! Array.isArray(elements) )
 				elements = [elements];	
 			
 			for(let e=0; e<elements.length;e++)
-				parent.append( elements[e] );
-
+				if( ! childIdExists(elements[e].getAttribute('id') ) )
+					parent.append( elements[e] );
+			
 			return this;
 		};
 		
@@ -188,10 +215,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			console.log(  'prefset_selector: ' + prefset_selector );
 			/** prefset_menu
 			 */
-			var addMenu = (function()
-			{
-				self.append( prefset_selector, self.create('menulist', null, ['menupopup']) );
-			})(); 
+// 			var addMenu = (function()
+//			{
+//				self.append( prefset_selector, self.create('menulist', null, ['menupopup']) );
+//			})();
 
 			/** Create perfset_template
 			 *
@@ -201,43 +228,44 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			{
 				var class_shown	= prefset_selector+'-shown';
 				var controls_labels	= Object.keys(controls_data);
-				
+				console.log(  'PREFSET_SELECTOR: ' + prefset_selector );
 				/** container
 				 */
 				var container = (function()
 				{
-					var _class	= container_index===0 ? class_shown 	: '';
-					var display	= container_index===0 ? 'block'	: 'none';
-					var element	= self.create(container_type, { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
-					//var element	= self.create(container_type, { id:container_label.replace(/[\s-]/gi, '_').toLowerCase(), label: container_label, class:class_shown , style:'display:'+display });					
+					//var _class	= container_index===0 ? class_shown 	: '';
+					//var display	= container_index===0 ? 'block'	: 'none';
+					//var element	= self.create(container_type, { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
+					var element	= self.create(container_type, { 'label': container_label});					
+					console.log(  'container_label: ' + container_label );
 					
 					self.append( prefset_selector, element);
 					return element;
 				})(); 
 				
-				/** addMenuItem
-				 */
-				var addMenuItem = (function()
-				{
-					var toggle_containers =
-					[
-						"var class_shown='"+class_shown+"'",
-						"var element_hide=document.getElementsByClassName(class_shown)[0]",
-						"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
-						
-						"if(element_hide==element_show)return", // return if clicked same element
-						
-						"element_show.classList.add(class_shown)", // show new container
-						"element_show.style.display = 'block'",
-
-						"element_hide.classList.remove(class_shown)", // hide old element
-						"element_hide.style.display = 'none'",
-					];
-					
-					var menu_item	= self.create('menuitem', { 'id': container_label+'item', 'label': container_label, 'oncommand': toggle_containers.join(';')} );
-
-					self.append( prefset_selector + ' menupopup', menu_item );
-				})(); 
+				///** addMenuItem
+				// */
+				//var addMenuItem = (function()
+				//{
+				//	var toggle_containers =
+				//	[
+				//		"var class_shown='"+class_shown+"'",
+				//		"var element_hide=document.getElementsByClassName(class_shown)[0]",
+				//		"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
+				//		
+				//		"if(element_hide==element_show)return", // return if clicked same element
+				//		
+				//		"element_show.classList.add(class_shown)", // show new container
+				//		"element_show.style.display = 'block'",
+				//
+				//		"element_hide.classList.remove(class_shown)", // hide old element
+				//		"element_hide.style.display = 'none'",
+				//	];
+				//	
+				//	var menu_item	= self.create('menuitem', { 'id': container_label+'item', 'label': container_label, 'oncommand': toggle_containers.join(';')} );
+				//
+				//	self.append( prefset_selector + ' menupopup', menu_item );
+				//})(); 
 				  
 				/** Append control to container
 				 */
@@ -246,26 +274,27 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					var control_type	= control_types[index];
 					var control_data	= {'label': controls_labels[index], 'value':controls_data[controls_labels[index]] };
 					var control	= self.create(control_type, control_data);
+					console.log('control');
+					console.log( control );
+					///** Add label if not checkbox 
+					// */
+					//var label = (function()
+					//{
+					//	if( control_type==='checkbox' )
+					//		return;
+					//	
+					//	var hbox_label = self.create( 'hbox', null,[ 'label', {'value': controls_labels[index], 'control': control.getAttribute('id')} ] );
+					//				 
+					//	self.append( '#'+container.getAttribute('id'), hbox_label );
+					//	
+					//	return hbox_label;
+					//})(); 
+					//
+					//var parent	= label ? label : self.$('#'+container.getAttribute('id'));
+					//
+					//self.$(parent).append( control );
 					
-					/** Add label if not checkbox 
-					 */
-					var label = (function()
-					{
-						if( control_type==='checkbox' )
-							return;
-						
-						var hbox_label = self.create( 'hbox', null,[ 'label', {'value': controls_labels[index], 'control': control.getAttribute('id')} ] );
-									 
-						self.append( '#'+container.getAttribute('id'), hbox_label );
-						
-						return hbox_label;
-					})(); 
-					
-					var parent	= label ? label : self.$('#'+container.getAttribute('id'));
-					
-					self.$(parent).append( control );
-					
-					//self.append( '#'+container.getAttribute('id'), control );					
+					self.append( '#'+container.getAttribute('id'), control );					
 				}; 
 				
 				for(let c=0; c<controls_labels.length;c++)
@@ -276,7 +305,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			for(let i=0; i<containers_ids.length;i++)
 				createContainer(i, containers_ids[i], perfset_values[containers_ids[i]] );
 				
-			self.$( prefset_selector + ' menulist' ).element().selectedIndex = 0;
+			//self.$( prefset_selector + ' menulist' ).element().selectedIndex = 0;
 
 		};
 	

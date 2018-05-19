@@ -36,7 +36,8 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 			
 			for(var attribute in attributes)
 				if (attributes.hasOwnProperty(attribute))
-					setAttribute( attribute, attributes[attribute] );
+					setAttribute( attribute, attributes[attribute] );					
+					//node.setAttribute( attribute, attributes[attribute] );
 		
 			setDefaultId();
 
@@ -61,7 +62,7 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 			 */
 			var sanitizeId = function(id)
 			{
-				return id.replace(/[^a-z0-9]/gi, '').replace(/\s+/gi, ' ').replace(/[\s-]+/gi, '_').trim().toLowerCase();
+				return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, ' ').replace(/[\s-]+/gi, '_').trim().toLowerCase();
 			};
 
 			var id	= node.hasAttribute('id') ?  node.getAttribute('id') :  node.getAttribute('label');
