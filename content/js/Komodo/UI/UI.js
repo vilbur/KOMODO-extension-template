@@ -42,6 +42,16 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 			return $(selector, parent);
 		};
+		/** jquery
+		 */
+		this.jquery = function()
+		{
+			//return $;
+			return  $.create('button',	{label:	'UITest()', oncommand: 'UITest().test()'});
+			//return $.create("groupbox", {id: "xemmet-main"},
+			//					$.create('caption', {label: 'caption'})
+			//				);
+		}; 
 		/** Exists
 		 */
 		this.exists = function(selector, parent=null)
@@ -69,7 +79,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
-			//console.log( 'UI.create()' );
+			console.log('---------------'); 
 			/** Sanitize attributes
 			 */
 			attributes = (function()
@@ -79,6 +89,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 			var created_nodes = attributes.map(function(node_attributes)
 			{
+				console.log(  'created_nodes: ' + type +' '+node_attributes.id );
 				return new ko.extensions.TemplateExtension.Komodo.Node()
 											 .type(type)													 
 											 .attributes(node_attributes)
@@ -90,9 +101,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var lastNode = created_nodes[created_nodes.length-1];
 			
 			if( children )
-				this.append( lastNode, this.create(children[0], children[1], children[2]) );
+				lastNode.appendChild ( this.create(children[0], children[1], children[2]) );
 			
-			return created_nodes.length > 1 ? created_nodes : created_nodes.pop() ;
+			return created_nodes.length > 1 ? created_nodes : lastNode ;
 		}; 
 
 		/** Get values of parent node controls
@@ -188,8 +199,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				elements = [elements];	
 			
 			for(let e=0; e<elements.length;e++)
-				//if( ! childIdExists(elements[e].getAttribute('id') ) )
-					parent.append( elements[e] );
+				parent.element().appendChild( elements[e] );				
 			
 			return this;
 		};

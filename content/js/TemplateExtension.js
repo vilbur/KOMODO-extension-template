@@ -1,19 +1,5 @@
 /** TemplateExtension
  */
-/** Setup namespaces
- */
-//var setupNamespaces = (function()
-//{
-//	if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-//		ko.extensions.TemplateExtension = {};
-//		
-//	//if( typeof ko.extensions.TemplateExtension.Komodo === 'undefined'  )
-//	ko.extensions.TemplateExtension.Pane = {};
-//		
-//})(); 
-
-
-//var TemplateExtension = (function()
 (function()
 {
 	function TemplateExtension()
@@ -74,4 +60,3 @@ function TemplateExtension()
 {
 	return ko.extensions.TemplateExtension;
 }
-

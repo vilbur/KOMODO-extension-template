@@ -47,13 +47,20 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 		 */
 		var setAttribute = function(attribute, value)
 		{
-			if( type=='checkbox' && attribute=='value' )
-				attribute = 'checked';
+			/** Sanitize attribute
+			 */
+			var sanitized_attribute = (function()
+			{
+				if( type=='checkbox' && attribute=='value' )
+					attribute = 'checked';
+				
+				if( attribute=='tooltip' )
+					attribute = 'tooltiptext';
+					
+				return attribute;
+			})(); 
 			
-			if( attribute=='tooltip' )
-				attribute = 'tooltiptext';
-
-			node.setAttribute( attribute, value );
+			node.setAttribute( sanitized_attribute, value );
 		}; 
 		/** Set default Id by sanitized label if not id defined
 		 */
@@ -69,11 +76,11 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 			if( ! isAutoIdControl() )
 				return; 
 			
-			/** Get Label
+			/** Get sanitized id
 			 */
 			var sanitizeId = function(id)
 			{
-				return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, ' ').replace(/[\s-]+/gi, '_').trim().toLowerCase();
+				return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, '_').trim().toLowerCase();
 			};
 
 			var id	= node.hasAttribute('id') ?  node.getAttribute('id') :  node.getAttribute('label');
@@ -98,3 +105,5 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 	return Node;
 
 })();
+
+

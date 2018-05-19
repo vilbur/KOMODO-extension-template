@@ -41,27 +41,10 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Node/Node.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
-	<hbox>
-		<vbox>
-			<button type="menu"
-					label="&menu.label;"
-					class="pane-text">
-				<menupopup>
-					<menuitem
-						label="Items A"
-					/>
-					<menuitem
-						label="Items B"
-						oncommand="TemplateExtension().Komodo.Pane.UI.append('#te_controls_box', TemplateExtension().Komodo.Pane.UI.create('checkbox', ['Checkbox B 1', 'Checkbox B 2']) );"
-					/>
-					<menuitem
-						label="Empty"
-						oncommand="TemplateExtension().Komodo.Pane.UI.$( '#te_controls_box' ).empty();"
-					/>
-				</menupopup>
-			</button>
-			
-		</vbox>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
+
+	<!--<hbox>-->
+
 <!--		<vbox id="te_controls_box">
 			
 		</vbox>-->
@@ -70,6 +53,6 @@
 
 
 		
-	</hbox>
+	<!--</hbox>-->
 	
 </page>
