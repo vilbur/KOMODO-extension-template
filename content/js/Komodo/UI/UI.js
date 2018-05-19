@@ -84,8 +84,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 											 .attributes(node_attributes)
 				 							 .get();
 			});
-			//console.log( 'created_nodes' );
-			//console.log( created_nodes[0] );			
+
 			/** Last node
 			 */
 			var lastNode = created_nodes[created_nodes.length-1];
@@ -109,30 +108,35 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			/** Get values form child nodes
 			 * @param	array	child_nodes	Element list of child nodes
 			 */
-			var setValuesFormChildNodes = function(child_nodes)
+			var getValuesFormChildNodes = function(child_nodes)
 			{
-				//console.log( child_nodes );
-				/** Test if getting only preferences,
-				 * 		if so, then if control has not attribute prefs="false"
-				 */
-				var preference = function(element)
-				{
-					return only_prefs===false || element.getAttribute('prefs')!=='false';
-				}; 
-				
 				child_nodes.each(function()
 				{
+					//console.log( child_nodes );
+					/** Test if getting only preferences,
+					 * 		if so, then if control has not attribute prefs="false"
+					 */
+					var preferenceTest = function(element)
+					{
+						return only_prefs===false || element.getAttribute('prefs')!=='false';
+					}; 
+					/** Set value
+					 */
+					function isControlNode(node)
+					{
+						return ['checkbox','textbox','radio'].indexOf( node.nodeName ) > -1;
+					}
+					
 					if( ! Object.keys(this.childNodes).length ){
-						//console.log(  this.id +':'+ preference(this) );
-						if( this.id && preference(this) )
+						if( this.id && isControlNode(this) && preferenceTest(this) )
 							values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;
-							
+
 					}else
-						setValuesFormChildNodes( $(this.childNodes) );
+						getValuesFormChildNodes( $(this.childNodes) );
 				});
 			}; 
-			//console.log( this.$(selector) );
-			setValuesFormChildNodes( this.$(selector).children() );
+
+			getValuesFormChildNodes( this.$(selector).children() );
 			
 			return values;
 		};
@@ -317,9 +321,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			//console.log( containers_ids );
 			for(let i=0; i<containers_ids.length;i++)
 				createContainer(i, containers_ids[i], perfset_values[containers_ids[i]] );
-				
+			
+			/* SELECT MENU ITEM */
 			self.$( prefset_selector + ' menulist' ).element().selectedIndex = 0;
-
 		};
 	
 		/** Test
