@@ -264,8 +264,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				{
 					var _class	= container_index===0 ? class_shown 	: '';
 					var display	= container_index===0 ? 'block'	: 'none';
-					var element	= self.create('groupbox', { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
-					
+					var element  = self.create('groupbox', { 'id': container_label, 'class':class_shown , 'style':'display:'+display}); 
+
 					self.$( '#'+element.getAttribute('id') ).delete(); // delete container if exists
 					
 					self.append( prefset_selector, element);
@@ -337,6 +337,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			/* SELECT MENU ITEM */
 			self.$( prefset_selector + ' menulist' ).element().selectedIndex = 0;
+			
+			//console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 	
 		/** Test

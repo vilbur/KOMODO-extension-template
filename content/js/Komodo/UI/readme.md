@@ -8,4 +8,7 @@
                             'Enter Text':   '',  
                         }  
                     };  
-    paneUI().createPrefSet('#pref_set_test', template, values );  ```  __prefset element__  ![prefset](Test/prefset.gif)    
+    paneUI().createPrefSet('#pref_set_test', template, values );  ```  __Generated prefset element__  
+``` xml
+<vbox id="ui_test_prefset" style="padding:5px">		<caption label="Prefset test" id="prefset_test" />		<menulist id="" sizetopopup="pref" label="Container A">		<menupopup id="">			<menuitem id="container_aitem" label="Container A" selected="true" />			<menuitem id="container_bitem" label="Container B" />		</menupopup>	</menulist>		<groupbox id="container_a" class="#ui_test_prefset-shown" style="display:block">		<checkbox label="Control A" checked="false" id="control_a" />		<hbox id="">			<label value="Enter Text A" control="enter_text_a" id="" />		</hbox>		<textbox label="Enter Text A" value="Foo Text A" id="enter_text_a" />	</groupbox>		<groupbox id="container_b" style="display:none">		<checkbox label="Control B" checked="true" id="control_b" />		<hbox id="">			<label value="Enter Text B" control="enter_text_b" id="" />		</hbox>		<textbox label="Enter Text B" value="" id="enter_text_b" />	</groupbox>	</vbox>
+```  __Prefset element rendered__  ![prefset](Test/prefset.gif)    

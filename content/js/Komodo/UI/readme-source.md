@@ -76,6 +76,9 @@ __createPrefSet()__  - this code creates working element below
 
 	paneUI().createPrefSet('#pref_set_test', template, values );  
 ```  
-__prefset element__  
+__Generated prefset element__  
+[include:\Test\prefset-element-example.xul]  
+
+__Prefset element rendered__  
 ![prefset](Test/prefset.gif)  
   

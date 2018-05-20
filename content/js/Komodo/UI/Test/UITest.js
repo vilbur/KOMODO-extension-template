@@ -124,10 +124,10 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		var clearPane = function()
 		{
-			paneUI.$( '#TemplateExtension-pane' ).empty();
-			paneUI.append( '#TemplateExtension-pane', [
-				paneUI.create('hbox'),
-			]);
+			paneUI.$( '#TemplateExtension-pane > hbox:first-of-type' ).empty();
+			//paneUI.append( '#TemplateExtension-pane', [
+			//	paneUI.create('hbox'),
+			//]);
 		}; 
 
 		/** Create vbox
