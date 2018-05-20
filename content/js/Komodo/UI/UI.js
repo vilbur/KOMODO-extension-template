@@ -42,16 +42,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 			return $(selector, parent);
 		};
-		/** jquery
-		 */
-		this.jquery = function()
-		{
-			//return $;
-			return  $.create('button',	{label:	'UITest()', oncommand: 'UITest().test()'});
-			//return $.create("groupbox", {id: "xemmet-main"},
-			//					$.create('caption', {label: 'caption'})
-			//				);
-		}; 
 		/** Exists
 		 */
 		this.exists = function(selector, parent=null)
@@ -208,7 +198,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * @param	string	selector	Selector of node
 		 * @return	self
 		 */
-		this.empty = function(selector=null)
+		this.empty = function(selector, parent=null)
 		{
 			this.$(selector, parent).empty();
 			
@@ -239,7 +229,11 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var container_type	= Object.keys(perfset_template).pop();			
 			var control_types	= perfset_template[container_type];
 			var containers_ids	= Object.keys(perfset_values);		
-			//console.log(  'prefset_selector: ' + prefset_selector );
+
+			if( this.exists( prefset_selector) )
+				this.empty( prefset_selector);
+	
+			
 			/** prefset_menu
 			 */
  			var addMenu = (function()
@@ -263,10 +257,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					var _class	= container_index===0 ? class_shown 	: '';
 					var display	= container_index===0 ? 'block'	: 'none';
 					var element	= self.create(container_type, { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
-					//var element	= self.create(container_type, { 'label': container_label});					
-					//console.log(  'container_label: ' + container_label );
 					
 					self.append( prefset_selector, element);
+						
 					return element;
 				})(); 
 				

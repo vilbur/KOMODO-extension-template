@@ -6,7 +6,107 @@ ko.extensions.TemplateExtension.UITest = {};
 {
 	function UITest()
 	{
+		var self	= this;
 		var paneUI	= null;
+
+		/*---------------------------------------
+			UITest TEST CONTROLS
+		-----------------------------------------
+		*/
+		/** Test controls init pane
+		 */
+		this.TestControls_ReinitPane = function()
+		{
+			this.init();
+		};
+		/*---------------------------------------
+			VALUES TESTS
+		-----------------------------------------
+		*/
+		/** Get values
+		 */
+		this.ValuesTest_getAllValuesTest = function()
+		{
+			console.log('getAllValuesTest'); 
+			console.log( paneUI.values( '#TemplateExtension-pane') );	
+		}; 
+		/** Get prefs values
+		 */
+		this.ValuesTest_getPrefsValuesTest = function()
+		{
+			console.log('getPrefsValuesTest'); 
+			console.log( paneUI.values( '#TemplateExtension-pane', 'prefs' ) );
+		};
+		
+		/*---------------------------------------
+			CONTROL TESTS
+		-----------------------------------------
+		*/
+		this.ControlTest_AddExistingControls = function()
+		{
+			createVbox('box_controls_exists', 'Controls exist');
+
+			var control	= paneUI.create('caption',	{label:	'ControlsExistsTest'});
+			
+			console.log( control );
+			paneUI.append( '#this_parent_should_not_exists',	control );
+			paneUI.append( '#box_controls_exists',	control );
+		};
+		/** Add controls
+		 */
+		this.ControlTest_AddMainControls = function()
+		{
+			//paneUI.append('#controls_box', paneUI.create('textbox') );
+			createVbox('main_controls', 'Main controls');
+			
+			paneUI.append('#main_controls',
+				paneUI.create('checkbox', [
+					{label: 'Checkbox 1', prefs:false, value:true},
+					{label: 'Checkbox 2', prefs:false},
+				])
+			)
+			.append('#main_controls',
+				paneUI.create('checkbox', [
+					{label: 'Checkbox prefs 1', checked:true},
+					{label: 'Checkbox prefs 2', prefs:true},
+				])
+			);
+		};
+		
+		/** Create pref set
+		 */
+		this.ControlTest_CreatePrefset = function()
+		{
+			createVbox('ui_test_prefset', 'Prefset test');
+			
+			var template = {groupbox: ['checkbox', 'textbox']};
+			var values   = {  
+								'Container A':{  
+									'Control A':    false,  
+									'Enter Text A':   'Foo Text A',  
+								},  
+								'Container B':{  
+									'Control B':    true,  
+									'Enter Text B':   '',  
+								}  
+							};  
+		
+			paneUI.createPrefSet('#ui_test_prefset', template, values );
+		};
+		
+		/** test
+		 */ 
+		this.test = function()
+		{
+			alert( 'UITest.test()' ); 
+		}; 
+		
+		
+		
+		
+		
+		
+		
 		/*---------------------------------------
 			PREPARE TEST CLASS AND PANE UI
 		-----------------------------------------
@@ -22,20 +122,6 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			return paneUI;
 		};
-		/**  
-		 */
-		var addExtensionTestControls = function()
-		{
-			createVbox('extension_test_controls', 'Extension test controls');
-
-			paneUI.append( '#extension_test_controls', [
-				//paneUI.create('caption', {label: 'Extension test controls'}),
-				paneUI.create('button',	{label:	'TemplateExtension.test()', oncommand: 'TemplateExtension().test()'}),
-				paneUI.create('button',	{label:	'Komodo.Pane.test()',       oncommand: 'TemplateExtension().Komodo.Pane.test()', tooltip: 'TemplateExtension.Komodo.Pane.test()'}),					   
-				paneUI.create('button',	{label:	'UITest().createPrefSetTest()', oncommand: 'UITest().createPrefSetTest()'}),
-				//paneUI.create('button',	{label:	'UITest().test()', oncommand: 'UITest().test()'}),				
-			]);
-		};
 		/** Clear pane
 		 */
 		var clearPane = function()
@@ -45,47 +131,34 @@ ko.extensions.TemplateExtension.UITest = {};
 				paneUI.create('hbox'),
 			]);
 		}; 
+
 		/** Create vbox
 		 */
 		var createVbox = function(id, caption)
-		{
-
-			//consoleClear(); //!!!!!
-			paneUI.$( '#'+id ).empty();
-				
+		{				
 			if( ! paneUI.exists('#'+id) )
 				paneUI.append( '#TemplateExtension-pane > hbox', [
 					//paneUI.create('vbox', {id: id }),
 					//paneUI.create('caption', {label: caption}),
-					paneUI.create('vbox', {id: id, style:"border:1px solid lightblue" },[ 'caption', {label: caption} ]),
+					paneUI.create('vbox', {id: id, style:"padding:5px;border:1px solid lightblue" },[ 'caption', {label: caption} ]),
 				]);
-				
-		
 		}; 
-		/**  
+		/**  Loop this object and get functions wich has format of name: 'UiBoxName_ButtonName'
 		 */
-		var addUiTestControls = function()
+		var AddRunTestButtons = function()
 		{
-			createVbox('ui_test_controls', 'UI test controls');
-			
-			paneUI.append( '#ui_test_controls', [
-				paneUI.create('button',	{label:	'Add Controls', oncommand: 'UITest().addControlsTest()'}),				
-				paneUI.create('button',	{label:	'UITest().test', oncommand: 'UITest().test'}),			
-			]);
-		
-		};
-		/** Add test parent element
-		 *  MUST BE EXECUTED BEFORE TEST
-		 */
-		var addTestControlsBoxElement = function()
-		{
-			createVbox('controls_box', 'Test controls box');
-			//if( ! paneUI.exists('#controls_box') )
-			//	paneUI.append( '#TemplateExtension-pane > hbox',	paneUI.create('vbox',	{id:	'controls_box'}) );
-			//	
-			//paneUI.append( '#controls_box', [
-			//	paneUI.create('caption',	{label:	'Test controls box'}),
-			//]);
+			for(var key in self)
+				if (self.hasOwnProperty(key) && typeof self[key] === 'function' && key.match(/_/gi)  )
+					{
+						var key_split	= key.split('_');
+						var box_id	=  key_split[0].toLowerCase();
+
+						createVbox( box_id, key_split[0].replace(/(\w)([A-Z])/g, '$1 $2') );
+						
+						paneUI.append( '#'+box_id, [
+							paneUI.create('button',	{label:	key_split[1].replace(/\s*Test/g, '').replace(/(\w)([A-Z])/g, '$1 $2'), oncommand: 'UITest().'+key+'()', tooltip:key+'()'}),
+						]);
+					}
 		};
 
 		/** Clear Komodo Console pane
@@ -113,99 +186,15 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.init = function()
 		{
-			//alert( 'init' ); 
-			consoleClear();
-			
 			setPaneUI();
 			
-			clearPane();			
-			//removeControls();
-			//refreshPane();
-			addExtensionTestControls();
-			//addUiTestControls();
-		};
-		/** Refresh pane
-		 */
-		var refreshPane = function()
-		{
-			paneUI.$( '#controls_box' ).empty();
-			addTestControlsBoxElement();
-		};
-		/*---------------------------------------
-			TESTS
-		-----------------------------------------
-		*/
-		this.ControlsExistsTest = function()
-		{
-			var control	= paneUI.create('caption',	{label:	'ControlsExistsTest'});
+			clearPane();
 			
-			console.log( control );
-			paneUI.append( '#this_should_not_exists',	control );
-			paneUI.append( '#controls_box',	control );	
-		};
-		/** Add controls
-		 */
-		this.addControlsTest = function()
-		{
-			//paneUI.append('#controls_box', paneUI.create('textbox') );
-			refreshPane();
-			
-			paneUI.append('#controls_box',
-				paneUI.create('checkbox', [
-					{label: 'Checkbox 1', prefs:false, value:true},
-					{label: 'Checkbox 2', prefs:false},
-				])
-			)
-			.append('#controls_box',
-				paneUI.create('checkbox', [
-					{label: 'Checkbox prefs 1', checked:true},
-					{label: 'Checkbox prefs 2', prefs:true},
-				])
-			);
-		};
-		
-		/** Create pref set
-		 */
-		this.createPrefSetTest = function()
-		{
-			createVbox('ui_test_prefset', 'Prefset test');
-			
-			var template = {groupbox: ['checkbox', 'textbox']};
-			var values   = {  
-								'Container A':{  
-									'Control A':    false,  
-									'Enter Text A':   'Foo Text A',  
-								},  
-								'Container B':{  
-									'Control B':    true,  
-									'Enter Text B':   '',  
-								}  
-							};  
-		
-			paneUI.createPrefSet('#ui_test_prefset', template, values );
-		}; 
+			consoleClear();
 
-		/** Get values
-		 */
-		this.getAllValuesTest = function()
-		{
-			console.log('getAllValuesTest'); 
-			console.log( paneUI.values( '#controls_box') );	
-		}; 
-		/** Get prefs values
-		 */
-		this.getPrefsValuesTest = function()
-		{
-			console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( '#controls_box', 'prefs' ) );
+			AddRunTestButtons();
 		};
-		
-		/** test
-		 */ 
-		this.test = function()
-		{
-			alert( 'UITest.test()' ); 
-		}; 
+ 
 		
 	}
 	return UITest;
