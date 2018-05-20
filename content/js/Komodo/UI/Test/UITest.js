@@ -19,24 +19,32 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			this.init();
 		};
+		
 		/*---------------------------------------
-			VALUES TESTS
+			VALUES & PREFS TEST
 		-----------------------------------------
 		*/
 		/** Get values
 		 */
-		this.ValuesTest_getAllValuesTest = function()
+		this.PrefsTest_getAllValuesTest = function()
 		{
 			console.log('getAllValuesTest'); 
 			console.log( paneUI.values( '#TemplateExtension-pane') );	
 		}; 
 		/** Get prefs values
 		 */
-		this.ValuesTest_getPrefsValuesTest = function()
+		this.PrefsTest_getPrefsValuesTest = function()
 		{
 			console.log('getPrefsValuesTest'); 
 			console.log( paneUI.values( '#TemplateExtension-pane', 'prefs' ) );
 		};
+		/** PrefsTest_SavePrefs
+		 */
+		this.PrefsTest_SavePrefs = function()
+		{
+			var values	= paneUI.values( '#TemplateExtension-pane', 'prefs' ) ;
+		}; 
+		
 		
 		/*---------------------------------------
 			CONTROL TESTS
@@ -77,9 +85,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.ControlTest_CreatePrefset = function()
 		{
-			createVbox('ui_test_prefset', 'Prefset test');
+			createVbox('ui_test_prefset');
 			
-			var template = {groupbox: ['checkbox', 'textbox']};
+			var template = {'Prefset test': ['checkbox', 'textbox']};
 			var values   = {  
 								'Container A':{  
 									'Control A':    false,  
@@ -89,21 +97,11 @@ ko.extensions.TemplateExtension.UITest = {};
 									'Control B':    true,  
 									'Enter Text B':   '',  
 								}  
-							};  
+							};
 		
 			paneUI.createPrefSet('#ui_test_prefset', template, values );
 		};
-		
-		/** test
-		 */ 
-		this.test = function()
-		{
-			alert( 'UITest.test()' ); 
-		}; 
-		
-		
-		
-		
+
 		
 		
 		
@@ -134,14 +132,19 @@ ko.extensions.TemplateExtension.UITest = {};
 
 		/** Create vbox
 		 */
-		var createVbox = function(id, caption)
+		var createVbox = function(id, caption=null)
 		{				
-			if( ! paneUI.exists('#'+id) )
-				paneUI.append( '#TemplateExtension-pane > hbox', [
-					//paneUI.create('vbox', {id: id }),
-					//paneUI.create('caption', {label: caption}),
-					paneUI.create('vbox', {id: id, style:"padding:5px;border:1px solid lightblue" },[ 'caption', {label: caption} ]),
-				]);
+			if( paneUI.exists('#'+id) )
+				return;
+					
+			paneUI.append( '#TemplateExtension-pane > hbox',
+				paneUI.create('vbox', {id: id, style:"padding:5px" })
+			);
+			
+			if( caption )
+			paneUI.append( '#'+id,
+				paneUI.create( 'caption', {label: caption} )
+			);
 		}; 
 		/**  Loop this object and get functions wich has format of name: 'UiBoxName_ButtonName'
 		 */

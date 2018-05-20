@@ -62,7 +62,7 @@
 # Examples  
 __createPrefSet()__  - this code creates working element below  
 ``` JavaScript  
-	var template = {groupbox: ['checkbox', 'textbox']};  
+	var template = {'Prefset Caption': ['checkbox', 'textbox']};  
     var values   = {  
                         'Container A':{  
                             'Control A':    false,  

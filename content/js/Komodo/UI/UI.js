@@ -69,7 +69,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
-			console.log('---------------'); 
+			//console.log('---------------'); 
 			/** Sanitize attributes
 			 */
 			attributes = (function()
@@ -79,7 +79,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 			var created_nodes = attributes.map(function(node_attributes)
 			{
-				console.log(  'created_nodes: ' + type +' '+node_attributes.id );
+				//console.log(  'created_nodes: ' + type +' '+node_attributes.id );
 				return new ko.extensions.TemplateExtension.Komodo.Node()
 											 .type(type)													 
 											 .attributes(node_attributes)
@@ -138,7 +138,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			}; 
 
 			getValuesFormChildNodes( this.$(selector).children() );
-			//console.log( values );
+
 			return values;
 		};
 
@@ -205,7 +205,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return this;
 		};
 		
-		/** Create prefset dom with menu and toggable containers with controls
+		/** Create prefset dom with menu and toggable containers with controls.
+		 * If exist, then prefset will be refreshed
 		 *
 		 * @param	string	prefset_selector	Id of dom wrapper where menu abd all containers are inserted
 		 * @param	object	perfset_template	Representation of container xul structure
@@ -213,7 +214,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 *
 		 * @example
 		 *		perfset_template = {
-		 *			pref_set_test:{ groupbox: ['checkbox', 'checkbox'] }
+		 *			pref_set_test:{ 'Prefset Caption': ['checkbox', 'checkbox'] }
 		 * 		}
 		 * 
 		 * 		perfset_values = {
@@ -226,18 +227,25 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.createPrefSet = function(prefset_selector, perfset_template, perfset_values)
 		{
-			var container_type	= Object.keys(perfset_template).pop();			
-			var control_types	= perfset_template[container_type];
+			var prefset_caption	= Object.keys(perfset_template).pop();			
+			var control_types	= perfset_template[prefset_caption];
 			var containers_ids	= Object.keys(perfset_values);		
 
-			if( this.exists( prefset_selector) )
-				this.empty( prefset_selector);
-	
+			/** Add caption
+			 */
+ 			var addCaption = (function()
+			{
+				self.$( prefset_selector +' > caption').delete(); // delete menu if exists
+				
+				self.append( prefset_selector, self.create('caption', prefset_caption ) );
+			})();
 			
-			/** prefset_menu
+			/** Ad Menu
 			 */
  			var addMenu = (function()
 			{
+				self.$( prefset_selector +' menulist').delete(); // delete menu if exists
+				
 				self.append( prefset_selector, self.create('menulist', null, ['menupopup']) );
 			})();
 
@@ -256,7 +264,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				{
 					var _class	= container_index===0 ? class_shown 	: '';
 					var display	= container_index===0 ? 'block'	: 'none';
-					var element	= self.create(container_type, { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
+					var element	= self.create('groupbox', { 'label': container_label, 'class':class_shown , 'style':'display:'+display});
+					
+					self.$( '#'+element.getAttribute('id') ).delete(); // delete container if exists
 					
 					self.append( prefset_selector, element);
 						
