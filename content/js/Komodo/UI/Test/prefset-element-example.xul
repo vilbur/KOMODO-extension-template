@@ -1,4 +1,4 @@
-<vbox id="ui_test_prefset" style="padding:5px">
+<vbox id="ui_test_prefset" prefset="true" style="padding:5px">
 	
 	<caption label="Prefset test" id="prefset_test" />
 	

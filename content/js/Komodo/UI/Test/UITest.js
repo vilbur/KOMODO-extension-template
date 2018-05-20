@@ -19,7 +19,18 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			this.init();
 		};
-		
+		/** Test controls init pane
+		 */
+		this.TestControls_ClearConsole = function(clear_message='')
+		{
+			var consoleEL = document.getElementById('console-widget');
+			if(consoleEL)
+			{
+				consoleEL.contentWindow.document.getElementById('output').innerHTML = '';
+				if(clear_message)
+					require('ko/console').info(clear_message);	
+			}
+		};
 		/*---------------------------------------
 			VALUES & PREFS TEST
 		-----------------------------------------
@@ -28,14 +39,14 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.PrefsTest_getAllValuesTest = function()
 		{
-			console.log('getAllValuesTest'); 
+			//console.log('getAllValuesTest'); 
 			console.log( paneUI.values( '#TemplateExtension-pane') );	
 		}; 
 		/** Get prefs values
 		 */
 		this.PrefsTest_getPrefsValuesTest = function()
 		{
-			console.log('getPrefsValuesTest'); 
+			//console.log('getPrefsValuesTest'); 
 			console.log( paneUI.values( '#TemplateExtension-pane', 'prefs' ) );
 		};
 		/** PrefsTest_SavePrefs
@@ -164,19 +175,6 @@ ko.extensions.TemplateExtension.UITest = {};
 					}
 		};
 
-		/** Clear Komodo Console pane
-		 *  IF CONSOLE IS NOT DETACHED
-		 */
-		var consoleClear = function(clear_message='UITest')
-		{
-			var consoleEL = document.getElementById('console-widget');
-			if(consoleEL)
-			{
-				consoleEL.contentWindow.document.getElementById('output').innerHTML = '';
-				if(clear_message)
-					require('ko/console').info(clear_message);	
-			}
-		};
 		/** Remove controls
 		 *  MUST BE EXECUTED BEFORE TEST
 		 */
@@ -193,7 +191,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			clearPane();
 			
-			consoleClear();
+			this.TestControls_ClearConsole();
 
 			AddRunTestButtons();
 		};
