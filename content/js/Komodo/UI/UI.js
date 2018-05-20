@@ -103,9 +103,26 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.values = function(selector, only_prefs=false)
 		{
-			console.log(  'UI.values(): ' + selector );
+			//console.log(  'UI.values(): ' + selector );
 			var values	= {};
-
+			
+			/** Get prefset values
+			 */
+			var getPrefsetValues = function(prefset_id)
+			{
+				var prefset_values	= {};
+				//console.log(  'getPrefsetValues(): ' + '#'+prefset_id +' .prefset-container' );
+				
+				//console.log( self.$('#'+prefset_id +' .prefset-container') );
+				self.$('#'+prefset_id +' .prefset-container').each(function()
+				{
+					//console.log( this.getAttribute('id') );
+					prefset_values[this.getAttribute('label')] =  self.values( '#' + this.getAttribute('id') );
+				});
+				console.log( prefset_values );
+				return JSON.stringify(prefset_values);
+			}; 
+			
 			/** Get values form child nodes
 			 * @param	array	child_nodes	Element list of child nodes
 			 */
@@ -127,13 +144,17 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					{
 						return ['checkbox','textbox','radio'].indexOf( node.nodeName ) > -1;
 					}
-					
+					//console.log( this.getAttribute('prefset') +' '+ Object.keys(this.childNodes).length  );
+					//console.log( this.hasAttribute('prefset')  );					
 					if( ! Object.keys(this.childNodes).length ){
 						if( this.id && isControlNode(this) && preferenceTest(this) )
 							values[this.id] = this.nodeName == 'checkbox' ? this.checked : this.value;
 
-					}else
-						getValuesFormChildNodes( $(this.childNodes) );
+					}else if( this.hasAttribute('prefset') )
+						values[this.id] = getPrefsetValues(this.getAttribute('id'));
+						
+					else
+						values[this.id] = getValuesFormChildNodes( $(this.childNodes) );
 				});
 			}; 
 
@@ -204,7 +225,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
-		
+		/*---------------------------------------
+			PREFSET DOM
+		-----------------------------------------
+		*/
 		/** Create prefset dom with menu and toggable containers with controls.
 		 * If exist, then prefset will be refreshed
 		 *
@@ -227,10 +251,18 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.createPrefSet = function(prefset_selector, perfset_template, perfset_values)
 		{
-			var prefset_caption	= Object.keys(perfset_template).pop();			
+			var prefset_caption	= Object.keys(perfset_template).pop();						
 			var control_types	= perfset_template[prefset_caption];
 			var containers_ids	= Object.keys(perfset_values);		
+			var container_class_shown	= prefset_selector+'-shown'; 
 
+			/** Add prefset attribute prefsaet="true"
+			 * For identification for get\set values
+			 */
+			var addPrefsetAttribute = (function()
+			{
+				self.$( prefset_selector ).element().setAttribute('prefset', true);
+			})();
 			/** Add caption
 			 */
  			var addCaption = (function()
@@ -255,22 +287,24 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			 */
 			var createContainer = function(container_index, container_label, controls_data)
 			{
-				var class_shown	= prefset_selector+'-shown';
 				var controls_labels	= Object.keys(controls_data);
 				//console.log(  'PREFSET_SELECTOR: ' + prefset_selector );
 				/** container
 				 */
 				var container = (function()
 				{
-					var _class	= container_index===0 ? class_shown 	: '';
 					var display	= container_index===0 ? 'block'	: 'none';
-					var element  = self.create('groupbox', { 'id': container_label, 'class':class_shown , 'style':'display:'+display}); 
-
-					self.$( '#'+element.getAttribute('id') ).delete(); // delete container if exists
+					var container	= self.create( 'groupbox', {
+											'label': container_label,	// sanitized label become id attribute, label is for save and restore element from prefs
+											'class': 'prefset-container',	// class 'prefset-container' is for identification of container in prefset DOM
+											//'style': 'display:' + display
+									 });
 					
-					self.append( prefset_selector, element);
+					self.$( '#'+container.getAttribute('id') ).delete(); // delete container if exists
+					
+					self.append( prefset_selector, container);
 						
-					return element;
+					return container;
 				})(); 
 				
 				/** addMenuItem
@@ -279,16 +313,16 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				{
 					var toggle_containers =
 					[
-						"var class_shown='"+class_shown+"'",
-						"var element_hide=document.getElementsByClassName(class_shown)[0]",
+						"var container_class_shown='"+container_class_shown+"'",
+						"var element_hide=document.getElementsByClassName(container_class_shown)[0]",
 						"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
 						
 						"if(element_hide==element_show)return", // return if clicked same element
 						
-						"element_show.classList.add(class_shown)", // show new container
+						"element_show.classList.add(container_class_shown)", // show new container
 						"element_show.style.display = 'block'",
 				
-						"element_hide.classList.remove(class_shown)", // hide old element
+						"element_hide.classList.remove(container_class_shown)", // hide old element
 						"element_hide.style.display = 'none'",
 					];
 					
@@ -336,17 +370,28 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				createContainer(i, containers_ids[i], perfset_values[containers_ids[i]] );
 			
 			/* SELECT MENU ITEM */
-			self.$( prefset_selector + ' menulist' ).element().selectedIndex = 0;
+			/** Select container
+			 */
+			var selectContainer = (function()
+			{
+				self.$( prefset_selector + ' menulist' ).element().selectedIndex = 1;
+				/* Hide containers  */
+				self.$(prefset_selector +' .prefset-container').each(function(index)
+				{
+					//console.log( this.getAttribute('id') + ' '+index );
+					if( index>0 )
+						this.setAttribute('style', this.getAttribute('id') +';display:none;');
+					else
+						this.classList.add( container_class_shown );
+					
+					//console.log( self.values( '#' + this.getAttribute('id') ) );					
+				});
+			})(); 
 			
-			//console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
+			console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 	
-		/** Test
-		 */
-		this.test = function(string='')
-		{
-			alert('UI.test('+string+')');
-		};
+
 		
 	}
 	return UI;
