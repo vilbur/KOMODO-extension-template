@@ -1,6 +1,6 @@
 /** Get\set\delete preferece data
  * 
- * !!! Get values from prefs works after restart of Komodo after first setting
+ * NOTE: !!! Get values from prefs works after restart of Komodo after first setting
  * 
  * @method	self	prefix( string prefix )	Set prefix for all keys
  * 
@@ -37,7 +37,7 @@
 		 * @example set('key')	// set by key
 		 * @example set({key1:'default', key2:'default'})	// set by object keys
 		 */
-		this.set = function(param1, param2)
+		this.set = function(param1, param2=null)
 		{
 			call('set', param1, param2 );
 		};
@@ -70,29 +70,34 @@
 			if( Array.isArray(param1)  )
 				param1 = getObjectOfKeys(param1);
 			
-			call('delete', param1 );
+			call( 'delete', param1 );
 		};
 		
 		/** Call method
 		 */
 		var call = function(method, param1, param2=null)
 		{
+			//console.log('call');
+			//console.log( typeof param1 === 'object' );
+			//console.log( param2 );
 			var result	= {};
 
 			/** Call with prefix
 			 */
 			var callWithPrefix = function(key, value)
 			{
+				//console.log('callWithPrefix()'); 
+				console.log( method +':'+ key +'='+ value );
 				return self[method+'Pref']( prefix + key, value );
 			}; 
 			
-			if( typeof param1 === 'object' )
+			if( typeof param1 === 'object' ){
 				for(var key in param1)
 					if (param1.hasOwnProperty(key))
 						result[key] = callWithPrefix( key, param1[key] );
-			else
+			}else
 				return callWithPrefix( param1, param2 );
-			
+			console.log( result );
 			return result;
 		}; 
 		/*---------------------------------------
@@ -190,8 +195,9 @@
 		var getObjectOfKeys = function(array)
 		{
 			var keys	= {};
-			for(let i=0; i<param1.length;i++)
-				keys[param1[i]] = ''; 
+			for(let i=0; i<array.length;i++)
+				keys[array[i]] = '';
+			
 			return keys;
 		};
 		/** test
