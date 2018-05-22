@@ -97,102 +97,24 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		}; 
 
 		/** Get values of parent node controls
-		 * @param	string	selector
-		 * @param	mixed	only_prefs	if not false, then take only nodes without attribute prefs="false"
+		 * @param	string	param1
+		 * @param	mixed	param2	if not false, then take only nodes without attribute prefs="false"
 		 * @return	{id: value}	Object of node ids and values
+		 *
+		 * @example values()	// get all values from docuent
+		 * @example values('#element')	// get all values from element
+		 * @example values('only-prefs')	// get prefs values from docuent
+		 * @example values('#element', 'only-prefs')	// get prefs values from element
+		 * 
+		 * @example values('#control', 'value to set')	// set value to control
+		 * @example values({'#control': 'value to set'})	// mass set values by object
+		 * 
 		 */
-		this.values = function(selector, only_prefs=false)
+		this.values = function(param1, param2=false)
 		{
-			//console.log(  'UI.values(): ' + selector );
-			var values	= {};
+			//console.log(  'UI.values(): ' + param1 );
 
-			/** Set to value to values object
-			 */
-			var setToValues = function(id, value)
-			{
-				if( value!==null )
-					values[id] = value;
-			};
-			
-			/** Get element value
-			 */
-			var getElementValue = function(element)
-			{
-				/** Test if getting only preferences,
-				* 		if so, then if control has not attribute prefs="false"
-				*/
-				var preference_test = only_prefs===false || element.getAttribute('prefs')!=='false';
-				
-				/** I control type node
-				*/
-				var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
-				
-				//if( element.id && is_control_node && preference_test )
-				if( element.id && is_control_node )
-					return element.nodeName == 'checkbox' ? element.checked : element.value;
-				
-				return null;
-			}; 
-
-			/** Get prefset values
-			 */
-			var getPrefsetValues = function(prefset_id)
-			{
-				var prefset_values	= {};
-
-				/** Loop containers
-				 */
-				var loopContainers = function()
-				{
-					/** Get elements values
-					 */
-					var getElementsValues = function(container)
-					{
-						var prefset_values	= {};
-
-						$(container).children().each(function()
-						{
-							var value = getElementValue( this );
-							if( value!==null )
-								prefset_values[this.id] = value;
-						});
-						return prefset_values;
-					}; 
-					
-					self.$('#'+prefset_id +' .prefset-container').each(function()
-					{	
-						prefset_values[this.getAttribute('label')] = getElementsValues(this);
-						
-					});
-				}; 
-				loopContainers();
-
-				return prefset_values;
-			};
-			
-			/** Get values form child nodes
-			 * @param	array	child_nodes	Element list of child nodes
-			 */
-			var loopNestedElements = function(child_nodes)
-			{
-				child_nodes.each(function()
-				{
-					var id	= this.getAttribute('id');
-					
-					if( ! Object.keys(this.childNodes).length )
-						setToValues( id, getElementValue(this) );
-								
-					else if( this.hasAttribute('prefset') )
-						setToValues( id, getPrefsetValues(id) );
-		
-					else
-						loopNestedElements( $(this.childNodes) );
-				});
-			}; 
-
-			loopNestedElements( this.$(selector).children() );
-			
-			return values;
+			return getValues(param1, param2);
 		};
 
 		/** Append new children to node
@@ -421,6 +343,132 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
+		/** Create dropdown element
+		 * @param	string	id	Id of dropdown element
+		 * @param	object	items	Items for dropdown 
+		 * @param	string	[menu_text]	Text in dropdown menu button, if null then current item is shown
+		 *
+		 * @return	[element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
+		 *
+		 * @example createDopdown('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
+		 * @example createDopdown('#dropdown_text_test',	{'Item A':'alert("A")','Item B':'alert("B")'}, 'Menu Text')
+		 *
+		 */
+		this.createDopdown = function(id, items, menu_text=null)
+		{
+			var menulist	= label ? self.create('button', {label: menu_text, type: "menu" }) : self.create('menulist');
+			var menupopup	= self.create('menupopup');
+
+			for(var label in items)
+				if (items.hasOwnProperty(label))
+					menupopup.appendChild( self.create('menuitem', {label: label, oncommand: items[label]}) );
+			
+			menulist.appendChild( menupopup );
+			
+			console.log( menulist.outerHTML ); // DEBUG: get element as plain text
+
+			return  menulist;
+		}; 
+		
+		/*---------------------------------------
+			PRIVATE
+		-----------------------------------------
+		*/
+		/** Get values from controls
+		 */
+		var getValues = function(selector, only_prefs=false)
+		{
+			console.log(  'getValues(): ' + selector );
+			var values	= {};
+
+			/** Set to value to values object
+			 */
+			var setToValues = function(id, value)
+			{
+				if( value!==null )
+					values[id] = value;
+			};
+			
+			/** Get element value
+			 */
+			var getElementValue = function(element)
+			{
+				/** Test if getting only preferences,
+				* 		if so, then if control has not attribute prefs="false"
+				*/
+				var preference_test = only_prefs===false || element.getAttribute('prefs')!=='false';
+				
+				/** I control type node
+				*/
+				var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
+				
+				//if( element.id && is_control_node && preference_test )
+				if( element.id && is_control_node )
+					return element.nodeName == 'checkbox' ? element.checked : element.value;
+				
+				return null;
+			}; 
+
+			/** Get prefset values
+			 */
+			var getPrefsetValues = function(prefset_id)
+			{
+				var prefset_values	= {};
+
+				/** Loop containers
+				 */
+				var loopContainers = function()
+				{
+					/** Get elements values
+					 */
+					var getElementsValues = function(container)
+					{
+						var prefset_values	= {};
+
+						$(container).children().each(function()
+						{
+							var value = getElementValue( self );
+							if( value!==null )
+								prefset_values[self.id] = value;
+						});
+						return prefset_values;
+					}; 
+					
+					self.$('#'+prefset_id +' .prefset-container').each(function()
+					{	
+						prefset_values[self.getAttribute('label')] = getElementsValues(self);
+						
+					});
+				}; 
+				loopContainers();
+
+				return prefset_values;
+			};
+			
+			/** Get values form child nodes
+			 * @param	array	child_nodes	Element list of child nodes
+			 */
+			var loopNestedElements = function(child_nodes)
+			{
+				child_nodes.each(function()
+				{
+					var id	= this.getAttribute('id');
+					
+					if( ! Object.keys(this.childNodes).length )
+						setToValues( id, getElementValue(this) );
+								
+					else if( this.hasAttribute('prefset') )
+						setToValues( id, getPrefsetValues(id) );
+		
+					else
+						loopNestedElements( $(this.childNodes) );
+				});
+			}; 
+
+			loopNestedElements( self.$(selector).children() );
+			
+			return values;
+		}; 
 	}
 	return UI;
 

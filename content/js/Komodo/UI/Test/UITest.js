@@ -8,6 +8,8 @@ ko.extensions.TemplateExtension.UITest = {};
 	{
 		var self	= this;
 		var paneUI	= null;
+		
+		var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
 
 		/*---------------------------------------
 			UITest TEST CONTROLS
@@ -32,30 +34,57 @@ ko.extensions.TemplateExtension.UITest = {};
 			}
 		};
 		/*---------------------------------------
-			VALUES & PREFS TEST
+			VALUES TESTS
 		-----------------------------------------
 		*/
 		/** Get values
 		 */
-		this.PrefsTest_getAllValuesTest = function()
+		this.PrefsTest_getValuesFromDocumentTest = function()
 		{
-			//console.log('getAllValuesTest'); 
+			console.log( paneUI.values() );	
+		};
+		/** Get values
+		 */
+		this.PrefsTest_getValuesFromElementTest = function()
+		{
 			console.log( paneUI.values( '#TemplateExtension-pane') );	
 		}; 
 		/** Get prefs values
 		 */
-		this.PrefsTest_getPrefsValuesTest = function()
+		this.PrefsTest_setValueToElementTest = function()
 		{
 			//console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( '#TemplateExtension-pane', 'prefs' ) );
+			console.log( paneUI.values( '#TemplateExtension-pane', 'only-prefs' ) );
 		};
+		/** Get prefs values
+		 */
+		this.PrefsTest_setValuesByObjectTest = function()
+		{
+			//console.log('getPrefsValuesTest'); 
+			console.log( paneUI.values( '#TemplateExtension-pane', 'only-prefs' ) );
+		};
+		/*---------------------------------------
+			PREFS TESTS
+		-----------------------------------------
+		*/
 		/** PrefsTest_SavePrefs
 		 */
 		this.PrefsTest_SavePrefs = function()
 		{
-			var values	= paneUI.values( '#TemplateExtension-pane', 'prefs' ) ;
+			var values	= paneUI.values( '#TemplateExtension-pane', 'only-prefs' );
+			console.log( values );
+			prefs.set(values);
 		}; 
-		
+		/** PrefsTest_SavePrefs
+		 */
+		this.PrefsTest_LoadPrefs = function()
+		{
+			//var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
+
+			//var values_data	= paneUI.values( '#TemplateExtension-pane', 'prefs' );
+			var values	= prefs.get();
+			console.log( values );
+		}; 
 		
 		/*---------------------------------------
 			CONTROL TESTS
@@ -79,8 +108,11 @@ ko.extensions.TemplateExtension.UITest = {};
 			createVbox('main_controls', 'Main controls');
 			
 			paneUI.append('#main_controls',
+				paneUI.create('textbox', {id: 'pref-test-string', value:'lorem ipsum'})
+			)
+			.append('#main_controls',
 				paneUI.create('checkbox', [
-					{label: 'Checkbox 1', prefs:false, value:true},
+					{label: 'Checkbox 1', prefs:false, value:true},					
 					{label: 'Checkbox 2', prefs:false},
 				])
 			)
@@ -112,10 +144,22 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 			paneUI.createPrefSet('#ui_test_prefset', template, values );
 		};
+		
+		/** Create pref set
+		 */
+		this.ControlTest_CreateDopdown = function()
+		{
+			createVbox('ui_test_dropdown','Dropdown');
+			
+			var items = {
+				'Item A':'alert("A")',
+				'Item B':'alert("B")',
+			};
+			
+			paneUI.append('#dropdown_test',	paneUI.createDopdown('#dropdown_test',	items) );
+			paneUI.append('#dropdown_text_test',	paneUI.createDopdown('#dropdown_label_test',	items, 'Menu Text') );
 
-		
-		
-		
+		};
 		/*---------------------------------------
 			PREPARE TEST CLASS AND PANE UI
 		-----------------------------------------
