@@ -55,7 +55,6 @@
 		 */
 		this.get = function(param1=null, param2=null)
 		{
-			console.log( param1 );
 			if( ! param1 )
 				return this.get(getIdsByPrefix());
 			
@@ -87,17 +86,12 @@
 		 */
 		var call = function(method, param1, param2=null)
 		{
-			//console.log('call');
-			//console.log( typeof param1 === 'object' );
-			//console.log( param2 );
 			var result	= {};
 
 			/** Call with prefix
 			 */
 			var callWithPrefix = function(key, value)
 			{
-				//console.log('callWithPrefix()'); 
-				//console.log( method +':'+ key +'='+ value );
 				return self[method+'Pref']( prefix + key, value );
 			}; 
 			
@@ -107,7 +101,7 @@
 						result[key] = callWithPrefix( key, param1[key] );
 			}else
 				return callWithPrefix( param1, param2 );
-			//console.log( result );
+
 			return result;
 		}; 
 		/*---------------------------------------
@@ -119,7 +113,7 @@
 		this.setPref = function(key, value)
 		{
 			var type = typeof value;
-			//console.log( key, value );
+
 			if( type==='object' )
 				value = JSON.stringify(value);
 			
@@ -145,7 +139,6 @@
 			 */
 			this.getString = function()
 			{
-				//console.log('prefs.getString()');
 				if( ! prefs.hasStringPref(key) )
 					return; 
 				
@@ -159,19 +152,16 @@
 			}; 
 			this.getLong = function()
 			{
-				//console.log('prefs.getLong()');
 				if( prefs.hasLongPref(key) )
 					return prefs.getLong(key);
 			};
 			this.getDouble = function()
 			{
-				//console.log('prefs.getLong()');
 				if( prefs.hasDoublePref(key) )
 					return prefs.getDouble(key);
 			}; 
 			this.getBoolean = function()
 			{
-				//console.log('prefs.getBoolean()');
 				if( prefs.hasBooleanPref(key) )
 					return prefs.getBoolean(key);
 			};
@@ -181,11 +171,10 @@
 				for(let i=0; i<pref_types.length;i++)
 				{
 					var value	= self['get'+pref_types[i]]();
-					//console.log( typeof value );
+
 					if(typeof value !== 'undefined')
 						return value;
 				}
-				//console.log(  'value_default: ' + value_default );
 				return value_default;
 			})(); 
 		
@@ -215,10 +204,8 @@
 			{
 				string	= string.substring(match.index + match[0].length);
 				match.index	= last_match_end = last_match_end + match.index + match[0].length;
-				//console.log( match );
 				matches_all.push(match.pop());
 			}
-			//console.log( matches_all );
 			return matches_all;
 		};  
 		/** Convert array to object keys
@@ -232,7 +219,6 @@
 			for(let i=0; i<array.length;i++)
 				keys[array[i]] = '';
 			
-			console.log( keys );
 			return keys;
 		};
 		/** test

@@ -356,7 +356,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.dropdown = function(id, items, menu_text=null)
 		{
-			var menulist	= menu_text ? self.create('button', {label: menu_text, type: "menu" }) : self.create('menulist');
+			var menulist	= menu_text ? self.create('button', {label: menu_text, type: "menu", id: sanitizeId(id) }) : self.create('menulist', {id: sanitizeId(id)});
 			var menupopup	= self.create('menupopup');
 
 			/** Get item simple
@@ -488,6 +488,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return values;
 		}; 
+		/** Get sanitized id
+		 */
+		var sanitizeId = function(id)
+		{
+			return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, '_').trim().toLowerCase();
+		};
+	
 	}
 	return UI;
 

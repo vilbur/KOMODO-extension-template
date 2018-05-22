@@ -6,6 +6,7 @@ ko.extensions.TemplateExtension.UITest = {};
 {
 	function UITest()
 	{
+		var $	= require('ko/dom');
 		var self	= this;
 		var paneUI	= null;
 		
@@ -208,19 +209,26 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		var AddRunTestButtons = function()
 		{
-			for(var key in self)
-				if (self.hasOwnProperty(key) && typeof self[key] === 'function' && key.match(/_/gi)  )
-					{
-						var key_split	= key.split('_');
-						var box_id	=  key_split[0].toLowerCase();
+			var dropdowns	= {};
 
-					if( ! paneUI.exists('#'+box_id) )
-						createVbox( box_id, key_split[0].replace(/(\w)([A-Z])/g, '$1 $2') );
+			createVbox( 'ui_test_methods', 'UITest methods' );
+				
+			for(var method_name in self)
+				if (self.hasOwnProperty(method_name) && typeof self[method_name] === 'function' && method_name.match(/_/gi)  )
+					{
+						var method_name_split	= method_name.replace(/\s*Test/g, '').replace(/(\w)([A-Z])/g, '$1 $2').split('_');
+						var dropdown_name	= method_name_split[0].trim();
 						
-						paneUI.append( '#'+box_id, [
-							paneUI.create('button',	{label:	key_split[1].replace(/\s*Test/g, '').replace(/(\w)([A-Z])/g, '$1 $2'), oncommand: 'UITest().'+key+'()', tooltip:key+'()'}),
-						]);
+						if( ! dropdowns[dropdown_name] )
+							dropdowns[dropdown_name] = [];
+						
+						dropdowns[dropdown_name].push({label: method_name_split[1].trim(), oncommand: 'UITest().'+method_name+'()', tooltip: 'UITest.'+method_name+'()'});
 					}
+				for(var dropdown in dropdowns)
+					if (dropdowns.hasOwnProperty(dropdown))
+						paneUI.append( '#ui_test_methods',
+							paneUI.dropdown( dropdown, dropdowns[dropdown], dropdown )
+						);
 		};
 
 		/** Remove controls
