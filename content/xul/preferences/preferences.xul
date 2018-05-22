@@ -21,7 +21,7 @@
 	orient="vertical"
 	onload="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.Komodo.PrefsWindow.init();"
 >
-	<!--onload="window.PrefsWindow.init();"	-->
+	
 	<script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
 
 	<script type="application/x-javascript;version=1.7" src="chrome://xtk/content/xtk.js"/>
@@ -43,8 +43,10 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Node/Node.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>		
 
+	<!--TEST-->
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
 	
-	<vbox id="TemplateExtension-prefs" class="autoscroll">
+	<vbox id="TemplateExtension-preferences" class="autoscroll">
 		<caption  label="TemplateExtension"/> 
 		<groupbox orient="vertical"> 
 			<vbox style="max-width:256px">
@@ -61,19 +63,19 @@
 				/>
 				<button
 					label="Controls values to console"
-					oncommand="console.log( PrefsWindow().UI.values('#TemplateExtension-prefs') );" 
+					oncommand="console.log( PrefsWindow().UI.values('#TemplateExtension-preferences') );" 
 				/>
 				<button
 					label="Add checkboxes test"
-					oncommand="PrefsWindow().UI.append('#TemplateExtension-prefs', PrefsWindow().UI.create( 'checkbox', ['Control 1', 'Control 2']) );"
+					oncommand="PrefsWindow().UI.append('#TemplateExtension-preferences', PrefsWindow().UI.create( 'checkbox', ['Control 1', 'Control 2']) );"
 				/>
 				<button
 					label="Add textboxes test"
-					oncommand="PrefsWindow().UI.append('#TemplateExtension-prefs', PrefsWindow().UI.create( 'groupbox', null, ['textbox', ['Textbox 1', 'Textbox 2']]) );"
+					oncommand="PrefsWindow().UI.append('#TemplateExtension-preferences', PrefsWindow().UI.create( 'groupbox', null, ['textbox', ['Textbox 1', 'Textbox 2']]) );"
 				/>
 				<button
 					label="Add groupbox test"
-					oncommand="PrefsWindow().UI.append('#TemplateExtension-prefs', PrefsWindow().UI.create( 'menulist', null, ['menupopup', null, ['menuitem', ['Item 1', 'Item 2']]] ) );"
+					oncommand="PrefsWindow().UI.append('#TemplateExtension-preferences', PrefsWindow().UI.create( 'menulist', null, ['menupopup', null, ['menuitem', ['Item 1', 'Item 2']]] ) );"
 				/>
 
 			</vbox>
@@ -90,6 +92,11 @@
 				oncommand="PrefsWindow().save();"
 			/>
 		</hbox>
+		<button
+			class="box-inherit button-menubutton-button"
+			label="UITest"
+			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init('preferences');"
+		/>
 
     </vbox>
 

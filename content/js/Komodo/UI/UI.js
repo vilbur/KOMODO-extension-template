@@ -95,7 +95,27 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return created_nodes.length > 1 ? created_nodes : lastNode ;
 		}; 
-
+		/** Get element value
+		 */
+		this.value = function(selector_or_element)
+		{
+			var element	= typeof selector_or_element === 'string' ? this.$(selector_or_element) : selector_or_element;
+			
+			/** Test if getting only preferences,
+			* 		if so, then if control has not attribute prefs="false"
+			*/
+			var preference_test = only_prefs===false || element.getAttribute('prefs')!=='false';
+			
+			/** I control type node
+			*/
+			var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
+			
+			//if( element.id && is_control_node && preference_test )
+			if( element.id && is_control_node )
+				return element.nodeName == 'checkbox' ? element.checked : element.value;
+			
+			return null;
+		}; 
 		/** Get values of parent node controls
 		 * @param	string	param1
 		 * @param	mixed	param2	if not false, then take only nodes without attribute prefs="false"
@@ -113,6 +133,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.values = function(param1, param2=false)
 		{
 			//console.log(  'UI.values(): ' + param1 );
+			console.log( document.childNodes );
 
 			return getValues(param1, param2);
 		};
@@ -408,25 +429,25 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					values[id] = value;
 			};
 			
-			/** Get element value
-			 */
-			var getElementValue = function(element)
-			{
-				/** Test if getting only preferences,
-				* 		if so, then if control has not attribute prefs="false"
-				*/
-				var preference_test = only_prefs===false || element.getAttribute('prefs')!=='false';
-				
-				/** I control type node
-				*/
-				var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
-				
-				//if( element.id && is_control_node && preference_test )
-				if( element.id && is_control_node )
-					return element.nodeName == 'checkbox' ? element.checked : element.value;
-				
-				return null;
-			}; 
+			///** Get element value
+			// */
+			//var value = function(element)
+			//{
+			//	/** Test if getting only preferences,
+			//	* 		if so, then if control has not attribute prefs="false"
+			//	*/
+			//	var preference_test = only_prefs===false || element.getAttribute('prefs')!=='false';
+			//	
+			//	/** I control type node
+			//	*/
+			//	var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
+			//	
+			//	//if( element.id && is_control_node && preference_test )
+			//	if( element.id && is_control_node )
+			//		return element.nodeName == 'checkbox' ? element.checked : element.value;
+			//	
+			//	return null;
+			//}; 
 
 			/** Get prefset values
 			 */
@@ -446,7 +467,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 						$(container).children().each(function()
 						{
-							var value = getElementValue( self );
+							var value = this.value( self );
 							if( value!==null )
 								prefset_values[self.id] = value;
 						});
@@ -474,7 +495,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					var id	= this.getAttribute('id');
 					
 					if( ! Object.keys(this.childNodes).length )
-						setToValues( id, getElementValue(this) );
+						setToValues( id, this.value(this) );
 								
 					else if( this.hasAttribute('prefset') )
 						setToValues( id, getPrefsetValues(id) );
@@ -487,7 +508,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			loopNestedElements( self.$(selector).children() );
 			
 			return values;
-		}; 
+		};
+
 		/** Get sanitized id
 		 */
 		var sanitizeId = function(id)

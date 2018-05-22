@@ -8,9 +8,17 @@ ko.extensions.TemplateExtension.UITest = {};
 	{
 		var $	= require('ko/dom');
 		var self	= this;
-		var paneUI	= null;
 		
 		var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
+		var paneUI	= null;
+		
+		/** Test box selectors
+		 */				
+		var document_id	= '#TemplateExtension-'; 
+		var cotrols_box_id	= '#generated_examples';
+		var document_name	= ''; // 'pane|preferences'
+		var document_selector	= '';	// E.G.: '#TemplateExtension-preferences'
+		var cotrols_box	= ''; // final selector of test box element E.G.: '#TemplateExtension-preferences #generated_example'
 
 		/*---------------------------------------
 			UITest TEST CONTROLS
@@ -18,13 +26,13 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** Test controls init pane
 		 */
-		this.TestControls_ReinitPane = function()
+		this.TestUiTest_ReinitPane = function()
 		{
 			this.init();
 		};
 		/** Test controls init pane
 		 */
-		this.TestControls_ClearConsole = function(clear_message='')
+		this.TestUiTest_ClearConsole = function(clear_message='')
 		{
 			var consoleEL = document.getElementById('console-widget');
 			if(consoleEL)
@@ -34,58 +42,6 @@ ko.extensions.TemplateExtension.UITest = {};
 					require('ko/console').info(clear_message);	
 			}
 		};
-		/*---------------------------------------
-			VALUES TESTS
-		-----------------------------------------
-		*/
-		/** Get values
-		 */
-		this.PrefsTest_getValuesFromDocumentTest = function()
-		{
-			console.log( paneUI.values() );	
-		};
-		/** Get values
-		 */
-		this.PrefsTest_getValuesFromElementTest = function()
-		{
-			console.log( paneUI.values( '#TemplateExtension-pane') );	
-		}; 
-		/** Get prefs values
-		 */
-		this.PrefsTest_setValueToElementTest = function()
-		{
-			//console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( '#TemplateExtension-pane', 'only-prefs' ) );
-		};
-		/** Get prefs values
-		 */
-		this.PrefsTest_setValuesByObjectTest = function()
-		{
-			//console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( '#TemplateExtension-pane', 'only-prefs' ) );
-		};
-		/*---------------------------------------
-			PREFS TESTS
-		-----------------------------------------
-		*/
-		/** PrefsTest_SavePrefs
-		 */
-		this.PrefsTest_SavePrefs = function()
-		{
-			var values	= paneUI.values( '#TemplateExtension-pane', 'only-prefs' );
-			console.log( values );
-			prefs.set(values);
-		}; 
-		/** PrefsTest_SavePrefs
-		 */
-		this.PrefsTest_LoadPrefs = function()
-		{
-			//var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
-
-			//var values_data	= paneUI.values( '#TemplateExtension-pane', 'prefs' );
-			var values	= prefs.get();
-			console.log( values );
-		}; 
 		
 		/*---------------------------------------
 			CONTROL TESTS
@@ -162,6 +118,59 @@ ko.extensions.TemplateExtension.UITest = {};
 
 		};
 		/*---------------------------------------
+			VALUES TESTS
+		-----------------------------------------
+		*/
+		/** Get values
+		 */
+		this.ValuesTest_getValuesFromDocumentTest = function()
+		{
+			console.log( paneUI.values() );	
+		};
+		/** Get values
+		 */
+		this.ValuesTest_getValuesFromElementTest = function()
+		{
+			console.log( paneUI.values( document_selector) );	
+		}; 
+		/** Get prefs values
+		 */
+		this.ValuesTest_setValueToElementTest = function()
+		{
+			//console.log('getPrefsValuesTest'); 
+			console.log( paneUI.values( document_selector, 'only-prefs' ) );
+		};
+		/** Get prefs values
+		 */
+		this.ValuesTest_setValuesByObjectTest = function()
+		{
+			//console.log('getPrefsValuesTest'); 
+			console.log( paneUI.values( document_selector, 'only-prefs' ) );
+		};
+		/*---------------------------------------
+			PREFS TESTS
+		-----------------------------------------
+		*/
+		/** PrefsTest_SavePrefs
+		 */
+		this.PrefsTest_SavePrefs = function()
+		{
+			var values	= paneUI.values( document_selector, 'only-prefs' );
+			console.log( values );
+			prefs.set(values);
+		}; 
+		/** PrefsTest_SavePrefs
+		 */
+		this.PrefsTest_LoadPrefs = function()
+		{
+			//var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
+
+			//var values_data	= paneUI.values( '#TemplateExtension-'+document_name, 'prefs' );
+			var values	= prefs.get();
+			console.log( values );
+		}; 
+
+		/*---------------------------------------
 			PREPARE TEST CLASS AND PANE UI
 		-----------------------------------------
 		*/
@@ -170,9 +179,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		var setPaneUI = function()
 		{
-			var document_pane	= ko.extensions.TemplateExtension.Komodo.Document.get('pane');
+			var _document	= ko.extensions.TemplateExtension.Komodo.Document.get( document_name );
 			
-			paneUI = new ko.extensions.TemplateExtension.Komodo.UI().document(document_pane);
+			paneUI = new ko.extensions.TemplateExtension.Komodo.UI().document(_document);
 			
 			return paneUI;
 		};
@@ -180,10 +189,17 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		var clearPane = function()
 		{
-			paneUI.$( '#TemplateExtension-pane > hbox:first-of-type' ).empty();
-			//paneUI.append( '#TemplateExtension-pane', [
+			
+			if( ! paneUI.exists(cotrols_box) )
+				paneUI.append( document_selector,
+					paneUI.create('hbox', {id: 'generated_examples', style:"padding:5px" })
+				);
+				
+			//paneUI.$( document_selector +' hbox:first-of-type' ).empty();
+			//paneUI.append( '#TemplateExtension-'+document_name, [
 			//	paneUI.create('hbox'),
 			//]);
+			
 		}; 
 
 		/** Create vbox
@@ -196,7 +212,7 @@ ko.extensions.TemplateExtension.UITest = {};
 				paneUI.$(selector).empty();
 			
 			else
-				paneUI.append( '#TemplateExtension-pane > hbox',
+				paneUI.append( cotrols_box,
 					paneUI.create('vbox', {id: id, style:"padding:5px" })
 				);
 			
@@ -216,7 +232,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			for(var method_name in self)
 				if (self.hasOwnProperty(method_name) && typeof self[method_name] === 'function' && method_name.match(/_/gi)  )
 					{
-						var method_name_split	= method_name.replace(/\s*Test/g, '').replace(/(\w)([A-Z])/g, '$1 $2').split('_');
+						var method_name_split	= method_name.replace(/^test|test$/gi, '').replace(/(\w)([A-Z])/g, '$1 $2').split('_');
 						var dropdown_name	= method_name_split[0].trim();
 						
 						if( ! dropdowns[dropdown_name] )
@@ -241,15 +257,21 @@ ko.extensions.TemplateExtension.UITest = {};
 		};
 		/** init
 		 */
-		this.init = function()
+		this.init = function(_document_name)
 		{
+			document_name	= _document_name;
+			document_selector	= document_id + document_name; 
+			cotrols_box	= document_selector +' '+cotrols_box_id; // final selector of test box element
+		
 			setPaneUI();
 			
 			clearPane();
 			
-			this.TestControls_ClearConsole();
+			//this.TestUiTest_ClearConsole();
 
 			AddRunTestButtons();
+			/* INIT TESTS */
+			//this.ControlTest_AddMainControls();
 		};
  
 		
@@ -264,6 +286,6 @@ function UITest()
 	return ko.extensions.TemplateExtension.UITest;
 }
 
-setTimeout( function(){
-	ko.extensions.TemplateExtension.UITest.init();
-}, 1000); 
+//setTimeout( function(){
+	//ko.extensions.TemplateExtension.UITest.init('pane');
+//}, 1000); 
