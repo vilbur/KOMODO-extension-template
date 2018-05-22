@@ -46,11 +46,12 @@
 	<!--TEST-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
 	
-	<vbox id="TemplateExtension-preferences" class="autoscroll">
+	<vbox id="TemplateExtension-preferences">
 		<caption  label="TemplateExtension"/> 
-<!--		<groupbox orient="vertical"> 
-			<vbox style="max-width:256px">
+		<groupbox orient="vertical"> 
+			<vbox style="max-width:128px">
 				<description value="&preferences.test;"/>
+				
 				<button
 					label="PrefsWindow().test()"
 					tooltiptext="PrefsWindow().test()" 
@@ -82,6 +83,7 @@
 			<textbox id="" value="Lorem Ipsum" prefs="true" />
 
 			
+		
 		</groupbox> 
 		<spacer flex="1"/>				
 		<hbox>
@@ -91,13 +93,15 @@
 				label="Save"
 				oncommand="PrefsWindow().save();"
 			/>
-		</hbox>-->
-		<button
-			class="box-inherit button-menubutton-button"
-			label="UITest"
-			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"
-		/>
-
+		</hbox>
+		
     </vbox>
-
+	
+	<button
+		class="box-inherit button-menubutton-button"
+		label="UITest"
+		style="border:1px solid lightblue"
+		oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"
+	/>
+	
 </window>

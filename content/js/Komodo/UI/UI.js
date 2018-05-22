@@ -4,10 +4,8 @@
 */
 ko.extensions.TemplateExtension.Komodo.UI = (function()
 {
-		
 	function UI()
 	{
-		//var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
 		var self	= this;
 		var $	= require('ko/dom');
 		var document	= document;		
@@ -270,7 +268,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var createContainer = function(container_index, container_label, controls_data)
 			{
 				var controls_labels	= Object.keys(controls_data);
-				//console.log(  'PREFSET_SELECTOR: ' + prefset_selector );
 				/** container
 				 */
 				var container = (function()
@@ -359,13 +356,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				/* Hide containers  */
 				self.$(prefset_selector +' .prefset-container').each(function(index)
 				{
-					//console.log( this.getAttribute('id') + ' '+index );
 					if( index>0 )
 						this.setAttribute('style', this.getAttribute('id') +';display:none;');
 					else
 						this.classList.add( container_class_shown );
-					
-					//console.log( self.values( '#' + this.getAttribute('id') ) );					
 				});
 			})(); 
 			

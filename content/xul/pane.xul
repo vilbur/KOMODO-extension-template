@@ -43,14 +43,23 @@
 
 	<!--TEST-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
+	
 
-	<!--<hbox style="border:1px solid red;width:256px;">-->
-		<button
-			class="box-inherit button-menubutton-button"
-			label="UITest.ini()"
-			oncommand="ko.extensions.TemplateExtension.UITest.init(this);"
-		/>
-	<!--</hbox> -->
+	<vbox style="max-width:128px;">
+
+		
+		<button label="TemplateExtension.test()" oncommand="TemplateExtension().test();" />
+		<button label="Komodo.Pane.test()" tooltiptext="TemplateExtension.Komodo.Pane.test()" oncommand="TemplateExtension().Komodo.Pane.test();" />
+
+	</vbox>
+	
+	<button
+		label="UITest.ini()"
+		style="border:1px solid lightblue"
+		oncommand="ko.extensions.TemplateExtension.UITest.init(this);"
+	/>
+
+			
 
 
 </page>
