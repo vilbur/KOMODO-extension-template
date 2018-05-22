@@ -350,19 +350,37 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 *
 		 * @return	[element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 		 *
-		 * @example createDopdown('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
-		 * @example createDopdown('#dropdown_text_test',	{'Item A':'alert("A")','Item B':'alert("B")'}, 'Menu Text')
+		 * @example dropdown('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
+		 * @example dropdown('#dropdown_text_test',	{'Item A':{tooltip: 'Item A'},'Item B':{style: 'border:green;'}}, 'Attributes & label')
 		 *
 		 */
-		this.createDopdown = function(id, items, menu_text=null)
+		this.dropdown = function(id, items, menu_text=null)
 		{
 			var menulist	= menu_text ? self.create('button', {label: menu_text, type: "menu" }) : self.create('menulist');
 			var menupopup	= self.create('menupopup');
 
+			/** Get item simple
+			 */
+			var getItemSimple = function(label, _attributes)
+			{
+				var attributes = {label: label};
+				
+				if( typeof _attributes === 'object' ){
+					for(var attr in _attributes)
+						if (_attributes.hasOwnProperty(attr))
+							attributes[attr] = _attributes[attr];
+							//var value = _attributes[attr];
+				}else
+					attributes.oncommand = _attributes;
+				
+				return self.create('menuitem', attributes );
+			}; 
+			
 			for(var label in items)
 				if (items.hasOwnProperty(label))
-					menupopup.appendChild( self.create('menuitem', { label: label, oncommand: items[label] }) );
-					//menupopup.appendChild( self.create('menuitem', { label: label, oncommand: items[label], style:"width:128px; border:1px solid red;" }) );
+					menupopup.appendChild( getItemSimple(label, items[label]) );
+					
+				
 			
 			menulist.appendChild( menupopup );
 			

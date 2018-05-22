@@ -151,13 +151,13 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			createVbox('ui_test_dropdown','Dropdown');
 			
-			var items = {
-				'Item A':'alert("A")',
-				'Item B':'alert("B")',
-			};
+			paneUI.append('#ui_test_dropdown',
+				paneUI.dropdown('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
+			);
 			
-			paneUI.append('#ui_test_dropdown',	paneUI.createDopdown('#dropdown_test',	items) );
-			paneUI.append('#ui_test_dropdown',	paneUI.createDopdown('#dropdown_text_test',	items, 'Menu Text') );
+			paneUI.append('#ui_test_dropdown',
+				paneUI.dropdown('#dropdown_text_test', {'Item A':{tooltip: 'Item A'},'Item B':{tooltip: 'Item B'}}, 'Attributes & label')
+			);
 
 		};
 		/*---------------------------------------
