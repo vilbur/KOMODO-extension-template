@@ -94,6 +94,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				lastNode.appendChild ( this.create(children[0], children[1], children[2]) );
 			
 			return created_nodes.length > 1 ? created_nodes : lastNode ;
+		};
+		/** Delete Node
+		 */
+		this.delete = function(selector_or_element, parent=null)
+		{
+			var element	= typeof selector_or_element === 'string' ? this.$(selector_or_element, parent) : selector_or_element;
+			element.parentNode.removeChild(element);
 		}; 
 		/** Get element value
 		 */
@@ -401,11 +408,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				if (items.hasOwnProperty(label))
 					menupopup.appendChild( getItemSimple(label, items[label]) );
 					
-				
-			
 			menulist.appendChild( menupopup );
 			
-			console.log( menulist.outerHTML ); // DEBUG: get element as plain text
+			//console.log( menulist.outerHTML ); // DEBUG: get element as plain text
 
 			return  menulist;
 		}; 

@@ -1,5 +1,9 @@
 /** Test controls in pane
  *
+ * For run UITest in UI place in *xul file buttons with oncommand 
+ *		pane.xul:	oncommand="ko.extensions.TemplateExtension.UITest.init('pane')";
+ *		preferences.xul:	oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init('preferences')";
+ *
  */
 ko.extensions.TemplateExtension.UITest = {};
 (function()
@@ -14,11 +18,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Test box selectors
 		 */				
-		var document_id	= '#TemplateExtension-'; 
-		var cotrols_box_id	= '#generated_examples';
-		var document_name	= ''; // 'pane|preferences'
-		var document_selector	= '';	// E.G.: '#TemplateExtension-preferences'
-		var cotrols_box	= ''; // final selector of test box element E.G.: '#TemplateExtension-preferences #generated_example'
+		var controls_box_id	= 'generated_examples';
+		var main_element	= '';	// E.G.: '#TemplateExtension-preferences'
+		var controls_box	= ''; // final selector of test box element E.G.: '#TemplateExtension-preferences #generated_example'
 
 		/*---------------------------------------
 			UITest TEST CONTROLS
@@ -26,13 +28,17 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** Test controls init pane
 		 */
-		this.TestUiTest_ReinitPane = function()
+		this.InitUiTest_UiTest_dd = function()
 		{
-			this.init();
+			//alert( 'initControlTestBox' );  
+			initControlTestBox();
+			//this.init();
+			AddRunTestButtons();
+
 		};
 		/** Test controls init pane
 		 */
-		this.TestUiTest_ClearConsole = function(clear_message='')
+		this.ClearConsole_UiTest_dd = function(clear_message='')
 		{
 			var consoleEL = document.getElementById('console-widget');
 			if(consoleEL)
@@ -47,19 +53,19 @@ ko.extensions.TemplateExtension.UITest = {};
 			CONTROL TESTS
 		-----------------------------------------
 		*/
-		this.ControlTest_AddExistingControls = function()
+		this.AddExistingControls_ControlTest_dd = function()
 		{
 			createVbox('box_controls_exists', 'Controls exist');
 
 			var control	= paneUI.create('caption',	{label:	'ControlsExistsTest'});
 			
-			console.log( control );
-			paneUI.append( '#this_parent_should_not_exists',	control );
+			//console.log( control );
+			paneUI.append( '#this.should_not_exists_parent_dd',	control );
 			paneUI.append( '#box_controls_exists',	control );
 		};
 		/** Add controls
 		 */
-		this.ControlTest_AddMainControls = function()
+		this.AddMainControls_ControlTest_dd = function()
 		{
 			//paneUI.append('#controls_box', paneUI.create('textbox') );
 			createVbox('main_controls', 'Main controls');
@@ -83,7 +89,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Create pref set
 		 */
-		this.ControlTest_CreatePrefset = function()
+		this.CreatePrefset_ControlTest_dd = function()
 		{
 			createVbox('ui_test_prefset');
 			
@@ -104,7 +110,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Create pref set
 		 */
-		this.ControlTest_CreateDopdown = function()
+		this.CreateDopdown_ControlTest_dd = function()
 		{
 			createVbox('ui_test_dropdown','Dropdown');
 			
@@ -123,29 +129,29 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** Get values
 		 */
-		this.ValuesTest_getValuesFromDocumentTest = function()
+		this.getValuesFromDocumentTest_ValuesTest_dd = function()
 		{
 			console.log( paneUI.values() );	
 		};
 		/** Get values
 		 */
-		this.ValuesTest_getValuesFromElementTest = function()
+		this.getValuesFromElementTest_ValuesTest_dd = function()
 		{
-			console.log( paneUI.values( document_selector) );	
+			console.log( paneUI.values( main_element) );	
 		}; 
 		/** Get prefs values
 		 */
-		this.ValuesTest_setValueToElementTest = function()
+		this.setValueToElementTest_ValuesTest_dd = function()
 		{
 			//console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( document_selector, 'only-prefs' ) );
+			console.log( paneUI.values( main_element, 'only-prefs' ) );
 		};
 		/** Get prefs values
 		 */
-		this.ValuesTest_setValuesByObjectTest = function()
+		this.setValuesByObjectTest_ValuesTest_dd = function()
 		{
 			//console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( document_selector, 'only-prefs' ) );
+			console.log( paneUI.values( main_element, 'only-prefs' ) );
 		};
 		/*---------------------------------------
 			PREFS TESTS
@@ -153,15 +159,15 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** PrefsTest_SavePrefs
 		 */
-		this.PrefsTest_SavePrefs = function()
+		this.SavePrefs_PrefsTest_dd = function()
 		{
-			var values	= paneUI.values( document_selector, 'only-prefs' );
+			var values	= paneUI.values( main_element, 'only-prefs' );
 			console.log( values );
 			prefs.set(values);
 		}; 
 		/** PrefsTest_SavePrefs
 		 */
-		this.PrefsTest_LoadPrefs = function()
+		this.LoadPrefs_PrefsTest_dd = function()
 		{
 			//var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
 
@@ -177,42 +183,46 @@ ko.extensions.TemplateExtension.UITest = {};
 		/** Pane ui
 		 * @return	object	UI class in pane
 		 */
-		var setPaneUI = function()
+		var setPaneUI = function(_document)
 		{
-			var _document	= ko.extensions.TemplateExtension.Komodo.Document.get( document_name );
-			
+			//var _document	= ko.extensions.TemplateExtension.Komodo.Document.get( document_name );
+			//console.log('setPaneUI'); 
+			//console.log( _document );
 			paneUI = new ko.extensions.TemplateExtension.Komodo.UI().document(_document);
 			
 			return paneUI;
 		};
 		/** Clear pane
 		 */
-		var clearPane = function()
+		var initControlTestBox = function()
 		{
+			controls_box = main_element + ' #' + controls_box_id;
+			//console.log(  'controls_box: ' + controls_box );
 			
-			if( ! paneUI.exists(cotrols_box) )
-				paneUI.append( document_selector,
-					paneUI.create('hbox', {id: 'generated_examples', style:"padding:5px" })
+			if( ! paneUI.exists(controls_box) )
+				paneUI.append( main_element,
+					paneUI.create('hbox', {id: controls_box_id, style:"padding:5px" })
 				);
 				
-			//paneUI.$( document_selector +' hbox:first-of-type' ).empty();
-			//paneUI.append( '#TemplateExtension-'+document_name, [
-			//	paneUI.create('hbox'),
-			//]);
-			
+			paneUI.$( controls_box  ).empty();
 		}; 
 
 		/** Create vbox
 		 */
 		var createVbox = function(id, caption=null)
 		{
+			//console.log(  'createVbox: ' + id );
 			var selector	= '#'+id;
 			
+			//paneUI.append( main_element,
+			//		paneUI.create( 'caption', {label: 'CAPTION TEST'} )
+			//	);
+			//console.log(  'selector: ' + selector );
 			if( paneUI.exists(selector) )
 				paneUI.$(selector).empty();
 			
 			else
-				paneUI.append( cotrols_box,
+				paneUI.append( controls_box,
 					paneUI.create('vbox', {id: id, style:"padding:5px" })
 				);
 			
@@ -233,18 +243,19 @@ ko.extensions.TemplateExtension.UITest = {};
 				if (self.hasOwnProperty(method_name) && typeof self[method_name] === 'function' && method_name.match(/_/gi)  )
 					{
 						var method_name_split	= method_name.replace(/^test|test$/gi, '').replace(/(\w)([A-Z])/g, '$1 $2').split('_');
-						var dropdown_name	= method_name_split[0].trim();
+						var dropdown_name	= method_name_split[1].trim();
 						
 						if( ! dropdowns[dropdown_name] )
 							dropdowns[dropdown_name] = [];
 						
-						dropdowns[dropdown_name].push({label: method_name_split[1].trim(), oncommand: 'UITest().'+method_name+'()', tooltip: 'UITest.'+method_name+'()'});
+						dropdowns[dropdown_name].push({label: method_name_split[0].trim(), oncommand: 'UITest().'+method_name+'()', tooltip: 'UITest.'+method_name+'()'});
 					}
 				for(var dropdown in dropdowns)
 					if (dropdowns.hasOwnProperty(dropdown))
 						paneUI.append( '#ui_test_methods',
 							paneUI.dropdown( dropdown, dropdowns[dropdown], dropdown )
 						);
+						
 		};
 
 		/** Remove controls
@@ -255,23 +266,52 @@ ko.extensions.TemplateExtension.UITest = {};
 			paneUI.$( '#extension_test_controls' ).empty();
 			paneUI.$( '#ui_test_controls' ).empty();			
 		};
+		
+		/** Find page element or first box|hbox|vbox in preferences window
+		 * page or 'window > box' must has id attribute
+		 */
+		var getMainElementId = function(_document)
+		{
+			//console.log( _document );
+			/** Find page or window in document 
+			 */
+			var page_or_window = (function()
+			{
+				for(let i=0; i<_document.childNodes.length;i++)
+					if( _document.childNodes[i].nodeName.match(/window|page/gi)  )
+						return _document.childNodes[i];
+			})(); 
+			//console.log( page_or_window );
+			/** Find main box
+			 */
+			var findMainBoxId = function()
+			{
+				for(let i=0; i<page_or_window.childNodes.length;i++)
+					if( page_or_window.childNodes[i].nodeName.match(/.box/gi) && page_or_window.childNodes[i].hasAttribute('id') )
+						return page_or_window.childNodes[i].getAttribute('id');
+			}; 
+			
+			return '#'+( page_or_window.nodeName==='page' ? page_or_window.getAttribute('id') : findMainBoxId() );
+		};
+		
 		/** init
 		 */
-		this.init = function(_document_name)
+		this.init = function(_document_name, element)
 		{
-			document_name	= _document_name;
-			document_selector	= document_id + document_name; 
-			cotrols_box	= document_selector +' '+cotrols_box_id; // final selector of test box element
-		
-			setPaneUI();
+			main_element = getMainElementId(element.ownerDocument);
+
+			setPaneUI(element.ownerDocument);
 			
-			clearPane();
+			paneUI.delete(element);
+
+			initControlTestBox();
 			
-			//this.TestUiTest_ClearConsole();
+			this.ClearConsole_UiTest_dd();
 
 			AddRunTestButtons();
+			
 			/* INIT TESTS */
-			//this.ControlTest_AddMainControls();
+			this.AddMainControls_ControlTest_dd();
 		};
  
 		
@@ -283,7 +323,7 @@ ko.extensions.TemplateExtension.UITest = {};
 
 function UITest()
 {
-	return ko.extensions.TemplateExtension.UITest;
+	return ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest;
 }
 
 //setTimeout( function(){

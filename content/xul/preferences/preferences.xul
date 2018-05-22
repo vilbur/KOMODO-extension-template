@@ -48,7 +48,7 @@
 	
 	<vbox id="TemplateExtension-preferences" class="autoscroll">
 		<caption  label="TemplateExtension"/> 
-		<groupbox orient="vertical"> 
+<!--		<groupbox orient="vertical"> 
 			<vbox style="max-width:256px">
 				<description value="&preferences.test;"/>
 				<button
@@ -91,11 +91,11 @@
 				label="Save"
 				oncommand="PrefsWindow().save();"
 			/>
-		</hbox>
+		</hbox>-->
 		<button
 			class="box-inherit button-menubutton-button"
 			label="UITest"
-			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init('preferences');"
+			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init('preferences', this);"
 		/>
 
     </vbox>

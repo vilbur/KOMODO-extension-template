@@ -44,11 +44,13 @@
 	<!--TEST-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
 
-	<button
-		class="box-inherit button-menubutton-button"
-		label="UITest.ini()"
-		oncommand="ko.extensions.TemplateExtension.UITest.init('pane');"
-	/>
+	<!--<hbox style="border:1px solid red;width:256px;">-->
+		<button
+			class="box-inherit button-menubutton-button"
+			label="UITest.ini()"
+			oncommand="ko.extensions.TemplateExtension.UITest.init('pane', this);"
+		/>
+	<!--</hbox> -->
 
 
 </page>
