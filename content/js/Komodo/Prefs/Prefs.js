@@ -42,31 +42,41 @@
 			call('set', param1, param2 );
 		};
 		/** Get prefs values
-		 * @param	string|array|object	param1	Key array or object for mass getting
-		 * @param 	mixed	param2	Value if param1 is not object
+		 * 
+		 * @param	null|string|array|object	param1	Key, array or object of keys for mass getting, if null then get all prefs with prefix
+		 * @param 	mixed	param2	Default value if param1 is not object
 		 * return	mixed
 		 *
+		 * @example get()	// get by all ids with prefix
 		 * @example get('key')	// get by key
 		 * @example get(['key1', 'key2'])	// get by array of keys
 		 * @example get({key1:'default', key2:'default'})	// get by object keys	
 		 * 
 		 */
-		this.get = function(param1, param2=null)
+		this.get = function(param1=null, param2=null)
 		{
+			console.log( param1 );
+			if( ! param1 )
+				return this.get(getIdsByPrefix());
+			
 			if( Array.isArray(param1)  )
 				param1 = getObjectOfKeys(param1);
 			
 			return call('get', param1, param2 );			
 		};
 		/** Delete prefs
-		 * @param	string|object	param1	Key or object with keys & values {key:'value'} for mass setting
+		 * @param	string|object	param1	Key, array or object with keys & values {key:'value'} for mass setting, if null then delete all prefs with prefix
 		 *
+		 * @example delete()	// delete by all ids with prefix
 		 * @example delete('key')	// delete by key
 		 * @example delete(['key1', 'key2'])	// delete by array of keys
 		 * @example delete({key1:'', key2:''})	// delete by object keys	
 		 */
-		this.delete = function(param1)
+		this.delete = function(param1=null)
 		{
+			if( ! param1 )
+				return this.delete(getIdsByPrefix());
+			
 			if( Array.isArray(param1)  )
 				param1 = getObjectOfKeys(param1);
 			
@@ -87,7 +97,7 @@
 			var callWithPrefix = function(key, value)
 			{
 				//console.log('callWithPrefix()'); 
-				console.log( method +':'+ key +'='+ value );
+				//console.log( method +':'+ key +'='+ value );
 				return self[method+'Pref']( prefix + key, value );
 			}; 
 			
@@ -97,7 +107,7 @@
 						result[key] = callWithPrefix( key, param1[key] );
 			}else
 				return callWithPrefix( param1, param2 );
-			console.log( result );
+			//console.log( result );
 			return result;
 		}; 
 		/*---------------------------------------
@@ -186,7 +196,31 @@
 		{
 			if( prefs.hasPref(key) )
 				prefs.deletePref(key);
-		}; 
+		};
+		/*---------------------------------------
+			PRIVATE
+		-----------------------------------------
+		*/
+		/** Get all ids from prefs which match prefix
+		 * @return	array Array of ids without prefix (prefix is added in this.get function)
+		 * 
+		 */
+		var getIdsByPrefix = function()
+		{
+			var string	= prefs.dump();
+			var matches_all	= [];
+			var last_match_end	= 0; // end position of last match
+		
+			while((match = new RegExp( ''+prefix + '([^\\s]+)', 'g').exec(string)) !== null)
+			{
+				string	= string.substring(match.index + match[0].length);
+				match.index	= last_match_end = last_match_end + match.index + match[0].length;
+				//console.log( match );
+				matches_all.push(match.pop());
+			}
+			//console.log( matches_all );
+			return matches_all;
+		};  
 		/** Convert array to object keys
 		 *  @example  getObjectOfKeys(['key1', 'key2']) // return {key1:'', key2:''}
 		 *
@@ -194,10 +228,11 @@
 		 */
 		var getObjectOfKeys = function(array)
 		{
-			var keys	= {};
+			var keys	= {}; 
 			for(let i=0; i<array.length;i++)
 				keys[array[i]] = '';
 			
+			console.log( keys );
 			return keys;
 		};
 		/** test
@@ -262,7 +297,6 @@
  *		validateLong
  *		validateString
  */
-
 
 
 
