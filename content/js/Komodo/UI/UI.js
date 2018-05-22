@@ -356,12 +356,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.createDopdown = function(id, items, menu_text=null)
 		{
-			var menulist	= label ? self.create('button', {label: menu_text, type: "menu" }) : self.create('menulist');
+			var menulist	= menu_text ? self.create('button', {label: menu_text, type: "menu" }) : self.create('menulist');
 			var menupopup	= self.create('menupopup');
 
 			for(var label in items)
 				if (items.hasOwnProperty(label))
-					menupopup.appendChild( self.create('menuitem', {label: label, oncommand: items[label]}) );
+					menupopup.appendChild( self.create('menuitem', { label: label, oncommand: items[label] }) );
+					//menupopup.appendChild( self.create('menuitem', { label: label, oncommand: items[label], style:"width:128px; border:1px solid red;" }) );
 			
 			menulist.appendChild( menupopup );
 			

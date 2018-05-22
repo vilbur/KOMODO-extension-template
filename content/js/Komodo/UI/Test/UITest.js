@@ -156,8 +156,8 @@ ko.extensions.TemplateExtension.UITest = {};
 				'Item B':'alert("B")',
 			};
 			
-			paneUI.append('#dropdown_test',	paneUI.createDopdown('#dropdown_test',	items) );
-			paneUI.append('#dropdown_text_test',	paneUI.createDopdown('#dropdown_label_test',	items, 'Menu Text') );
+			paneUI.append('#ui_test_dropdown',	paneUI.createDopdown('#dropdown_test',	items) );
+			paneUI.append('#ui_test_dropdown',	paneUI.createDopdown('#dropdown_text_test',	items, 'Menu Text') );
 
 		};
 		/*---------------------------------------
@@ -188,18 +188,21 @@ ko.extensions.TemplateExtension.UITest = {};
 		/** Create vbox
 		 */
 		var createVbox = function(id, caption=null)
-		{				
-			if( paneUI.exists('#'+id) )
-				return;
-					
-			paneUI.append( '#TemplateExtension-pane > hbox',
-				paneUI.create('vbox', {id: id, style:"padding:5px" })
-			);
+		{
+			var selector	= '#'+id;
+			
+			if( paneUI.exists(selector) )
+				paneUI.$(selector).empty();
+			
+			else
+				paneUI.append( '#TemplateExtension-pane > hbox',
+					paneUI.create('vbox', {id: id, style:"padding:5px" })
+				);
 			
 			if( caption )
-			paneUI.append( '#'+id,
-				paneUI.create( 'caption', {label: caption} )
-			);
+				paneUI.append( selector,
+					paneUI.create( 'caption', {label: caption} )
+				);
 		}; 
 		/**  Loop this object and get functions wich has format of name: 'UiBoxName_ButtonName'
 		 */
@@ -211,6 +214,7 @@ ko.extensions.TemplateExtension.UITest = {};
 						var key_split	= key.split('_');
 						var box_id	=  key_split[0].toLowerCase();
 
+					if( ! paneUI.exists('#'+box_id) )
 						createVbox( box_id, key_split[0].replace(/(\w)([A-Z])/g, '$1 $2') );
 						
 						paneUI.append( '#'+box_id, [
