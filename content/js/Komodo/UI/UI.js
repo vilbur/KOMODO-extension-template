@@ -85,7 +85,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 											 .attributes(node_attributes)
 				 							 .get();
 			});
-
+ 
 			/** Last node
 			 */
 			var lastNode = created_nodes[created_nodes.length-1];

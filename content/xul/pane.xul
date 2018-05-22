@@ -48,7 +48,7 @@
 		<button
 			class="box-inherit button-menubutton-button"
 			label="UITest.ini()"
-			oncommand="ko.extensions.TemplateExtension.UITest.init('pane', this);"
+			oncommand="ko.extensions.TemplateExtension.UITest.init(this);"
 		/>
 	<!--</hbox> -->
 

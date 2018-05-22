@@ -28,7 +28,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** Test controls init pane
 		 */
-		this.InitUiTest_UiTest_dd = function()
+		this.InitUiTest_UiTest_btn = function()
 		{
 			//alert( 'initControlTestBox' );  
 			initControlTestBox();
@@ -38,9 +38,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		};
 		/** Test controls init pane
 		 */
-		this.ClearConsole_UiTest_dd = function(clear_message='')
+		this.ClearConsole_UiTest_btn = function(clear_message='')
 		{
-			var consoleEL = document.getElementById('console-widget');
+			var consoleEL = ko.windowManager.getMainWindow().document.getElementById('console-widget');
 			if(consoleEL)
 			{
 				consoleEL.contentWindow.document.getElementById('output').innerHTML = '';
@@ -235,26 +235,65 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		var AddRunTestButtons = function()
 		{
-			var dropdowns	= {};
+			var controls	= {button:[], dropdown:[]};
 
-			createVbox( 'ui_test_methods', 'UITest methods' );
+			//createVbox( 'ui_test_buttons', 'UITest buttons' );
 				
 			for(var method_name in self)
 				if (self.hasOwnProperty(method_name) && typeof self[method_name] === 'function' && method_name.match(/_/gi)  )
+				{
+					var control_type	= /_(btn|dd)/gi.exec(method_name).pop() === 'dd' ? 'dropdown' : 'button';
+					var method_name_split	= method_name.replace(/^test|test$/gi, '').replace(/(\w)([A-Z])/g, '$1 $2').split('_');
+					var method_prefix	= method_name_split[1].trim();
+					var attributes	= {label: method_name_split[0].trim(), oncommand: 'UITest().'+method_name+'()', tooltip: 'UITest.'+method_name+'()'};
+					
+					
+					if( ! controls[control_type][method_prefix] )
+						controls[control_type][method_prefix] = [];
+					
+					controls[control_type][method_prefix].push(attributes);
+					
+				}
+			/** Add btunttons
+			 */
+			var addBtunttons = (function()
+			{
+
+				for(var control_box_label in controls.button)
+					if (controls.button.hasOwnProperty(control_box_label))
 					{
-						var method_name_split	= method_name.replace(/^test|test$/gi, '').replace(/(\w)([A-Z])/g, '$1 $2').split('_');
-						var dropdown_name	= method_name_split[1].trim();
+						var control_box	= control_box_label.replace(/\s/g, '_').toLowerCase();
 						
-						if( ! dropdowns[dropdown_name] )
-							dropdowns[dropdown_name] = [];
+						createVbox( control_box, control_box_label );
 						
-						dropdowns[dropdown_name].push({label: method_name_split[0].trim(), oncommand: 'UITest().'+method_name+'()', tooltip: 'UITest.'+method_name+'()'});
-					}
-				for(var dropdown in dropdowns)
-					if (dropdowns.hasOwnProperty(dropdown))
-						paneUI.append( '#ui_test_methods',
-							paneUI.dropdown( dropdown, dropdowns[dropdown], dropdown )
+						paneUI.append( '#'+control_box,
+							paneUI.create( 'button', controls.button[control_box_label] )
 						);
+					}
+						
+			})(); 
+			
+			/** Add dropdowns
+			 */
+			var addDropdowns = (function()
+			{
+				createVbox( 'ui_test_methods', 'UITest methods' );
+
+				//for(var control_type in controls)
+				//	if (controls.hasOwnProperty(control_type))
+				//		for(var dropdown in controls[control_type])
+				//			if (controls.hasOwnProperty(controls[control_type])){
+				//				paneUI.append( '#ui_test_methods',
+				//					paneUI[control_type]( dropdown, controls[control_type][dropdown], dropdown )
+				//				);
+				//			}
+				for(var dropdown in controls.dropdown)
+					if (controls.dropdown.hasOwnProperty(dropdown))
+						paneUI.append( '#ui_test_methods',
+							paneUI.dropdown( dropdown, controls.dropdown[dropdown], dropdown )
+						);
+			})(); 
+
 						
 		};
 
@@ -266,6 +305,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			paneUI.$( '#extension_test_controls' ).empty();
 			paneUI.$( '#ui_test_controls' ).empty();			
 		};
+		
 		
 		/** Find page element or first box|hbox|vbox in preferences window
 		 * page or 'window > box' must has id attribute
@@ -296,7 +336,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** init
 		 */
-		this.init = function(_document_name, element)
+		this.init = function(element)
 		{
 			main_element = getMainElementId(element.ownerDocument);
 
@@ -306,7 +346,7 @@ ko.extensions.TemplateExtension.UITest = {};
 
 			initControlTestBox();
 			
-			this.ClearConsole_UiTest_dd();
+			this.ClearConsole_UiTest_btn();
 
 			AddRunTestButtons();
 			

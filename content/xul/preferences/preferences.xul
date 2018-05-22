@@ -95,7 +95,7 @@
 		<button
 			class="box-inherit button-menubutton-button"
 			label="UITest"
-			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init('preferences', this);"
+			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"
 		/>
 
     </vbox>
