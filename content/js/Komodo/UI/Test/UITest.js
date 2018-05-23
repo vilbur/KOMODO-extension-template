@@ -2,6 +2,9 @@
  *
  * Steps how to init in UI in documentation of method 'UITest.init()'
  *
+ * Methods with suffix '_btn' became buttons in UI.	Methods with same prefix belongs to same section <box>
+ * Methods with suffix '_dd'  became Items in dropdoen menu.	Methods with same prefix belongs to same dropdown menu
+ *
  */
 ko.extensions.TemplateExtension.UITest = {};
 (function()
@@ -168,7 +171,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** PrefsTest_SavePrefs
 		 */
-		this.SavePrefs_PrefsTest_dd = function()
+		this.SavePrefs_PrefsTest_btn = function()
 		{
 			var values	= paneUI.values( main_element, 'only-prefs' );
 			console.log( values );
@@ -176,7 +179,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		}; 
 		/** PrefsTest_SavePrefs
 		 */
-		this.LoadPrefs_PrefsTest_dd = function()
+		this.LoadPrefs_PrefsTest_btn = function()
 		{
 			var values	= prefs.get();
 			console.log( values );

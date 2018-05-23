@@ -72,7 +72,7 @@
 		this.get = function(param1=null, param2=null)
 		{
 			if( ! param1 )
-				return this.get(getIdsByPrefix());
+				return this.get(prefs.getAllPrefIds());
 			
 			if( Array.isArray(param1)  )
 				param1 = getObjectOfKeys(param1);
@@ -103,7 +103,7 @@
 		var call = function(method, param1, param2=null)
 		{
 			var result	= {};
-
+			//console.log( 'Prefs.call:'+method +', ' + param1 + ', ' + param2 );
 			/** Call with prefset
 			 */
 			var callWithPrefix = function(key, value)
@@ -204,41 +204,17 @@
 		 */
 		this.deletePref = function(key)
 		{
-			//if( prefs.hasPref(key) )
-			//console.log(  'prefset_key: ' + prefset_key );
-			//console.log( key );
-			//console.log(  'deletePref() prefes: ' + ( prefset_key && key === prefset_key ));
-			//
 			if( prefset_key && key === prefset_key )
 				prefs_global.deletePref(key);
 				
 			else
 				prefs.deletePref(key);
-				
-			
 		};
 		/*---------------------------------------
 			PRIVATE
 		-----------------------------------------
 		*/
-		/** Get all ids from prefs which match prefset
-		 * @return	array Array of ids without prefset (prefset is added in this.get function)
-		 * 
-		 */
-		var getIdsByPrefix = function()
-		{
-			var string	= prefs.dump();
-			var matches_all	= [];
-			var last_match_end	= 0; // end position of last match
-		
-			while((match = new RegExp( '([^\\s]+)', 'g').exec(string)) !== null)
-			{
-				string	= string.substring(match.index + match[0].length);
-				match.index	= last_match_end = last_match_end + match.index + match[0].length;
-				matches_all.push(match.pop());
-			}
-			return matches_all;
-		};  
+
 		/** Convert array to object keys
 		 *  @example  getObjectOfKeys(['key1', 'key2']) // return {key1:'', key2:''}
 		 *
@@ -314,9 +290,5 @@
  *		validateLong
  *		validateString
  */
-
-
-
-
 
 
