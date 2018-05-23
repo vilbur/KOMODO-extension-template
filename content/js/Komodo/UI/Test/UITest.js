@@ -138,13 +138,19 @@ ko.extensions.TemplateExtension.UITest = {};
 		};
 		/** Get values
 		 */
-		this.getValuesFromElementTest_ValuesTest_btn = function()
+		this.getValuesFromControlTest_ValuesTest_btn = function()
 		{
-			console.log( paneUI.values( main_element) );	
+			console.log( paneUI.value( '#checkbox_1' ) );	
+		};
+		/** Get values
+		 */
+		this.getValuesFromMainElementTest_ValuesTest_btn = function()
+		{
+			console.log( paneUI.values( main_element ) );	
 		}; 
 		/** Get prefs values
 		 */
-		this.setValueToElementTest_ValuesTest_btn = function()
+		this.getPrefsValuesFromMainElementTest_ValuesTest_btn = function()
 		{
 			//console.log('getPrefsValuesTest'); 
 			console.log( paneUI.values( main_element, 'only-prefs' ) );
