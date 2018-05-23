@@ -99,27 +99,19 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			var element	= typeof selector_or_element === 'string' ? this.$(selector_or_element, parent) : selector_or_element;
 			element.parentNode.removeChild(element);
-		}; 
-		/** Get\Set element value
-		 */
-		this.value = function(param1=null, param2=null)
-		{
-			var element	= typeof param1 === 'string' ? this.$(param1).element() : param1;
-			
-			return param2 ? setValue(element, param2) : getValue(element);
 		};
-
-		/** Get values of parent node controls
+		
+		/** Get\Set values of controls
 		 * @param	string	param1
 		 * @param	mixed	param2	if not false, then take only nodes without attribute prefs="false"
 		 * @return	{id: value}	Object of node ids and values
 		 *
-		 * @example values()	// get all values from docuent
-		 * @example values('id')	// get all values from element
-		 * @example values('only-prefs')	// get prefs values from docuent
-		 * @example values('id', 'only-prefs')	// get prefs values from element
+		 * @example values()	// GET all values from docuent
+		 * @example values('id')	// GET all values from element
+		 * @example values('only-prefs')	// GET prefs values from docuent
+		 * @example values('id', 'only-prefs')	// GET prefs values from element
 		 * 
-		 * @example values({'id': 'value to set'})	// mass set values by object
+		 * @example values({'id': 'value to set'})	// mass SET values by object
 		 * 
 		 */
 		this.values = function(param1, param2=false)
@@ -127,6 +119,22 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			console.log(  'UI.values()' );
 
 			return typeof param1 === 'object' ? setValues(param1) : getValues(param1, param2) ;
+		};
+		
+		/** Get\Set element value
+		 *
+		 * @param	string	param1	Selector of element to get\set value
+		 * @param	string	param2	Value of element to set
+		 * @return mixed          Current value of element 
+		 *
+		 * @example value('#selector')	// get value of element
+		 * @example value('#selector', 'value')	// set value to element
+		 */
+		this.value = function(param1=null, param2=null)
+		{
+			var element	= typeof param1 === 'string' ? this.$(param1).element() : param1;
+			
+			return param2 ? setValue(element, param2) : getValue(element);
 		};
 
 		/** Append new children to node
@@ -400,13 +408,17 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		-----------------------------------------
 		*/
 		/** Get values from controls
+		 *
+		 * @param	string	selector	Selector of node or parent nodes whereto get values
+		 * @param	mixed	only_prefs	If not false then only elements withthout attribute prefs="false" will be processed
+		 * @return	{id: value}	            Object with elements ids and current values
 		 */
 		var getValues = function(selector, only_prefs=false)
 		{
 			var values	= {};
 			
 			/** Test if getting only preferences,
-			* 		if so, then if control has not attribute prefs="false"
+			* 		if so, then if control has not 
 			*/
 			var preferenceTest = function(element)
 			{
@@ -489,23 +501,22 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return values;
 		};
 
-		/** Set values
+		/** Set values to elements
+		 * @param	{id: value}	values_data	Object with ids and valuest to set
 		 */
 		var setValues = function(values_data)
 		{
-			console.log('setValues()'); 
-			console.log( values_data );
 			for(var id in values_data)
 				if (values_data.hasOwnProperty(id))
 					setValue( '#' + id,  values_data[id] );
 		};
 		
-		/** Get control value
-		 *
+		/** Get element value
+		 * @param	object	element	Element node for get value
 		 */
 		var getValue = function(element)
 		{
-			/** I control type node
+			/** I element type node
 			*/
 			var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
 			
@@ -515,8 +526,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return null;
 		};
 		
-		/** Get control value
-		 *
+		/** Set element value
+		 * @param	string	selector	Selector of element for set value
+		 * @param	mixed	value	Value of element
 		 */
 		var setValue = function(selector, value)
 		{

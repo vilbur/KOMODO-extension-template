@@ -94,12 +94,12 @@
 		</hbox>
     </vbox>
 	
-	<!--UITest-->
-	<button
-		class="box-inherit button-menubutton-button"
-		label="UITest"
-		style="border:1px solid lightblue"
-		oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"
-	/>
+		<!--UITest-->
+		<vbox id="UiTest-preferences"><!-- UiTest wrapper with id attribute - Not required, but bettwer if exists -->
+			<button 
+				label="UITest.ini()"
+				style="border:1px solid lightblue"
+				oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"/>
+		</vbox>
 	
 </window>
