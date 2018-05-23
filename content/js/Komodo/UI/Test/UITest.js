@@ -181,8 +181,10 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.LoadPrefs_PrefsTest_btn = function()
 		{
+			//console.log('PrefsTest_btn()'); 
 			var values	= prefs.get();
 			console.log( values );
+			paneUI.values( values );
 		}; 
 
 		/*---------------------------------------

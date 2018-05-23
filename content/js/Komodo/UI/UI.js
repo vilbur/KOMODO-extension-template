@@ -100,41 +100,33 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var element	= typeof selector_or_element === 'string' ? this.$(selector_or_element, parent) : selector_or_element;
 			element.parentNode.removeChild(element);
 		}; 
-		/** Get element value
+		/** Get\Set element value
 		 */
-		this.value = function(selector_or_element)
+		this.value = function(param1=null, param2=null)
 		{
-			var element	= typeof selector_or_element === 'string' ? this.$(selector_or_element).element() : selector_or_element;
+			var element	= typeof param1 === 'string' ? this.$(param1).element() : param1;
+			
+			return param2 ? setValue(element, param2) : getValue(element);
+		};
 
-			/** I control type node
-			*/
-			var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
-			
-			if( element.id && is_control_node )
-				return element.nodeName == 'checkbox' ? element.checked : element.value;
-			
-			return null;
-		}; 
 		/** Get values of parent node controls
 		 * @param	string	param1
 		 * @param	mixed	param2	if not false, then take only nodes without attribute prefs="false"
 		 * @return	{id: value}	Object of node ids and values
 		 *
 		 * @example values()	// get all values from docuent
-		 * @example values('#element')	// get all values from element
+		 * @example values('id')	// get all values from element
 		 * @example values('only-prefs')	// get prefs values from docuent
-		 * @example values('#element', 'only-prefs')	// get prefs values from element
+		 * @example values('id', 'only-prefs')	// get prefs values from element
 		 * 
-		 * @example values('#control', 'value to set')	// set value to control
-		 * @example values({'#control': 'value to set'})	// mass set values by object
+		 * @example values({'id': 'value to set'})	// mass set values by object
 		 * 
 		 */
 		this.values = function(param1, param2=false)
 		{
-			//console.log(  'UI.values(): ' + param1 );
-			console.log( document.childNodes );
+			console.log(  'UI.values()' );
 
-			return getValues(param1, param2);
+			return typeof param1 === 'object' ? setValues(param1) : getValues(param1, param2) ;
 		};
 
 		/** Append new children to node
@@ -404,14 +396,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		}; 
 		
 		/*---------------------------------------
-			PRIVATE
+			PRIVATE VALUE METHODS
 		-----------------------------------------
 		*/
 		/** Get values from controls
 		 */
 		var getValues = function(selector, only_prefs=false)
 		{
-			//console.log(  'getValues(): ' + selector );
 			var values	= {};
 			
 			/** Test if getting only preferences,
@@ -498,6 +489,50 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return values;
 		};
 
+		/** Set values
+		 */
+		var setValues = function(values_data)
+		{
+			console.log('setValues()'); 
+			console.log( values_data );
+			for(var id in values_data)
+				if (values_data.hasOwnProperty(id))
+					setValue( '#' + id,  values_data[id] );
+		};
+		
+		/** Get control value
+		 *
+		 */
+		var getValue = function(element)
+		{
+			/** I control type node
+			*/
+			var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
+			
+			if( element.id && is_control_node )
+				return element.nodeName == 'checkbox' ? element.checked : element.value;
+			
+			return null;
+		};
+		
+		/** Get control value
+		 *
+		 */
+		var setValue = function(selector, value)
+		{
+			console.log(  'setValue()' );
+			console.log( selector );
+			console.log( value );
+			
+			var element	= self.$(selector).element();
+			
+			if( element.nodeName === 'checkbox' )
+				 element.checked = value;
+			
+			else
+				element.value = value;
+		}; 
+	
 		/** Get sanitized id
 		 */
 		var sanitizeId = function(id)
