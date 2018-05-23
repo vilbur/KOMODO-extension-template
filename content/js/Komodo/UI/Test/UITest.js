@@ -1,8 +1,6 @@
 /** Test controls in pane
  *
- * For run UITest in UI place in *xul file buttons with oncommand 
- *		pane.xul:	oncommand="ko.extensions.TemplateExtension.UITest.init('pane')";
- *		preferences.xul:	oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init('preferences')";
+ * Steps how to init in UI in documentation of method 'UITest.init()'
  *
  */
 ko.extensions.TemplateExtension.UITest = {};
@@ -13,7 +11,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		var $	= require('ko/dom');
 		var self	= this;
 		
-		var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefix('ui-test-');
+		var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefset('ui-test');
 		var paneUI	= null;
 		
 		/** Test box selectors
@@ -30,11 +28,13 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.InitUiTest_UiTest_btn = function()
 		{
-			//alert( 'initControlTestBox' );  
+			console.log( 'InitUiTest_UiTest_btn' );  
 			initControlTestBox();
 			//this.init();
 			AddUiTestButtons();
-
+			
+			/* INIT TESTS */
+			this.AddMainControls_ControlTest_dd();
 		};
 		/** Test controls init pane
 		 */
@@ -132,26 +132,26 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** Get values
 		 */
-		this.getValuesFromDocumentTest_ValuesTest_dd = function()
+		this.getValuesFromDocumentTest_ValuesTest_btn = function()
 		{
 			console.log( paneUI.values() );	
 		};
 		/** Get values
 		 */
-		this.getValuesFromElementTest_ValuesTest_dd = function()
+		this.getValuesFromElementTest_ValuesTest_btn = function()
 		{
 			console.log( paneUI.values( main_element) );	
 		}; 
 		/** Get prefs values
 		 */
-		this.setValueToElementTest_ValuesTest_dd = function()
+		this.setValueToElementTest_ValuesTest_btn = function()
 		{
 			//console.log('getPrefsValuesTest'); 
 			console.log( paneUI.values( main_element, 'only-prefs' ) );
 		};
 		/** Get prefs values
 		 */
-		this.setValuesByObjectTest_ValuesTest_dd = function()
+		this.setValuesByObjectTest_ValuesTest_btn = function()
 		{
 			//console.log('getPrefsValuesTest'); 
 			console.log( paneUI.values( main_element, 'only-prefs' ) );
@@ -194,14 +194,16 @@ ko.extensions.TemplateExtension.UITest = {};
 		var initControlTestBox = function()
 		{
 			controls_box = main_element + ' #' + controls_box_id;
-			//console.log(  'controls_box: ' + controls_box );
+			console.log(  'initControlTestBox: ' + controls_box );
+			
+			paneUI.$( controls_box  ).delete();
 			
 			if( ! paneUI.exists(controls_box) )
 				paneUI.append( main_element,
-					paneUI.create('hbox', {id: controls_box_id, style:"padding:5px" })
+					paneUI.create('hbox', {id: controls_box_id, style:"padding:5px; border: 1px solid lightblue" })
 				);
 				
-			paneUI.$( controls_box  ).empty();
+			//paneUI.$( controls_box  ).empty();
 		}; 
 
 		/** Create vbox
@@ -288,8 +290,13 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Find page element or first box|hbox|vbox in preferences window
 		 */
-		var getMainElementId = function(_document)
+		var getMainElementId = function(element)
 		{
+			var _document	= element.ownerDocument;
+			
+			if( element.parentNode.hasAttribute('id') )
+				return '#'+ element.parentNode.getAttribute('id');
+			
 			/** Find page or window in document 
 			 */
 			var page_or_window = (function()
@@ -317,15 +324,25 @@ ko.extensions.TemplateExtension.UITest = {};
 			return '#'+( page_or_window.nodeName==='page' ? page_or_window.getAttribute('id') : findMainBoxId() );
 		};
 		
-		/** init
+		/** init UITest controls with button
+		 *
+		 * @example markup in pane.xul or preferences.xul
+		 * 
+		 * 	<vbox id="UiTest-pane"><!-- UiTest wrapper with id attribute - Not required, but bettwer if exists -->
+		 * 		<button 
+		 * 			label="UITest.ini()"
+		 * 			style="border:1px solid lightblue"
+		 * 			oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"/>
+		 * 	</vbox>
+		 *
 		 */
-		this.init = function(element)
+		this.init = function(init_button)
 		{
-			main_element = getMainElementId(element.ownerDocument);
+			main_element = getMainElementId(init_button);
 
-			setPaneUI(element.ownerDocument);
+			setPaneUI(init_button.ownerDocument);
 			
-			paneUI.delete(element);
+			paneUI.delete(init_button);
 
 			initControlTestBox();
 			
@@ -342,12 +359,10 @@ ko.extensions.TemplateExtension.UITest = {};
 
 })().apply(ko.extensions.TemplateExtension.UITest);
 
-
+/** Acces to class from UI 
+ *	
+ */
 function UITest()
 {
 	return ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest;
 }
-
-//setTimeout( function(){
-	//ko.extensions.TemplateExtension.UITest.init('pane');
-//}, 1000); 

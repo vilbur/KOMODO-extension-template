@@ -104,6 +104,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.value = function(selector_or_element)
 		{
+			console.log('UI.value: '+selector_or_element);
 			var element	= typeof selector_or_element === 'string' ? this.$(selector_or_element) : selector_or_element;
 			
 			/** Test if getting only preferences,
@@ -427,27 +428,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				if( value!==null )
 					values[id] = value;
 			};
-			
-			///** Get element value
-			// */
-			//var value = function(element)
-			//{
-			//	/** Test if getting only preferences,
-			//	* 		if so, then if control has not attribute prefs="false"
-			//	*/
-			//	var preference_test = only_prefs===false || element.getAttribute('prefs')!=='false';
-			//	
-			//	/** I control type node
-			//	*/
-			//	var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
-			//	
-			//	//if( element.id && is_control_node && preference_test )
-			//	if( element.id && is_control_node )
-			//		return element.nodeName == 'checkbox' ? element.checked : element.value;
-			//	
-			//	return null;
-			//}; 
-
+			 
 			/** Get prefset values
 			 */
 			var getPrefsetValues = function(prefset_id)
@@ -476,7 +457,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 					self.$('#'+prefset_id +' .prefset-container').each(function()
 					{	
 						prefset_values[self.getAttribute('label')] = getElementsValues(self);
-						
 					});
 				}; 
 				loopContainers();
@@ -489,9 +469,12 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			 */
 			var loopNestedElements = function(child_nodes)
 			{
+				console.log('loopNestedElements');
+				console.log( child_nodes );
 				child_nodes.each(function()
 				{
 					var id	= this.getAttribute('id');
+					console.log( 'child_node: '+id );
 					
 					if( ! Object.keys(this.childNodes).length )
 						setToValues( id, this.value(this) );
