@@ -53,6 +53,7 @@
 
 	</vbox>
 	
+	<!--UITest-->
 	<button
 		label="UITest.ini()"
 		style="border:1px solid lightblue"

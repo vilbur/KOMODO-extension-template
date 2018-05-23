@@ -81,8 +81,6 @@
 
 			</vbox>
 			<textbox id="" value="Lorem Ipsum" prefs="true" />
-
-			
 		
 		</groupbox> 
 		<spacer flex="1"/>				
@@ -94,9 +92,9 @@
 				oncommand="PrefsWindow().save();"
 			/>
 		</hbox>
-		
     </vbox>
 	
+	<!--UITest-->
 	<button
 		class="box-inherit button-menubutton-button"
 		label="UITest"

@@ -2,7 +2,7 @@
  * 
  * NOTE: !!! Get values from prefs works after restart of Komodo after first setting
  * 
- * @method	self	prefix( string prefix )	Set prefix for all keys
+ * @method	self	prefset( string prefset )	Set prefset for all keys
  * 
  * @method	void	set( string|object param1[, mixed param2] )	Set prefs values
  * @method	void	get( string|array|object param1[, mixed param2] )	Get prefs values
@@ -13,21 +13,37 @@
 {
 	function Prefs()
 	{ 
-		var prefs	= require("ko/prefs");
 		var self	= this;
+		var prefs_global	= require("ko/prefs");
+		var prefset	= null;
+		var prefs	= prefs_global;
 		var pref_types	= ['String', 'Boolean', 'Long', 'Double'];
-		var prefix	= '';		
+		var prefset_key	= '';		
 		//var prefs	= ko.prefs ? ko.prefs : require("ko/prefs");
 	
-		/** Set prefix for every key
+		/** Set prefset for every key
 		 * Allow to all prefs keys to be prefixed
 		 *
 		 * @param	string	prefix
 		 * @return	self 
 		 */
-		this.prefix = function(_prefix='')
+		this.prefset = function(_prefset_key='')
 		{
-			prefix = _prefix;
+			/** Get or set new prefset
+			 */
+			var getOrSetNewPrefset = function()
+			{
+				//console.log(  'getOrSetNewPrefset(): ' + prefset_key +' ' +prefs_global.hasPref(prefset_key) );
+				prefset = prefs_global.hasPref(prefset_key) ? prefs_global.getPref(prefset_key) :  prefs_global.setPref(prefset_key, Components.classes['@activestate.com/koPreferenceSet;1'].createInstance());
+			}; 
+
+			prefset_key = _prefset_key;
+			
+			if( prefset_key  )
+				getOrSetNewPrefset();
+			
+			prefs = prefset_key ? prefset : prefs_global;
+			
 			return this;
 		};
 		/** Set prefs values
@@ -43,11 +59,11 @@
 		};
 		/** Get prefs values
 		 * 
-		 * @param	null|string|array|object	param1	Key, array or object of keys for mass getting, if null then get all prefs with prefix
+		 * @param	null|string|array|object	param1	Key, array or object of keys for mass getting, if null then get all prefs with prefset
 		 * @param 	mixed	param2	Default value if param1 is not object
 		 * return	mixed
 		 *
-		 * @example get()	// get by all ids with prefix
+		 * @example get()	// get by all ids with prefset
 		 * @example get('key')	// get by key
 		 * @example get(['key1', 'key2'])	// get by array of keys
 		 * @example get({key1:'default', key2:'default'})	// get by object keys	
@@ -64,9 +80,9 @@
 			return call('get', param1, param2 );			
 		};
 		/** Delete prefs
-		 * @param	string|object	param1	Key, array or object with keys & values {key:'value'} for mass setting, if null then delete all prefs with prefix
+		 * @param	string|object	param1	Key, array or object with keys & values {key:'value'} for mass setting, if null then delete all prefs with prefset
 		 *
-		 * @example delete()	// delete by all ids with prefix
+		 * @example delete()	// delete by all ids with prefset
 		 * @example delete('key')	// delete by key
 		 * @example delete(['key1', 'key2'])	// delete by array of keys
 		 * @example delete({key1:'', key2:''})	// delete by object keys	
@@ -88,11 +104,11 @@
 		{
 			var result	= {};
 
-			/** Call with prefix
+			/** Call with prefset
 			 */
 			var callWithPrefix = function(key, value)
 			{
-				return self[method+'Pref']( prefix + key, value );
+				return self[method+'Pref']( key, value );
 			}; 
 			
 			if( typeof param1 === 'object' ){
@@ -139,8 +155,9 @@
 			 */
 			this.getString = function()
 			{
+				//console.log('getString()'); 
 				if( ! prefs.hasStringPref(key) )
-					return; 
+					return;
 				
 				var value = prefs.getString(key);
 				
@@ -171,6 +188,10 @@
 				for(let i=0; i<pref_types.length;i++)
 				{
 					var value	= self['get'+pref_types[i]]();
+					//var value;
+					//try{
+					//	value	= self['get'+pref_types[i]]();
+					//}catch(e){}
 
 					if(typeof value !== 'undefined')
 						return value;
@@ -183,15 +204,25 @@
 		 */
 		this.deletePref = function(key)
 		{
-			if( prefs.hasPref(key) )
+			//if( prefs.hasPref(key) )
+			//console.log(  'prefset_key: ' + prefset_key );
+			//console.log( key );
+			//console.log(  'deletePref() prefes: ' + ( prefset_key && key === prefset_key ));
+			//
+			if( prefset_key && key === prefset_key )
+				prefs_global.deletePref(key);
+				
+			else
 				prefs.deletePref(key);
+				
+			
 		};
 		/*---------------------------------------
 			PRIVATE
 		-----------------------------------------
 		*/
-		/** Get all ids from prefs which match prefix
-		 * @return	array Array of ids without prefix (prefix is added in this.get function)
+		/** Get all ids from prefs which match prefset
+		 * @return	array Array of ids without prefset (prefset is added in this.get function)
 		 * 
 		 */
 		var getIdsByPrefix = function()
@@ -200,7 +231,7 @@
 			var matches_all	= [];
 			var last_match_end	= 0; // end position of last match
 		
-			while((match = new RegExp( ''+prefix + '([^\\s]+)', 'g').exec(string)) !== null)
+			while((match = new RegExp( '([^\\s]+)', 'g').exec(string)) !== null)
 			{
 				string	= string.substring(match.index + match[0].length);
 				match.index	= last_match_end = last_match_end + match.index + match[0].length;
@@ -283,7 +314,6 @@
  *		validateLong
  *		validateString
  */
-
 
 
 
