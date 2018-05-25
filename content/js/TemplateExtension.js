@@ -21,7 +21,6 @@
 			};
 			
 			alert('ko.extensions.TemplateExtension.Test("'+string+'")\n\n'+GetLocalizedString('property.property_test') );
-			
 		};
 		/** Get new instance of object in this
 		 * @example _new('UI') get new instance of this.UI()  
@@ -31,22 +30,11 @@
 			return new this.Komodo[_class]();
 		};
 		
-		///** Register preferences
-		// *
-		// */
-		//var registerPreferences = function()
-		//{
-		//	alert( 'registerPreferences' );
-		//	require("ko/prefs").registerCategory('TemplateExtension', 'chrome://TemplateExtension/content/xul/preferences/preferences.xul', '#Environment');
-		//
-		//}; 
 		/** UI
 		 */
 		this.UI = function(_document)
 		{
-			//alert( _document.location.href );
 			return  new ko.extensions.TemplateExtension.Komodo.UI().document(_document);			
-			//UI.append( UI.create('button', 'Test Append') );
 		}; 
 		/** 
 		 */ 

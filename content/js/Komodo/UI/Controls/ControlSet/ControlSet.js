@@ -32,13 +32,10 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 */
 		this.$ = function(selector, parent=null)
 		{
-			//if( ! selector.match(/^[#\.]/) )
-			//	selector = '#' +selector;
 			parent = parent ? this.$(parent).element() : document;
 
 			return $(selector, parent);
 		};
-
 		
 		/** create node
 		 */
@@ -50,6 +47,12 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 										 .get();
 		};
 		
+		///** Get controls types
+		// */
+		//var getControlsLabels = function(markup_template)
+		//{
+		//	
+		//}; 
 		/** Create prefset dom with menu and toggable containers with controls.
 		 * If exist, then prefset will be refreshed
 		 *
@@ -75,10 +78,11 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var controlset_id	= controlset_element.getAttribute('id');
 			var prefset_caption	= controlset_element.getAttribute('caption');					
 						
-			var container_labels	= Object.keys(containers_data);		
-			var container_class_shown	= controlset_id+'-shown';
-			
 			var markup_template	= JSON.parse( controlset_element.getAttribute('template') );
+			
+			//var container_labels	= Array.isArray(markup_template) ? Object.keys(containers_data) : Object.keys(markup_template);		
+			var container_labels	= Object.keys(containers_data);
+			var container_class_shown	= controlset_id+'-shown';
 			
 			/* ELEMENTS */
 			var menu_box	= self.create('hbox');
@@ -97,7 +101,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 					[
 						'var UI = TemplateExtension().UI(document)',
 						//'UI.append( "'+controlset_id+'", UI.create("button", "Test Append") )',
-						'UI.controlsetAddRemove( "'+controlset_id+'","add")',
+						'UI.controlsetAddRemove( "#'+controlset_id+'","add")',
 						//'',
 						//"alert('menu_item_add')"
 					];
@@ -172,13 +176,37 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			
 			return [].concat.apply([caption,menu_box], containers);
 		};
+
 		/**  
 		 *	
 		 */
-		this.container = function(container_label, markup_template, controls_data)
+		this.container = function(container_label, markup_template, controls_data=null)
 		{
-			var controls_labels	= Object.keys(controls_data);
+			//var controls_labels	= Object.keys(controls_data);
 			
+			var control_types	= Array.isArray(markup_template) ? markup_template	: Object.keys(markup_template);
+			//controls_data	= Array.isArray(markup_template) ? controls_data	: Object.values(markup_template);
+			
+			console.log('---markup_template');
+			console.log( markup_template );
+			/** Container_labels
+			 */
+			var controls_labels = (function()
+			{
+				if( controls_data )
+					return Object.keys(controls_data);
+				//console.log('Object.values(markup_template)');
+				//console.log( Object.keys(markup_template) );
+				return Object.keys(markup_template).map(function(key){
+					return markup_template[key].label;
+				}); 
+
+			})(); 
+			//console.log('---controls_labels');
+			//console.log( controls_labels );
+			//
+			//console.log('---controls_data');
+			//console.log( controls_data );
 			/** container
 			 */
 			var container = (function()
@@ -194,9 +222,9 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			 */
 			var appendControlToContainer = function(index)
 			{
-				//var control_type	= markup_template[index];
-				var control_data	= {'label': controls_labels[index], 'value':controls_data[controls_labels[index]] };
-				var control	= self.create(markup_template[index], control_data);
+				//var control_type	= control_types[index];
+				var control_data	= {'label': controls_labels[index], 'value': controls_data ? controls_data[controls_labels[index]] : '' };
+				var control	= self.create(control_types[index], control_data);
 				
 				/** Add label if not checkbox 
 				 */
@@ -222,6 +250,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				
 			return container;
 		};
+		
 		/** test
 		 */
 		this.test = function()

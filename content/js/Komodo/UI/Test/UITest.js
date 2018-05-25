@@ -102,23 +102,25 @@ ko.extensions.TemplateExtension.UITest = {};
 		};
 		/** Create controlset
 		 */
-		this.LoadControlsetByMarkup_ControlTest_dd = function()
+		this.CreateControlsetAdjustable_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_wrapper');
+			createVbox('ui_test_controlset_adjustable','', {caption: "Prefset Adjustable", template: '{"checkbox":{"label":"Checkbox"}, "textbox":{"label":"Enter Text"}}'});
 			
+			//var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
 			var perfset_values   = {  
 									'Container A':{  
-										'Control A':    false,  
-										'Enter Text A': 'Foo Text A',  
+										'Checkbox':    false,  
+										'Enter Text': 'A',  
 									},  
 									'Container B':{  
-										'Control B':    true,  
-										'Enter Text B': '',  
+										'Checkbox':    true,  
+										'Enter Text': 'B',  
 									}
 								};
 			
-			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values );
+			paneUI.controlset('#ui_test_controlset_adjustable', perfset_values );
 		};
+
 		/** Create pref set
 		 */
 		this.CreateDopdown_ControlTest_dd = function()
@@ -380,7 +382,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			/* INIT TESTS */
 			this.AddMainControls_ControlTest_dd();
-			this.CreateControlset_ControlTest_dd();
+			//this.CreateControlset_ControlTest_dd();
 		};
 		/** test
 		 */

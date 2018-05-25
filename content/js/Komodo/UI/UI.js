@@ -235,7 +235,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			 */
 			var selectContainer = (function()
 			{
-				self.$( controlset_selector + ' menulist' ).element().selectedIndex = 1;
+				self.$( controlset_selector + ' menulist' ).element().selectedIndex = 0;
 				/* Hide containers  */
 				self.$(controlset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
 				{
@@ -251,13 +251,17 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		
 		this.controlsetAddRemove = function(controlset_selector, add_remove)
 		{
-			var set_name	= require("ko/dialogs").prompt('Add new set name');
+			var container_label	= require("ko/dialogs").prompt('Add new set name '+controlset_selector);
 			
+			
+			
+			this.$(controlset_selector).find('menupopup').first().append( this.create('menuitem', container_label) );
+			
+			
+			//console.log( JSON.parse( this.$(controlset_selector).attr('template') ));
 			var controlset_container	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-				.container(set_name, JSON.parse(markup_template_json), set_values);
+				.container(container_label, JSON.parse( this.$(controlset_selector).attr('template') ));
 
-			this.$(controlset_selector).find('menupopup').first().append( this.create('menuitem', set_name ) );
-			
 			this.$(controlset_selector).append( controlset_container );
 			
 		};
