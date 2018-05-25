@@ -223,15 +223,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.controlset = function(controlset_selector, set_values)
 		{
-			self.$( controlset_selector ).empty();
-
-			var controlset	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-							.document(document);
-							
-			controlset.element( controlset_selector )
-						.load( set_values)
-						.select(1);
-			
+			//self.$( controlset_selector ).empty();
+			return  new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet().document(document);
 			//console.log( self.$( controlset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 		

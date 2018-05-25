@@ -86,7 +86,6 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			createVbox('ui_test_controlset_wrapper','', {caption: "Prefset test", template: '["checkbox", "textbox"]'});
 			
-			//var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
 			var perfset_values   = {  
 									'Container A':{  
 										'Control A':    false,  
@@ -97,8 +96,11 @@ ko.extensions.TemplateExtension.UITest = {};
 										'Enter Text B': '',  
 									}
 								};
-			
-			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values );
+			paneUI.controlset()
+					.element( '#ui_test_controlset_wrapper' )
+					.load( perfset_values)
+					.select(0);
+
 		};
 		/** Create controlset
 		 */
@@ -117,8 +119,11 @@ ko.extensions.TemplateExtension.UITest = {};
 										'Enter Text': 'B',  
 									}
 								};
-			
-			paneUI.controlset('#ui_test_controlset_adjustable', perfset_values );
+								
+			paneUI.controlset()
+					.element( '#ui_test_controlset_adjustable' )
+					.load( perfset_values)
+					.select(0);
 		};
 
 		/** Create pref set

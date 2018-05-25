@@ -57,13 +57,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 										 .attributes(attributes)
 										 .get();
 		};
-		
-		///** Get controls types
-		// */
-		//var getControlsLabels = function(markup_template)
-		//{
-		//	
-		//}; 
+
 		/** Create prefset dom with menu and toggable containers with controls.
 		 * If exist, then prefset will be refreshed
 		 *
@@ -95,7 +89,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			//var container_labels	= Array.isArray(markup_template) ? Object.keys(containers_data) : Object.keys(markup_template);		
 			var container_labels	= Object.keys(containers_data);
 			var container_class_shown	= controlset_id+'-shown';
-			
+			console.log(  'container_class_shown: ' + container_class_shown );
 			/* MENU ELEMENTS ELEMENTS */
 			var menu_box	= self.create('hbox');
 			var menu_main	= self.create('menulist');
@@ -120,16 +114,17 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				{
 					var toggle_containers =
 					[
-						"var container_class_shown='"+container_class_shown+"'",
-						"var element_hide=document.getElementsByClassName(container_class_shown)[0]",
-						"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
-						
+						"var controlset	= document.getElementById('"+controlset.attr('id')+"')",
+						"var containers	= controlset.getElementsByClassName('controlset-container')",
+						"var element_show	= containers['"+container.getAttribute('id')+"']",
+						"var element_hide	= controlset.getElementsByClassName('shown')[0]",
+			
 						"if(element_hide==element_show)return", // return if clicked same element
 						
-						"element_show.classList.add(container_class_shown)", // show new container
+						"element_show.classList.add('shown')", // show new container
 						"element_show.style.display = 'block'",
-				
-						"element_hide.classList.remove(container_class_shown)", // hide old element
+						
+						"element_hide.classList.remove('shown')", // hide old element
 						"element_hide.style.display = 'none'",
 					];
 					
@@ -140,11 +135,10 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				
 				for(let i=0; i<containers.length;i++)
 					menupopup.appendChild( getMenuItem(containers[i]) );
-				//console.log( menupopup.childNodes );
+
 				menu_main.appendChild(menupopup);
 			}; 
 			
-
 			/** Compose menu
 			 */
 			var createAdjustMenu = function()
@@ -195,6 +189,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			createMainMenu();
 			createAdjustMenu();
 			
+			controlset.empty();
+			
 			addCaption();
 			addMenus();
 			addContainers();
@@ -238,8 +234,12 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			{
 				var container	= self.create( 'groupbox', {
 										'label': container_label,	// sanitized label become id attribute, label is for save and restore element from prefs
+										//'id':    controlset.attr('id')+'-'+container_label
 										'class': 'controlset-container',	// class 'prefset-container' is for identification of container in prefset DOM
 								 });
+				
+				container.classList.add( container.getAttribute('id') );
+				
 				return container;
 			})();
 			
@@ -285,7 +285,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			controlset.find('.controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
 			{
 				if( index==select_index )
-					this.classList.add( controlset.attr('id')+'-shown' );
+					this.classList.add( 'shown' );
+					//this.classList.add( controlset.attr('id')+'-shown' );
 				else
 					this.setAttribute('style', this.getAttribute('style') +';display:none;');
 			});
