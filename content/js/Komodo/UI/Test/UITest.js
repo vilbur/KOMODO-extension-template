@@ -80,11 +80,11 @@ ko.extensions.TemplateExtension.UITest = {};
 			);
 		};
 		
-		/** Create pref set
+		/** Create controlset
 		 */
-		this.CreatePrefset_ControlTest_dd = function()
+		this.CreateControlSet_ControlTest_dd = function()
 		{
-			createVbox('ui_test_prefset_wrapper');
+			createVbox('ui_test_controlset_wrapper');
 			
 			var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
 			var perfset_values   = {  
@@ -97,8 +97,8 @@ ko.extensions.TemplateExtension.UITest = {};
 										'Enter Text B': '',  
 									}
 								};
-		
-			paneUI.createPrefSet('#ui_test_prefset_wrapper', perfset_template, perfset_values );
+			
+			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values, perfset_template );
 		};
 		
 		/** Create pref set

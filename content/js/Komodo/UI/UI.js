@@ -221,9 +221,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * 		};
 		 * 
 		 */
-		this.createPrefSet = function(prefset_selector, perfset_template, perfset_values)
+		this.controlset = function(prefset_selector, perfset_values, perfset_template=null)
 		{
-			var prefset_caption	= Object.keys(perfset_template).pop();						
+			//var prefset_caption	= Object.keys(perfset_template).pop();						
 			//var control_types	= perfset_template[prefset_caption];
 			//var containers_ids	= Object.keys(perfset_values);		
 			var container_class_shown	= prefset_selector+'-shown'; 
@@ -231,7 +231,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			self.$( prefset_selector ).empty();
 
 			var prefset_elements	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-							.createPrefSet(prefset_selector, perfset_template, perfset_values);
+							.load(prefset_selector, perfset_template, perfset_values);
 			
 			self.append( prefset_selector, prefset_elements );
 			
@@ -242,7 +242,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			{
 				self.$( prefset_selector + ' menulist' ).element().selectedIndex = 1;
 				/* Hide containers  */
-				self.$(prefset_selector +' .prefset-container').each(function(index)
+				self.$(prefset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
 				{
 					if( index>0 )
 						this.setAttribute('style', this.getAttribute('id') +';display:none;');

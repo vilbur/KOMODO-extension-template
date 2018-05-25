@@ -65,7 +65,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 * 		};
 		 * 
 		 */
-		this.createPrefSet = function(prefset_selector, perfset_template, perfset_values)
+		this.load = function(prefset_selector, perfset_template, perfset_values)
 		{
 			var containers	= [];
 			
@@ -92,7 +92,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				{
 					var container	= self.create( 'groupbox', {
 											'label': container_label,	// sanitized label become id attribute, label is for save and restore element from prefs
-											'class': 'prefset-container',	// class 'prefset-container' is for identification of container in prefset DOM
+											'class': 'controlset-container',	// class 'prefset-container' is for identification of container in prefset DOM
 									 });
 					return container;
 				})(); 
