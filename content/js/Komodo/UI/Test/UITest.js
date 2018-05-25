@@ -84,9 +84,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.CreateControlset_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_wrapper');
+			createVbox('ui_test_controlset_wrapper','', {template: '{"Prefset test": ["checkbox", "textbox"]}'});
 			
-			var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
+			//var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
 			var perfset_values   = {  
 									'Container A':{  
 										'Control A':    false,  
@@ -98,7 +98,7 @@ ko.extensions.TemplateExtension.UITest = {};
 									}
 								};
 			
-			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values, perfset_template );
+			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values );
 		};
 		/** Create controlset
 		 */
@@ -232,21 +232,25 @@ ko.extensions.TemplateExtension.UITest = {};
 
 		/** Create vbox
 		 */
-		var createVbox = function(id, caption=null)
+		var createVbox = function(id, caption=null, attributes={})
 		{
+
 			var selector	= '#'+id;
+			
+			attributes.id	= id;
+			attributes.style	= "padding:5px";
 			
 			if( paneUI.exists(selector) )
 				paneUI.$(selector).empty();
 			
 			else
 				paneUI.append( controls_box,
-					paneUI.create('vbox', {id: id, style:"padding:5px" })
+					paneUI.create('vbox', attributes )
 				);
 			
 			if( caption )
 				paneUI.append( selector,
-					paneUI.create( 'caption', {label: caption} )
+					paneUI.create( 'caption', caption )
 				);
 		}; 
 		/**  Loop this object and get functions wich has format of name: 'UiBoxName_ButtonName'

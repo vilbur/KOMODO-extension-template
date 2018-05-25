@@ -221,25 +221,18 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * 		};
 		 * 
 		 */
-		this.controlset = function(prefset_selector, set_values, markup_template=null)
+		this.controlset = function(prefset_selector, set_values)
 		{
-			/** Get markup template
+			/** Get markup template form attribute template
 			 */
-			var getMarkupTemplate = function()
-			{
-				
-				
-			}; 
-			if( ! markup_template )
-				getMarkupTemplate();
-			
-			
+			var markup_template_json	= self.$( prefset_selector ).attr('template');
+
 			var container_class_shown	= prefset_selector+'-shown'; 
 
 			self.$( prefset_selector ).empty();
 
 			var prefset_elements	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-							.load(prefset_selector, markup_template, set_values);
+							.load(prefset_selector, JSON.parse(markup_template_json), set_values);
 			
 			self.append( prefset_selector, prefset_elements );
 			

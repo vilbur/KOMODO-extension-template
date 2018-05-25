@@ -8,7 +8,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 	{
 		var self	= this;
 		var $	= require('ko/dom');
-		var document	= document;		
+		//var document	= document;		
 
 		/** Set document where ControlSet is operating, pane or preferences window
 		 *
@@ -73,8 +73,10 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var containers	= [];
 			
 			var prefset_caption	= Object.keys(markup_template).pop();						
+						
 			var container_labels	= Object.keys(containers_data);		
 			var container_class_shown	= prefset_selector+'-shown';
+			
 			markup_template	= markup_template[prefset_caption];
 			
 			/* ELEMENTS */
