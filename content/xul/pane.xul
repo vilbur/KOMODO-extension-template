@@ -59,6 +59,12 @@
 				style="border:1px solid lightblue"
 				oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"/>
 		</vbox>
+		
+<!--		<vbox id="ui_test_controlset_load_to_markup">
+			<caption  label="Control set by markup"/>
+			<checkbox/>
+			<textbox/>
+		</vbox>-->
 
 	</hbox>
 

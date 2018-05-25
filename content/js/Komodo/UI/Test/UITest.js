@@ -82,7 +82,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Create controlset
 		 */
-		this.CreateControlSet_ControlTest_dd = function()
+		this.CreateControlset_ControlTest_dd = function()
 		{
 			createVbox('ui_test_controlset_wrapper');
 			
@@ -100,7 +100,25 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values, perfset_template );
 		};
-		
+		/** Create controlset
+		 */
+		this.LoadControlsetByMarkup_ControlTest_dd = function()
+		{
+			createVbox('ui_test_controlset_wrapper');
+			
+			var perfset_values   = {  
+									'Container A':{  
+										'Control A':    false,  
+										'Enter Text A': 'Foo Text A',  
+									},  
+									'Container B':{  
+										'Control B':    true,  
+										'Enter Text B': '',  
+									}
+								};
+			
+			paneUI.controlset('#ui_test_controlset_wrapper', perfset_values );
+		};
 		/** Create pref set
 		 */
 		this.CreateDopdown_ControlTest_dd = function()
@@ -358,7 +376,14 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			/* INIT TESTS */
 			this.AddMainControls_ControlTest_dd();
+			this.CreateControlset_ControlTest_dd();
 		};
+		/** test
+		 */
+		this.test = function()
+		{
+			alert( 'UITest.test()' );
+		}; 
 		
 	}
 	return UITest;

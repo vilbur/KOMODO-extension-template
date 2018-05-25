@@ -67,7 +67,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
-			//console.log('---------------'); 
+			//console.log('UI.create("'+type+'")'); 
 			/** Sanitize attributes
 			 */
 			attributes = (function()
@@ -207,13 +207,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * If exist, then prefset will be refreshed
 		 *
 		 * @param	string	prefset_selector	Id of wrapper element where menu and all containers are inserted
-		 * @param	object	perfset_template	Representation of container xul structure
-		 * @param	object	perfset_values	Data for pref set`s controls
+		 * @param	object	markup_template	Representation of container xul structure
+		 * @param	object	set_values	Data for pref set`s controls
 		 *
 		 * @example
-		 *		perfset_template = { 'Prefset Caption': ['checkbox', 'textbox'] };
+		 *		markup_template = { 'Prefset Caption': ['checkbox', 'textbox'] };
 		 * 
-		 * 		perfset_values = {
+		 * 		set_values = {
 		 *			'Container A':{
 		 * 				'Control A':	true,
 		 * 				Enter Text A':	'Foo Text A',
@@ -221,17 +221,25 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * 		};
 		 * 
 		 */
-		this.controlset = function(prefset_selector, perfset_values, perfset_template=null)
+		this.controlset = function(prefset_selector, set_values, markup_template=null)
 		{
-			//var prefset_caption	= Object.keys(perfset_template).pop();						
-			//var control_types	= perfset_template[prefset_caption];
-			//var containers_ids	= Object.keys(perfset_values);		
+			/** Get markup template
+			 */
+			var getMarkupTemplate = function()
+			{
+				
+				
+			}; 
+			if( ! markup_template )
+				getMarkupTemplate();
+			
+			
 			var container_class_shown	= prefset_selector+'-shown'; 
 
 			self.$( prefset_selector ).empty();
 
 			var prefset_elements	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-							.load(prefset_selector, perfset_template, perfset_values);
+							.load(prefset_selector, markup_template, set_values);
 			
 			self.append( prefset_selector, prefset_elements );
 			
@@ -252,6 +260,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			})(); 
 			
 			//console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
+		};
+		
+		this.controlsetAddRemove = function(prefset_selector, add_remove)
+		{
+			var set_name	= require("ko/dialogs").prompt('Add new set name');
+			
+			this.$(prefset_selector).find('menupopup').first().append( this.create('menuitem', set_name ) );
+			
 		};
 		/** Create dropdown element
 		 * @param	string	id	Id of dropdown element

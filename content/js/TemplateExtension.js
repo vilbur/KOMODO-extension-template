@@ -40,7 +40,14 @@
 		//	require("ko/prefs").registerCategory('TemplateExtension', 'chrome://TemplateExtension/content/xul/preferences/preferences.xul', '#Environment');
 		//
 		//}; 
-
+		/** UI
+		 */
+		this.UI = function(_document)
+		{
+			//alert( _document.location.href );
+			return  new ko.extensions.TemplateExtension.Komodo.UI().document(_document);			
+			//UI.append( UI.create('button', 'Test Append') );
+		}; 
 		/** 
 		 */ 
 		this.test = function(value='')
@@ -56,6 +63,9 @@
 
 })().apply(ko.extensions.TemplateExtension);
 
+/** Access to extension from UI 
+ *	
+ */
 function TemplateExtension()
 {
 	return ko.extensions.TemplateExtension;
