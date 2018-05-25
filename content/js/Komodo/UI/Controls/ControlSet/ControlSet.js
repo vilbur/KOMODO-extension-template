@@ -9,7 +9,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		var self	= this;
 		var $	= require('ko/dom');
 		var document	= document;		
-
+		var controlset;
+		var controlset_element;
 		/** Set document where ControlSet is operating, pane or preferences window
 		 *
 		 * @param	string	_document
@@ -20,7 +21,19 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			document = _document;
 			return this;
 		};
-
+		/** Set controlset_element
+		 *
+		 * @param	string	controlset_element
+		 * @return	self 
+		 */
+		this.element = function(controlset_selector)
+		{
+			controlset = self.$( controlset_selector );
+			controlset_element = controlset.element();
+			return this;
+		};
+		
+		
 		/** Query selector in document
 		 * 
 		 * @param	string	selector	Selector of node
@@ -28,11 +41,11 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 * 
 		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
 		 */
-		this.$ = function(selector, parent=null)
+		this.$ = function(selector)
 		{
-			parent = parent ? this.$(parent).element() : document;
+			//parent = parent ? this.$(parent).element() : document;
 
-			return $(selector, parent);
+			return $(selector, document);
 		};
 		
 		/** create node
@@ -70,14 +83,14 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 * 		};
 		 * 
 		 */
-		this.load = function(controlset_element, containers_data)
+		this.load = function(containers_data)
 		{
 			var containers	= [];
 
-			var controlset_id	= controlset_element.getAttribute('id');
-			var prefset_caption	= controlset_element.getAttribute('caption');					
+			var controlset_id	= controlset.attr('id');
+			var prefset_caption	= controlset.attr('caption');					
 						
-			var markup_template	= JSON.parse( controlset_element.getAttribute('template') );
+			var markup_template	= JSON.parse( controlset.attr('template') );
 			
 			//var container_labels	= Array.isArray(markup_template) ? Object.keys(containers_data) : Object.keys(markup_template);		
 			var container_labels	= Object.keys(containers_data);
@@ -87,6 +100,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var menu_box	= self.create('hbox');
 			var menu_main	= self.create('menulist');
 			var menu_adjust	= self.create('button', { type: 'menu' });
+			
 			/** Create containers
 			 */
 			var createContainers = function()
@@ -102,7 +116,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				 *
 				 * @param	object	controls_data	Container-id: {control id-label: value}
 				 */
-				var addMenuItem = function( container )
+				var getMenuItem = function( container )
 				{
 					var toggle_containers =
 					[
@@ -119,18 +133,15 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 						"element_hide.style.display = 'none'",
 					];
 					
-					var menu_item	= self.create('menuitem', { 'id': container.getAttribute('id')+'-item', 'label': container.getAttribute('label'), 'oncommand': toggle_containers.join(';')} );
-				
-					//console.log( menu_item );
-					menupopup.appendChild( menu_item );
+					return self.create('menuitem', { 'id': container.getAttribute('id')+'-item', 'label': container.getAttribute('label'), 'oncommand': toggle_containers.join(';')} );
 				};
 				
 				var menupopup	= self.create('menupopup');
 				
 				for(let i=0; i<containers.length;i++)
-					controlset_element.appendChild(containers[i]);
-				
-				menu_main.append(menupopup);
+					menupopup.appendChild( getMenuItem(containers[i]) );
+				//console.log( menupopup.childNodes );
+				menu_main.appendChild(menupopup);
 			}; 
 			
 
@@ -161,21 +172,23 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			 */
 			var addCaption = function()
 			{
-				controlset_element.appendChild( self.create('caption', prefset_caption));
+				controlset.append( self.create('caption', prefset_caption));
 			}; 
 			/** Compose menu
 			 */
 			var addMenus = function()
 			{
 				menu_box.appendChild( menu_main );
-				menu_box.appendChild( adjust_menu );
+				menu_box.appendChild( menu_adjust );
+				
+				controlset.append( menu_box );
 			};
 			/** Add containers
 			 */
 			var addContainers = function()
 			{
 				for(let i=0; i<containers.length;i++)
-					controlset_element.appendChild(containers[i]);
+					controlset.append(containers[i]);
 			}; 
 			
 			createContainers();
@@ -263,6 +276,20 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			return container;
 		};
 		
+		/** select
+		 */
+		this.select = function(select_index)
+		{
+			controlset.find( 'menulist' ).first().element().selectedIndex = select_index;
+			/* Hide containers  */
+			controlset.find('.controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
+			{
+				if( index==select_index )
+					this.classList.add( controlset.attr('id')+'-shown' );
+				else
+					this.setAttribute('style', this.getAttribute('style') +';display:none;');
+			});
+		}; 
 		/** test
 		 */
 		this.test = function()

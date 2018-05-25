@@ -228,26 +228,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			var controlset	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
 							.document(document);
 							
-							
-			controlset.load( self.$( controlset_selector ).element(), set_values);
-			
-			//self.append( controlset_selector, controlset );
-			
-			/* SELECT MENU ITEM */
-			/** Select container
-			 */
-			//var selectContainer = (function()
-			//{
-			//	self.$( controlset_selector + ' menulist' ).element().selectedIndex = 0;
-			//	/* Hide containers  */
-			//	self.$(controlset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
-			//	{
-			//		if( index>0 )
-			//			this.setAttribute('style', this.getAttribute('style') +';display:none;');
-			//		else
-			//			this.classList.add( controlset_selector+'-shown' );
-			//	});
-			//})(); 
+			controlset.element( controlset_selector )
+						.load( set_values)
+						.select(1);
 			
 			//console.log( self.$( controlset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
