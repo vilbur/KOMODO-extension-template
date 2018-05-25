@@ -8,7 +8,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 	{
 		var self	= this;
 		var $	= require('ko/dom');
-		//var document	= document;		
+		var document	= document;		
 
 		/** Set document where ControlSet is operating, pane or preferences window
 		 *
@@ -17,10 +17,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 */
 		this.document = function(_document)
 		{
-			alert( 'ControlSet.document()' );
-			
-			//document = _document;
-			//return this;
+			document = _document;
+			return this;
 		};
 
 		/** Query selector in document
@@ -59,6 +57,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 * @param	string	controlset_id	Id of wrapper element where menu and all containers are inserted
 		 * @param	object	markup_template	Representation of container xul structure
 		 * @param	object	containers_data	Data for pref set`s controls
+		 * @return	self	
 		 *
 		 * @example
 		 *		markup_template = { 'Prefset Caption': ['checkbox', 'textbox'] };
@@ -74,7 +73,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		this.load = function(controlset_element, containers_data)
 		{
 			var containers	= [];
-			
+
 			var controlset_id	= controlset_element.getAttribute('id');
 			var prefset_caption	= controlset_element.getAttribute('caption');					
 						
@@ -84,51 +83,26 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var container_labels	= Object.keys(containers_data);
 			var container_class_shown	= controlset_id+'-shown';
 			
-			/* ELEMENTS */
+			/* MENU ELEMENTS ELEMENTS */
 			var menu_box	= self.create('hbox');
-			var menu	= self.create('menulist');
-			var menupopup	= self.create('menupopup');
-			var caption	= self.create('caption', prefset_caption );
-
-			/** Add remove container dropdown
+			var menu_main	= self.create('menulist');
+			var menu_adjust	= self.create('button', { type: 'menu' });
+			/** Create containers
 			 */
-			var add_remove_container_menu = (function()
+			var createContainers = function()
 			{
-				var menu	= self.create('button', { type: 'menu' });
-				var menupopup	= self.create('menupopup');
-				
-					var command_add =
-					[
-						'var UI = TemplateExtension().UI(document)',
-						//'UI.append( "'+controlset_id+'", UI.create("button", "Test Append") )',
-						'UI.controlsetAddRemove( "#'+controlset_id+'","add")',
-						//'',
-						//"alert('menu_item_add')"
-					];
-					var command_remove =
-					[
-						//"if('command_remove')"
-					];
-					var menu_item_add	= self.create('menuitem', { 'label': '+', 'oncommand': command_add.join(';')} );
-					var menu_item_remove	= self.create('menuitem', { 'label': '-', 'oncommand': command_remove.join(';')} );
-				
-					//console.log( menu_item );
-					//console.log( menu_item );
-					menupopup.appendChild( menu_item_add );
-					menupopup.appendChild( menu_item_remove );
-					menu.appendChild( menupopup );
-					
-					return menu;
-			})(); 
-			/** Create markup_template
-			 *
-			 * @param	object	controls_data	Container-id: {control id-label: value}
+				for(let i=0; i<container_labels.length;i++)
+					containers.push( self.container( container_labels[i], markup_template, containers_data[container_labels[i]] ) );
+			}; 
+			/** Create main menu
 			 */
-			var addMenuItem = function( container )
+			var createMainMenu = function()
 			{
-				/** addMenuItem
+				/** Create markup_template
+				 *
+				 * @param	object	controls_data	Container-id: {control id-label: value}
 				 */
-				var addMenuItem = (function()
+				var addMenuItem = function( container )
 				{
 					var toggle_containers =
 					[
@@ -147,34 +121,72 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 					
 					var menu_item	= self.create('menuitem', { 'id': container.getAttribute('id')+'-item', 'label': container.getAttribute('label'), 'oncommand': toggle_containers.join(';')} );
 				
-					console.log( menu_item );
+					//console.log( menu_item );
 					menupopup.appendChild( menu_item );
-				})(); 
+				};
 				
-			};
+				var menupopup	= self.create('menupopup');
+				
+				for(let i=0; i<containers.length;i++)
+					controlset_element.appendChild(containers[i]);
+				
+				menu_main.append(menupopup);
+			}; 
+			
+
 			/** Compose menu
 			 */
-			var composeMenuBox = function()
+			var createAdjustMenu = function()
 			{
-				menu.appendChild( menupopup );
-				menu_box.appendChild( menu );
-				menu_box.appendChild( add_remove_container_menu );
-			}; 
-			/** Create containers
+				var menupopup	= self.create('menupopup');
+			
+				var command_add = [
+					'var UI = TemplateExtension().UI(document)',
+					'UI.controlsetAddRemove( "#'+controlset_id+'","add")',
+				];
+				
+				var command_remove = [
+					//"if('command_remove')"
+				];
+				
+				var menu_item_add	= self.create('menuitem', { 'label': '+', 'oncommand': command_add.join(';')} );
+				var menu_item_remove	= self.create('menuitem', { 'label': '-', 'oncommand': command_remove.join(';')} );
+			
+				menupopup.appendChild( menu_item_add );
+				menupopup.appendChild( menu_item_remove );
+				
+				menu_adjust.appendChild( menupopup );
+			};
+			/** Add caption
 			 */
-			var createContainers = function()
-			{ 
-				for(let i=0; i<container_labels.length;i++){
-					var container	=  self.container( container_labels[i], markup_template, containers_data[container_labels[i]] );
-					containers.push( container );
-					addMenuItem(container);
-				}
+			var addCaption = function()
+			{
+				controlset_element.appendChild( self.create('caption', prefset_caption));
+			}; 
+			/** Compose menu
+			 */
+			var addMenus = function()
+			{
+				menu_box.appendChild( menu_main );
+				menu_box.appendChild( adjust_menu );
+			};
+			/** Add containers
+			 */
+			var addContainers = function()
+			{
+				for(let i=0; i<containers.length;i++)
+					controlset_element.appendChild(containers[i]);
 			}; 
 			
 			createContainers();
-			composeMenuBox();
+			createMainMenu();
+			createAdjustMenu();
 			
-			return [].concat.apply([caption,menu_box], containers);
+			addCaption();
+			addMenus();
+			addContainers();
+
+			return this; 
 		};
 
 		/**  

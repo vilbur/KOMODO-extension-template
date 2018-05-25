@@ -226,25 +226,28 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			self.$( controlset_selector ).empty();
 
 			var controlset	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-							.load( self.$( controlset_selector ).element(), set_values);
+							.document(document);
+							
+							
+			controlset.load( self.$( controlset_selector ).element(), set_values);
 			
-			self.append( controlset_selector, controlset );
+			//self.append( controlset_selector, controlset );
 			
 			/* SELECT MENU ITEM */
 			/** Select container
 			 */
-			var selectContainer = (function()
-			{
-				self.$( controlset_selector + ' menulist' ).element().selectedIndex = 0;
-				/* Hide containers  */
-				self.$(controlset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
-				{
-					if( index>0 )
-						this.setAttribute('style', this.getAttribute('style') +';display:none;');
-					else
-						this.classList.add( controlset_selector+'-shown' );
-				});
-			})(); 
+			//var selectContainer = (function()
+			//{
+			//	self.$( controlset_selector + ' menulist' ).element().selectedIndex = 0;
+			//	/* Hide containers  */
+			//	self.$(controlset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
+			//	{
+			//		if( index>0 )
+			//			this.setAttribute('style', this.getAttribute('style') +';display:none;');
+			//		else
+			//			this.classList.add( controlset_selector+'-shown' );
+			//	});
+			//})(); 
 			
 			//console.log( self.$( controlset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
@@ -252,18 +255,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.controlsetAddRemove = function(controlset_selector, add_remove)
 		{
 			var container_label	= require("ko/dialogs").prompt('Add new set name '+controlset_selector);
-			
-			
-			
+
 			this.$(controlset_selector).find('menupopup').first().append( this.create('menuitem', container_label) );
 			
-			
-			//console.log( JSON.parse( this.$(controlset_selector).attr('template') ));
 			var controlset_container	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
 				.container(container_label, JSON.parse( this.$(controlset_selector).attr('template') ));
 
 			this.$(controlset_selector).append( controlset_container );
-			
 		};
 		/** Create dropdown element
 		 * @param	string	id	Id of dropdown element
