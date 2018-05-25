@@ -84,7 +84,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.CreateControlset_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_wrapper','', {template: '{"Prefset test": ["checkbox", "textbox"]}'});
+			createVbox('ui_test_controlset_wrapper','', {caption: "Prefset test", template: '["checkbox", "textbox"]'});
 			
 			//var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
 			var perfset_values   = {  

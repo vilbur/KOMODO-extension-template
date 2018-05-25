@@ -53,7 +53,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		/** Create prefset dom with menu and toggable containers with controls.
 		 * If exist, then prefset will be refreshed
 		 *
-		 * @param	string	prefset_selector	Id of wrapper element where menu and all containers are inserted
+		 * @param	string	controlset_id	Id of wrapper element where menu and all containers are inserted
 		 * @param	object	markup_template	Representation of container xul structure
 		 * @param	object	containers_data	Data for pref set`s controls
 		 *
@@ -68,16 +68,17 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 * 		};
 		 * 
 		 */
-		this.load = function(prefset_selector, markup_template, containers_data)
+		this.load = function(controlset_element, containers_data)
 		{
 			var containers	= [];
 			
-			var prefset_caption	= Object.keys(markup_template).pop();						
+			var controlset_id	= controlset_element.getAttribute('id');
+			var prefset_caption	= controlset_element.getAttribute('caption');					
 						
 			var container_labels	= Object.keys(containers_data);		
-			var container_class_shown	= prefset_selector+'-shown';
+			var container_class_shown	= controlset_id+'-shown';
 			
-			markup_template	= markup_template[prefset_caption];
+			var markup_template	= JSON.parse( controlset_element.getAttribute('template') );
 			
 			/* ELEMENTS */
 			var menu_box	= self.create('hbox');
@@ -95,8 +96,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 					var command_add =
 					[
 						'var UI = TemplateExtension().UI(document)',
-						//'UI.append( "'+prefset_selector+'", UI.create("button", "Test Append") )',
-						'UI.controlsetAddRemove( "'+prefset_selector+'","add")',
+						//'UI.append( "'+controlset_id+'", UI.create("button", "Test Append") )',
+						'UI.controlsetAddRemove( "'+controlset_id+'","add")',
 						//'',
 						//"alert('menu_item_add')"
 					];

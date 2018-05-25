@@ -206,7 +206,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		/** Create prefset dom with menu and toggable containers with controls.
 		 * If exist, then prefset will be refreshed
 		 *
-		 * @param	string	prefset_selector	Id of wrapper element where menu and all containers are inserted
+		 * @param	string	controlset_selector	Id of wrapper element where menu and all containers are inserted
 		 * @param	object	markup_template	Representation of container xul structure
 		 * @param	object	set_values	Data for pref set`s controls
 		 *
@@ -221,45 +221,44 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * 		};
 		 * 
 		 */
-		this.controlset = function(prefset_selector, set_values)
+		this.controlset = function(controlset_selector, set_values)
 		{
-			/** Get markup template form attribute template
-			 */
-			var markup_template_json	= self.$( prefset_selector ).attr('template');
+			self.$( controlset_selector ).empty();
 
-			var container_class_shown	= prefset_selector+'-shown'; 
-
-			self.$( prefset_selector ).empty();
-
-			var prefset_elements	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-							.load(prefset_selector, JSON.parse(markup_template_json), set_values);
+			var controlset	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
+							.load( self.$( controlset_selector ).element(), set_values);
 			
-			self.append( prefset_selector, prefset_elements );
+			self.append( controlset_selector, controlset );
 			
 			/* SELECT MENU ITEM */
 			/** Select container
 			 */
 			var selectContainer = (function()
 			{
-				self.$( prefset_selector + ' menulist' ).element().selectedIndex = 1;
+				self.$( controlset_selector + ' menulist' ).element().selectedIndex = 1;
 				/* Hide containers  */
-				self.$(prefset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
+				self.$(controlset_selector +' .controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
 				{
 					if( index>0 )
-						this.setAttribute('style', this.getAttribute('id') +';display:none;');
+						this.setAttribute('style', this.getAttribute('style') +';display:none;');
 					else
-						this.classList.add( container_class_shown );
+						this.classList.add( controlset_selector+'-shown' );
 				});
 			})(); 
 			
-			//console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
+			//console.log( self.$( controlset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 		
-		this.controlsetAddRemove = function(prefset_selector, add_remove)
+		this.controlsetAddRemove = function(controlset_selector, add_remove)
 		{
 			var set_name	= require("ko/dialogs").prompt('Add new set name');
 			
-			this.$(prefset_selector).find('menupopup').first().append( this.create('menuitem', set_name ) );
+			var controlset_container	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
+				.container(set_name, JSON.parse(markup_template_json), set_values);
+
+			this.$(controlset_selector).find('menupopup').first().append( this.create('menuitem', set_name ) );
+			
+			this.$(controlset_selector).append( controlset_container );
 			
 		};
 		/** Create dropdown element
