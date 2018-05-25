@@ -117,13 +117,18 @@ ko.extensions.TemplateExtension.UITest = {};
 									'Container B':{  
 										'Checkbox':    true,  
 										'Enter Text': 'B',  
+									},  
+									'Container C':{  
+										'Checkbox':    true,  
+										'Enter Text': 'C',  
 									}
+									
 								};
 								
 			paneUI.controlset()
 					.element( '#ui_test_controlset_adjustable' )
 					.load( perfset_values)
-					.select(0);
+					.select(1);
 		};
 
 		/** Create pref set

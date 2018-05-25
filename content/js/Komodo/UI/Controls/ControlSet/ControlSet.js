@@ -85,6 +85,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var prefset_caption	= controlset.attr('caption');					
 						
 			var markup_template	= JSON.parse( controlset.attr('template') );
+			var is_adjustable	= typeof markup_template === 'object' && ! Array.isArray(markup_template);
 			
 			//var container_labels	= Array.isArray(markup_template) ? Object.keys(containers_data) : Object.keys(markup_template);		
 			var container_labels	= Object.keys(containers_data);
@@ -118,16 +119,19 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			 */
 			var createAdjustMenu = function()
 			{
+				if( ! is_adjustable )
+					return; 
+				
 				var menupopup	= self.create('menupopup');
 			
 				var command_add = [
 					'var UI = TemplateExtension().UI(document)',
-					//'alert("'+controlset_id+'")',
 					'UI.controlset().element( "#'+controlset_id+'" ).addContainer()',
 				];
 				
 				var command_remove = [
-					//"if('command_remove')"
+					'var UI = TemplateExtension().UI(document)',
+					'UI.controlset().element( "#'+controlset_id+'" ).removeContainer()',
 				];
 				
 				var menu_item_add	= self.create('menuitem', { 'label': '+', 'oncommand': command_add.join(';')} );
@@ -149,7 +153,9 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var addMenus = function()
 			{
 				menu_box.appendChild( menu_main );
-				menu_box.appendChild( menu_adjust );
+				
+				if( is_adjustable )
+					menu_box.appendChild( menu_adjust );
 				
 				controlset.append( menu_box );
 			};
@@ -196,11 +202,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				}); 
 
 			})(); 
-			//console.log('---controls_labels');
-			//console.log( controls_labels );
-			
-			//console.log('---controls_data');
-			//console.log( controls_data );
+
 			/** container
 			 */
 			var container = (function()
@@ -253,26 +255,61 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		this.addContainer  = function(container_label=null)
 		{
 			if( ! container_label )
-				container_label	= require("ko/dialogs").prompt('Add new set name ');
+				container_label	= require("ko/dialogs").prompt('Add new set name');
+				
+			if( ! container_label )
+				return;
 			
 			var markup_template	= JSON.parse( controlset.attr('template') );
 
 			var container = this.container(container_label, markup_template);
-
-			console.log('container');
-			console.log( container );
 			
 			controlset.find('menupopup').first().append( getMenuItem(container) );
 
 			controlset.append( container );
 			
+			this.select(-1);
 		}; 
-		
-		/** select
+		/** Add container 
+		 */
+		this.removeContainer  = function()
+		{
+			console.log('removeContainer');
+			//menulist.element().selectedIndex = select_index;
+			var menulist	= controlset.find( 'menulist' ).first();
+			var current_index	= menulist.element().selectedIndex;
+			var current_label	= menulist.find( 'menupopup' )._elements[0].childNodes[current_index].label;
+			//var current_label	= menulist.find( 'menuitem' )._elements[current_index].label;
+
+
+			if( ! require("ko/dialogs").confirm("Remove set '" + current_label +"' ?") )
+				return; 
+			
+			menulist.element().removeItemAt( current_index );
+			
+			controlset.find('.controlset-container')._elements[current_index].remove();
+			
+			this.select(current_index);
+			
+		}; 
+		/** select item in menu and change visible container
+		 * @param	int	select_index	Index of menu element, select last item if select_index < 0
 		 */
 		this.select = function(select_index)
 		{
-			controlset.find( 'menulist' ).first().element().selectedIndex = select_index;
+			var menulist	= controlset.find( 'menulist' ).first();
+			//var max_index	= menulist.find( 'menupopup' )._elements[0].childNodes.length -1;
+			var max_index	= menulist.find( 'menupopup' )._elements[0].childNodes.length -1;
+			
+			//console.log(  'select_index: ' + select_index );
+			if( select_index < 0 )
+				select_index =  max_index;
+				
+			else if( select_index > max_index )
+				select_index =  0;
+
+			menulist.element().selectedIndex = select_index;
+			
 			/* Hide containers  */
 			controlset.find('.controlset-container').each(function(index) // class 'controlset-container' is important, it is defined in ControlSet class
 			{
@@ -312,8 +349,13 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				"element_hide.style.display = 'none'",
 			];
 			
-			return self.create('menuitem', { 'id': container.getAttribute('id')+'-item', 'label': container.getAttribute('label'), 'oncommand': toggle_containers.join(';')} );
+			return self.create('menuitem', {
+				'id': container.getAttribute('id')+'-item',
+				'label': container.getAttribute('label'),
+				'oncommand': toggle_containers.join(';')} );
 		};
+		
+		 
 	}
 	return ControlSet;
 
