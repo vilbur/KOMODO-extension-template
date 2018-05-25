@@ -8,9 +8,10 @@ var setupNamespaces = (function()
 		Komodo:
 		{
 			Document:	{},
-			Prefs:	{},			
+			Prefs:	{},
 			Pane:	{},
 			PrefsWindow:	{},
+			Controls:	{},
 		},
 	};
 })();

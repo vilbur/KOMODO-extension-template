@@ -1,1 +1,30 @@
-{"keyboard_shortcut":"","name":"namespace","language":"JavaScript","trigger_enabled":false,"value":["/** TemplateExtension\r"," */\r","/** Setup namespaces\r"," */\r","var setupNamespaces = (function()\r","{\r","\tko.extensions.TemplateExtension = {\r","\t\tKomodo:\r","\t\t{\r","\t\t\tDocument:\t{},\r","\t\t\tPrefs:\t{},\t\t\t\r","\t\t\tPane:\t{},\r","\t\t\tPrefsWindow:\t{},\r","\t\t},\r","\t};\r","})();"],"version":"1.0.12","rank":100,"async":false,"type":"macro","trigger":"trigger_postopen"}
+{
+  "keyboard_shortcut": "", 
+  "name": "namespace", 
+  "language": "JavaScript", 
+  "trigger_enabled": false, 
+  "value": [
+    "/** TemplateExtension", 
+    " */", 
+    "/** Setup namespaces", 
+    " */", 
+    "var setupNamespaces = (function()", 
+    "{", 
+    "\tko.extensions.TemplateExtension = {", 
+    "\t\tKomodo:", 
+    "\t\t{", 
+    "\t\t\tDocument:\t{},", 
+    "\t\t\tPrefs:\t{},", 
+    "\t\t\tPane:\t{},", 
+    "\t\t\tPrefsWindow:\t{},", 
+    "\t\t\tControls:\t{},", 
+    "\t\t},", 
+    "\t};", 
+    "})();"
+  ], 
+  "version": "1.0.12", 
+  "rank": 100, 
+  "async": false, 
+  "type": "macro", 
+  "trigger": "trigger_postopen"
+}

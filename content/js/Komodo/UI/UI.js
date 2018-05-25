@@ -224,120 +224,16 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.createPrefSet = function(prefset_selector, perfset_template, perfset_values)
 		{
 			var prefset_caption	= Object.keys(perfset_template).pop();						
-			var control_types	= perfset_template[prefset_caption];
-			var containers_ids	= Object.keys(perfset_values);		
+			//var control_types	= perfset_template[prefset_caption];
+			//var containers_ids	= Object.keys(perfset_values);		
 			var container_class_shown	= prefset_selector+'-shown'; 
 
-			/** Add prefset attribute prefsaet="true"
-			 * For identification for get\set values
-			 */
-			var addPrefsetAttribute = (function()
-			{
-				self.$( prefset_selector ).element().setAttribute('prefset', true);
-			})();
-			/** Add caption
-			 */
- 			var addCaption = (function()
-			{
-				self.$( prefset_selector +' > caption').delete(); // delete menu if exists
-				
-				self.append( prefset_selector, self.create('caption', prefset_caption ) );
-			})();
-			
-			/** Ad Menu
-			 */
- 			var addMenu = (function()
-			{
-				self.$( prefset_selector +' menulist').delete(); // delete menu if exists
-				
-				self.append( prefset_selector, self.create('menulist', null, ['menupopup']) );
-			})();
+			self.$( prefset_selector ).empty();
 
-			/** Create perfset_template
-			 *
-			 * @param	object	controls_data	Container-id: {control id-label: value}
-			 */
-			var createContainer = function(container_index, container_label, controls_data)
-			{
-				var controls_labels	= Object.keys(controls_data);
-				/** container
-				 */
-				var container = (function()
-				{
-					var display	= container_index===0 ? 'block'	: 'none';
-					var container	= self.create( 'groupbox', {
-											'label': container_label,	// sanitized label become id attribute, label is for save and restore element from prefs
-											'class': 'prefset-container',	// class 'prefset-container' is for identification of container in prefset DOM
-											//'style': 'display:' + display
-									 });
-					
-					self.$( '#'+container.getAttribute('id') ).delete(); // delete container if exists
-					
-					self.append( prefset_selector, container);
-						
-					return container;
-				})(); 
-				
-				/** addMenuItem
-				 */
-				var addMenuItem = (function()
-				{
-					var toggle_containers =
-					[
-						"var container_class_shown='"+container_class_shown+"'",
-						"var element_hide=document.getElementsByClassName(container_class_shown)[0]",
-						"var element_show=document.getElementById('"+container.getAttribute('id')+"')",
-						
-						"if(element_hide==element_show)return", // return if clicked same element
-						
-						"element_show.classList.add(container_class_shown)", // show new container
-						"element_show.style.display = 'block'",
-				
-						"element_hide.classList.remove(container_class_shown)", // hide old element
-						"element_hide.style.display = 'none'",
-					];
-					
-					var menu_item	= self.create('menuitem', { 'id': container_label+'item', 'label': container_label, 'oncommand': toggle_containers.join(';')} );
-				
-					self.append( prefset_selector + ' menupopup', menu_item );
-				})(); 
-				  
-				/** Append control to container
-				 */
-				var appendControlToContainer = function(index)
-				{
-					var control_type	= control_types[index];
-					var control_data	= {'label': controls_labels[index], 'value':controls_data[controls_labels[index]] };
-					var control	= self.create(control_type, control_data);
-					//console.log('control');
-					//console.log( control );
-					/** Add label if not checkbox 
-					 */
-					var label = (function()
-					{
-						if( control_type==='checkbox' )
-							return;
-						
-						var hbox_label = self.create( 'hbox', null,[ 'label', {'value': controls_labels[index], 'control': control.getAttribute('id')} ] );
-									 
-						self.append( '#'+container.getAttribute('id'), hbox_label );
-						
-						return hbox_label;
-					})(); 
-					
-					var parent	= label ? label : self.$('#'+container.getAttribute('id'));
-					
-					self.$(parent).append( control );
-					
-					self.append( '#'+container.getAttribute('id'), control );					
-				}; 
-				
-				for(let c=0; c<controls_labels.length;c++)
-					appendControlToContainer(c);
-			};
+			var prefset_elements	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
+							.createPrefSet(prefset_selector, perfset_template, perfset_values);
 			
-			for(let i=0; i<containers_ids.length;i++)
-				createContainer(i, containers_ids[i], perfset_values[containers_ids[i]] );
+			self.append( prefset_selector, prefset_elements );
 			
 			/* SELECT MENU ITEM */
 			/** Select container
@@ -355,7 +251,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				});
 			})(); 
 			
-			console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
+			//console.log( self.$( prefset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 		/** Create dropdown element
 		 * @param	string	id	Id of dropdown element
