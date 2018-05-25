@@ -106,31 +106,6 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			 */
 			var createMainMenu = function()
 			{
-				/** Create markup_template
-				 *
-				 * @param	object	controls_data	Container-id: {control id-label: value}
-				 */
-				var getMenuItem = function( container )
-				{
-					var toggle_containers =
-					[
-						"var controlset	= document.getElementById('"+controlset.attr('id')+"')",
-						"var containers	= controlset.getElementsByClassName('controlset-container')",
-						"var element_show	= containers['"+container.getAttribute('id')+"']",
-						"var element_hide	= controlset.getElementsByClassName('shown')[0]",
-			
-						"if(element_hide==element_show)return", // return if clicked same element
-						
-						"element_show.classList.add('shown')", // show new container
-						"element_show.style.display = 'block'",
-						
-						"element_hide.classList.remove('shown')", // hide old element
-						"element_hide.style.display = 'none'",
-					];
-					
-					return self.create('menuitem', { 'id': container.getAttribute('id')+'-item', 'label': container.getAttribute('label'), 'oncommand': toggle_containers.join(';')} );
-				};
-				
 				var menupopup	= self.create('menupopup');
 				
 				for(let i=0; i<containers.length;i++)
@@ -147,7 +122,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			
 				var command_add = [
 					'var UI = TemplateExtension().UI(document)',
-					'UI.controlsetAddRemove( "#'+controlset_id+'","add")',
+					//'alert("'+controlset_id+'")',
+					'UI.controlset().element( "#'+controlset_id+'" ).addContainer()',
 				];
 				
 				var command_remove = [
@@ -202,14 +178,11 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 *	
 		 */
 		this.container = function(container_label, markup_template, controls_data=null)
-		{
-			//var controls_labels	= Object.keys(controls_data);
-			
+		{			
 			var control_types	= Array.isArray(markup_template) ? markup_template	: Object.keys(markup_template);
-			//controls_data	= Array.isArray(markup_template) ? controls_data	: Object.values(markup_template);
 			
-			console.log('---markup_template');
-			console.log( markup_template );
+			//console.log('---markup_template');
+			//console.log( markup_template );
 			/** Container_labels
 			 */
 			var controls_labels = (function()
@@ -225,7 +198,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			})(); 
 			//console.log('---controls_labels');
 			//console.log( controls_labels );
-			//
+			
 			//console.log('---controls_data');
 			//console.log( controls_data );
 			/** container
@@ -234,7 +207,6 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			{
 				var container	= self.create( 'groupbox', {
 										'label': container_label,	// sanitized label become id attribute, label is for save and restore element from prefs
-										//'id':    controlset.attr('id')+'-'+container_label
 										'class': 'controlset-container',	// class 'prefset-container' is for identification of container in prefset DOM
 								 });
 				
@@ -276,6 +248,26 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			return container;
 		};
 		
+		/** Add container 
+		 */
+		this.addContainer  = function(container_label=null)
+		{
+			if( ! container_label )
+				container_label	= require("ko/dialogs").prompt('Add new set name ');
+			
+			var markup_template	= JSON.parse( controlset.attr('template') );
+
+			var container = this.container(container_label, markup_template);
+
+			console.log('container');
+			console.log( container );
+			
+			controlset.find('menupopup').first().append( getMenuItem(container) );
+
+			controlset.append( container );
+			
+		}; 
+		
 		/** select
 		 */
 		this.select = function(select_index)
@@ -296,7 +288,32 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		this.test = function()
 		{
 			alert( 'ControlSet.test()' );
-		}; 
+		};
+		
+		/** Create markup_template
+		 *
+		 * @param	object	controls_data	Container-id: {control id-label: value}
+		 */
+		var getMenuItem = function( container )
+		{
+			var toggle_containers =
+			[
+				"var controlset	= document.getElementById('"+controlset.attr('id')+"')",
+				"var containers	= controlset.getElementsByClassName('controlset-container')",
+				"var element_show	= containers['"+container.getAttribute('id')+"']",
+				"var element_hide	= controlset.getElementsByClassName('shown')[0]",
+	
+				"if(element_hide==element_show)return", // return if clicked same element
+				
+				"element_show.classList.add('shown')", // show new container
+				"element_show.style.display = 'block'",
+				
+				"element_hide.classList.remove('shown')", // hide old element
+				"element_hide.style.display = 'none'",
+			];
+			
+			return self.create('menuitem', { 'id': container.getAttribute('id')+'-item', 'label': container.getAttribute('label'), 'oncommand': toggle_containers.join(';')} );
+		};
 	}
 	return ControlSet;
 

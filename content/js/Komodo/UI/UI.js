@@ -221,24 +221,25 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 * 		};
 		 * 
 		 */
-		this.controlset = function(controlset_selector, set_values)
+		this.controlset = function()
 		{
+			//alert( 'UI.controlset()' );
 			//self.$( controlset_selector ).empty();
 			return  new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet().document(document);
 			//console.log( self.$( controlset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 		
-		this.controlsetAddRemove = function(controlset_selector, add_remove)
-		{
-			var container_label	= require("ko/dialogs").prompt('Add new set name '+controlset_selector);
-
-			this.$(controlset_selector).find('menupopup').first().append( this.create('menuitem', container_label) );
-			
-			var controlset_container	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
-				.container(container_label, JSON.parse( this.$(controlset_selector).attr('template') ));
-
-			this.$(controlset_selector).append( controlset_container );
-		};
+		//this.controlsetAddRemove = function(controlset_selector, add_remove)
+		//{
+		//	//var container_label	= require("ko/dialogs").prompt('Add new set name '+controlset_selector);
+		//	//
+		//	//this.$(controlset_selector).find('menupopup').first().append( this.create('menuitem', container_label) );
+		//	//
+		//	//var controlset_container	= new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet()
+		//	//	.container(container_label, JSON.parse( this.$(controlset_selector).attr('template') ));
+		//	
+		//	//this.$(controlset_selector).append( controlset_container );
+		//};
 		/** Create dropdown element
 		 * @param	string	id	Id of dropdown element
 		 * @param	object	items	Items for dropdown 
