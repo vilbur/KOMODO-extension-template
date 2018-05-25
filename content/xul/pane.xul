@@ -45,10 +45,11 @@
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
 	
 	<hbox>
-		<vbox style="max-width:128px;">
+		<!--TEST ECTENSION NAMESPACE-->
+		<!--<vbox style="max-width:128px;">
 			<button label="TemplateExtension.test()" oncommand="TemplateExtension().test();" />
 			<button label="Komodo.Pane.test()" tooltiptext="TemplateExtension.Komodo.Pane.test()" oncommand="TemplateExtension().Komodo.Pane.test();" />
-		</vbox>
+		</vbox>-->
 		
 		<!--UITest-->
 		<vbox id="UiTest-pane"><!-- UiTest wrapper with id attribute - Not required, but bettwer if exists -->

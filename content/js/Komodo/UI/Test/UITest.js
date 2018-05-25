@@ -84,21 +84,21 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.CreatePrefset_ControlTest_dd = function()
 		{
-			createVbox('ui_test_prefset');
+			createVbox('ui_test_prefset_wrapper');
 			
-			var template = {'Prefset test': ['checkbox', 'textbox']};
-			var values   = {  
-								'Container A':{  
-									'Control A':    false,  
-									'Enter Text A':   'Foo Text A',  
-								},  
-								'Container B':{  
-									'Control B':    true,  
-									'Enter Text B':   '',  
-								}  
-							};
+			var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
+			var perfset_values   = {  
+									'Container A':{  
+										'Control A':    false,  
+										'Enter Text A': 'Foo Text A',  
+									},  
+									'Container B':{  
+										'Control B':    true,  
+										'Enter Text B': '',  
+									}
+								};
 		
-			paneUI.createPrefSet('#ui_test_prefset', template, values );
+			paneUI.createPrefSet('#ui_test_prefset_wrapper', perfset_template, perfset_values );
 		};
 		
 		/** Create pref set
@@ -135,43 +135,37 @@ ko.extensions.TemplateExtension.UITest = {};
 		*/
 		/** Get values
 		 */
-		this.getValuesFromDocumentTest_ValuesTest_btn = function()
+		this.getValuesFromDocumentTest_ValuesTest_dd = function()
 		{
 			console.log( paneUI.values() );	
 		};
 		/** Get values
 		 */
-		this.getValuesFromControlTest_ValuesTest_btn = function()
+		this.getValuesFromControlTest_ValuesTest_dd = function()
 		{
 			console.log( paneUI.value( '#checkbox_1' ) );	
 		};
 		/** Get values
 		 */
-		this.getValuesFromMainElementTest_ValuesTest_btn = function()
+		this.getValuesFromMainElementTest_ValuesTest_dd = function()
 		{
 			console.log( paneUI.values( main_element ) );	
 		}; 
 		/** Get prefs values
 		 */
-		this.getPrefsValuesFromMainElementTest_ValuesTest_btn = function()
+		this.getPrefsValuesFromMainElementTest_ValuesTest_dd = function()
 		{
 			//console.log('getPrefsValuesTest'); 
 			console.log( paneUI.values( main_element, 'only-prefs' ) );
 		};
-		/** Get prefs values
-		 */
-		this.setValuesByObjectTest_ValuesTest_btn = function()
-		{
-			//console.log('getPrefsValuesTest'); 
-			console.log( paneUI.values( main_element, 'only-prefs' ) );
-		};
+
 		/*---------------------------------------
 			PREFS TESTS
 		-----------------------------------------
 		*/
 		/** PrefsTest_SavePrefs
 		 */
-		this.SavePrefs_PrefsTest_btn = function()
+		this.SavePrefs_PrefsTest_dd = function()
 		{
 			var values	= paneUI.values( main_element, 'only-prefs' );
 			console.log( values );
@@ -179,7 +173,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		}; 
 		/** PrefsTest_SavePrefs
 		 */
-		this.LoadPrefs_PrefsTest_btn = function()
+		this.LoadPrefs_PrefsTest_dd = function()
 		{
 			//console.log('PrefsTest_btn()'); 
 			var values	= prefs.get();
@@ -196,6 +190,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		var setPaneUI = function(_document)
 		{
+			console.log('UITest.setPaneUI()' + _document.location.href); 
 			paneUI = new ko.extensions.TemplateExtension.Komodo.UI().document(_document);
 			
 			return paneUI;
