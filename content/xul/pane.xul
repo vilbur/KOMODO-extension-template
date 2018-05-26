@@ -36,6 +36,7 @@
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/UI.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Controls/ControlSet/ControlSet.js"/>
+	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Controls/Dropdown/Dropdown.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Prefs/Prefs.js"/>	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/Pane/Pane.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/PrefsWindow/PrefsWindow.js"/>		

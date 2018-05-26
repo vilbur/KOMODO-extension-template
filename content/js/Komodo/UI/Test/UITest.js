@@ -138,11 +138,11 @@ ko.extensions.TemplateExtension.UITest = {};
 			createVbox('ui_test_dropdown','Dropdown');
 			
 			paneUI.append('#ui_test_dropdown',
-				paneUI.dropdown('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
+				paneUI.dropdown().create('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
 			);
 			
 			paneUI.append('#ui_test_dropdown',
-				paneUI.dropdown('#dropdown_text_test', {'Item A':{tooltip: 'Item A'},'Item B':{tooltip: 'Item B'}}, 'Attributes & label')
+				paneUI.dropdown().create('#dropdown_text_test', {'Item A':{tooltip: 'Item A'},'Item B':{tooltip: 'Item B'}}, 'Attributes & label')
 			);
 		};
 		/** Try add control to element which not exist
@@ -314,7 +314,7 @@ ko.extensions.TemplateExtension.UITest = {};
 				for(var dropdown in controls.dropdown)
 					if (controls.dropdown.hasOwnProperty(dropdown))
 						paneUI.append( '#ui_test_methods',
-							paneUI.dropdown( dropdown, controls.dropdown[dropdown], dropdown )
+							paneUI.dropdown().create( dropdown, controls.dropdown[dropdown], dropdown )
 						);
 			})(); 
 		};

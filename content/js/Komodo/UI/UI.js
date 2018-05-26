@@ -223,54 +223,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.controlset = function()
 		{
-			//alert( 'UI.controlset()' );
-			//self.$( controlset_selector ).empty();
 			return  new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet().document(document);
-			//console.log( self.$( controlset_selector ).element().outerHTML ); // DEBUG: get element as plain text
 		};
 
-		/** Create dropdown element
-		 * @param	string	id	Id of dropdown element
-		 * @param	object	items	Items for dropdown 
-		 * @param	string	[menu_text]	Text in dropdown menu button, if null then current item is shown
-		 *
-		 * @return	[element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
-		 *
-		 * @example dropdown('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
-		 * @example dropdown('#dropdown_text_test',	{'Item A':{tooltip: 'Item A'},'Item B':{style: 'border:green;'}}, 'Attributes & label')
-		 *
+		/** 
 		 */
-		this.dropdown = function(id, items, menu_text=null)
+		this.dropdown = function()
 		{
-			var menulist	= menu_text ? self.create('button', {label: menu_text, type: "menu", id: sanitizeId(id) }) : self.create('menulist', {id: sanitizeId(id)});
-			var menupopup	= self.create('menupopup');
-
-			/** Get item simple
-			 */
-			var getItemSimple = function(label, _attributes)
-			{
-				var attributes = {label: label};
-				
-				if( typeof _attributes === 'object' ){
-					for(var attr in _attributes)
-						if (_attributes.hasOwnProperty(attr))
-							attributes[attr] = _attributes[attr];
-							//var value = _attributes[attr];
-				}else
-					attributes.oncommand = _attributes;
-				
-				return self.create('menuitem', attributes );
-			}; 
-			
-			for(var label in items)
-				if (items.hasOwnProperty(label))
-					menupopup.appendChild( getItemSimple(label, items[label]) );
-					
-			menulist.appendChild( menupopup );
-			
-			//console.log( menulist.outerHTML ); // DEBUG: get element as plain text
-
-			return  menulist;
+			return  new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown().document(document);
 		}; 
 		
 		/*---------------------------------------
