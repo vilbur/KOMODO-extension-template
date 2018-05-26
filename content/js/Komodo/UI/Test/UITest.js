@@ -137,13 +137,30 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			createVbox('ui_test_dropdown','Dropdown');
 			
+			var dropdown_fn	= 'TemplateExtension().UI().dropdown("#dropdown_test")';
+			
 			paneUI.append('#ui_test_dropdown',
-				paneUI.dropdown().create('#dropdown_test',	{'Item A':'alert("A")','Item B':'alert("B")'})
+				paneUI.dropdown().create('#dropdown_button_test', {
+					
+					'Select Item B':{	oncommand: dropdown_fn+ '.select(1)'},
+					'Remove Item B':{	oncommand: dropdown_fn+ '.delete(1)'},
+					'Add Item C':{	oncommand: dropdown_fn+ '.add({ label: "Item C"})'},
+					'Insert First':{	oncommand: dropdown_fn+ '.add({ label: "Item First"},	0)'},
+					'Insert Second & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Second"},	1,	true)'},
+					'Insert Last & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Last"},   -1, "select")'},
+					'Remove current':{	oncommand: dropdown_fn+ '.delete( '+dropdown_fn+'.current() )'},
+
+				
+				}, 'Test commands')
 			);
 			
 			paneUI.append('#ui_test_dropdown',
-				paneUI.dropdown().create('#dropdown_text_test', {'Item A':{tooltip: 'Item A'},'Item B':{tooltip: 'Item B'}}, 'Attributes & label')
+				paneUI.dropdown().create('#dropdown_test', {
+					'Item A':'console.log("A")',
+					'Item B':{oncommand:'console.log("B")', tooltip: 'Tooltip example'},
+				})
 			);
+
 		};
 		/** Try add control to element which not exist
 		 * It throws error
@@ -393,6 +410,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			/* INIT TESTS */
 			this.AddMainControls_ControlTest_dd();
 			//this.CreateControlset_ControlTest_dd();
+			this.CreateDopdown_ControlTest_dd();
 		};
 		/** test
 		 */

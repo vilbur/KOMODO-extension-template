@@ -228,9 +228,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 		/** 
 		 */
-		this.dropdown = function()
+		this.dropdown = function(selector=null)
 		{
-			return  new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown().document(document);
+			var dropdown =  new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown().document(document);
+		
+			if( selector )
+				dropdown.element( this.$(selector) );
+			
+			return dropdown;
 		}; 
 		
 		/*---------------------------------------
@@ -381,7 +386,12 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, '_').trim().toLowerCase();
 		};
-	
+		/** test
+		 */
+		this.test = function()
+		{
+			alert( 'UI.test()' );
+		}; 
 	}
 	return UI;
 

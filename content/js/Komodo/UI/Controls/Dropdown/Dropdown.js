@@ -8,8 +8,9 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		var self	= this;
 		var $	= require('ko/dom');
 		var document	= document;		
-		var dropdown; // main element
-		//var controlset_element;
+		var dropdown;	// main element
+		var menupopup;	// menupopup element
+
 		/** Set document where Dropdown is operating, pane or preferences window
 		 *
 		 * @param	string	_document
@@ -27,8 +28,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.element = function(dropdown_selector)
 		{
-			dropdown = self.$( dropdown_selector );
-			//dropdown_selector = dropdown.element();
+			dropdown	= self.$( dropdown_selector );
+			menupopup	= dropdown.find('menupopup').first();
 			return this;
 		};
 		
@@ -70,7 +71,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		this.create = function(id, items, menu_text=null)
 		{
 			dropdown	= menu_text ? self.newNode('button', {label: menu_text, type: "menu", id: sanitizeId(id) }) : self.newNode('menulist', {id: sanitizeId(id)});
-			var menupopup	= self.newNode('menupopup');
+			menupopup	= self.newNode('menupopup');
 
 			/** Get item simple
 			 */
@@ -78,7 +79,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 			{
 				var attributes = {label: label};
 				
-				if( typeof _attributes === 'object' ){
+				if( typeof _attributes === 'object' )
+				{
 					for(var attr in _attributes)
 						if (_attributes.hasOwnProperty(attr))
 							attributes[attr] = _attributes[attr];
@@ -97,6 +99,104 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 			
 			return  dropdown;
 		};
+		
+		/** Select item in dropdown menu
+		 * @param	int	index	Index of menu element, last item if index < 0
+		 *
+		 * @return	self
+		 */
+		this.select = function(index)
+		{
+			dropdown.element().selectedIndex = getIndex(index, 'loop');
+			
+			return this;
+		};
+		/** Add item to menu
+		 *
+		 * @param	{attr:value}	attributes	Attributes for menu item
+		 * @param	int	index	Index where to insert item, 'null' & '-1' append at last position
+		 * @return self
+		 */
+		this.add = function(attributes, index=null, select=false)
+		{
+			var menuitem	= this.newNode('menuitem', attributes);
+			
+			index 	=  index > -1 ? getIndex(index) : null;
+			
+			if( index && index>0 )
+				this.getItem(index).before( menuitem );
+				
+			else
+				menupopup[ index===null || index===-1 ? 'append' : 'prepend']( menuitem );
+				
+			if( select!==false )
+				this.select(index===null ? -1 : index); 	
+				
+				
+			return this;
+		}; 
+		/** Delete item at index
+		 *  Next item is selected after delete, if last item is deleted then previous item is selected
+		 *  
+		 * @param	int	index	Index of menu element, last item if index < 0
+		 * @return self
+		 */
+		this.delete = function(index)
+		{
+			index	= getIndex(index);
+
+			var is_last	= this.count() === index +1;
+			
+			dropdown.element().removeItemAt( index );
+			
+			this.select( is_last ? index-1 : index );
+			
+			return this;
+		};
+		/** Count of items
+		 */
+		this.count = function()
+		{
+			return dropdown.find( 'menupopup' )._elements[0].childNodes.length;
+		}; 
+		/** Get item
+		 * 
+		 */
+		this.getItem = function(index)
+		{
+			//console.log(  'index: ' + index );
+			return this.$( dropdown.find( 'menuitem' )._elements[index] );
+			//return dropdown.find( 'menuitem' )._elements[index];
+		};
+		/** Current index
+		 * @return	int	
+		 */
+		this.current = function()
+		{
+			return dropdown.element().selectedIndex;
+		}; 
+		/*---------------------------------------
+			PRIVATE
+		-----------------------------------------*/
+		/** Get index value
+		 * @param	int	index	Index of menu element
+		 * @param	mixed	loop	If not null, then return first item if index is bigger then max index
+		 * @return	int		Return index, last index if 'index < 0', null if more then max index
+		 */
+		var getIndex = function(index, loop=null)
+		{
+			var max_index	= self.count() -1;
+			
+			if( index < 0 )
+				return max_index;
+				
+			else if( index > max_index )
+				return loop ? 0 : null;
+				
+			return index;
+		}; 
+		
+		
 		/** Get sanitized id
 		 */
 		var sanitizeId = function(id)

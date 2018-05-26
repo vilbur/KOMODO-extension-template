@@ -32,9 +32,9 @@
 		
 		/** UI
 		 */
-		this.UI = function(_document)
+		this.UI = function(_document=null)
 		{
-			return  new ko.extensions.TemplateExtension.Komodo.UI().document(_document);			
+			return  new ko.extensions.TemplateExtension.Komodo.UI().document(_document ? _document : document);			
 		}; 
 		/** 
 		 */ 
