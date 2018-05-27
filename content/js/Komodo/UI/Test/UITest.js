@@ -82,7 +82,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Create controlset
 		 */
-		this.CreateControlset_ControlTest_dd = function()
+		this.Controlset_ControlTest_dd = function()
 		{
 			createVbox('ui_test_controlset_wrapper','', {caption: "Prefset test", template: '["checkbox", "textbox"]'});
 			
@@ -104,7 +104,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		};
 		/** Create controlset
 		 */
-		this.CreateControlsetAdjustable_ControlTest_dd = function()
+		this.ControlsetAdjustable_ControlTest_dd = function()
 		{
 			createVbox('ui_test_controlset_adjustable','', {caption: "Prefset Adjustable", template: '{"checkbox":{"label":"Checkbox"}, "textbox":{"label":"Enter Text"}}'});
 			
@@ -114,13 +114,13 @@ ko.extensions.TemplateExtension.UITest = {};
 										'Checkbox':    false,  
 										'Enter Text': 'A',  
 									},  
-									'Container B':{  
-										'Checkbox':    true,  
-										'Enter Text': 'B',  
-									},  
 									'Container C':{  
 										'Checkbox':    true,  
 										'Enter Text': 'C',  
+									},  
+									'Container B':{  
+										'Checkbox':    true,  
+										'Enter Text': 'B',  
 									}
 									
 								};
@@ -133,7 +133,7 @@ ko.extensions.TemplateExtension.UITest = {};
 
 		/** Create pref set
 		 */
-		this.CreateDopdown_ControlTest_dd = function()
+		this.Dopdown_ControlTest_dd = function()
 		{
 			createVbox('ui_test_dropdown','Dropdown');
 			
@@ -144,13 +144,12 @@ ko.extensions.TemplateExtension.UITest = {};
 					
 					'Select Item B':{	oncommand: dropdown_fn+ '.select(1)'},
 					'Remove Item B':{	oncommand: dropdown_fn+ '.delete(1)'},
-					'Add Item C':{	oncommand: dropdown_fn+ '.add({ label: "Item C"})'},
-					'Insert First':{	oncommand: dropdown_fn+ '.add({ label: "Item First"},	0)'},
-					'Insert Second & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Second"},	1,	true)'},
-					'Insert Last & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Last"},   -1, "select")'},
+					'Add Item C':{	oncommand: dropdown_fn+ '.add({ label: "Item C" })' },
+					'Insert First':{	oncommand: dropdown_fn+ '.add({ label: "Item First" },	0)' }, 
+					'Insert Second & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Second" },	1,	true)' },
+					'Insert Last & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Last" },   -1, "select")'},
 					'Remove current':{	oncommand: dropdown_fn+ '.delete( '+dropdown_fn+'.current() )'},
 
-				
 				}, 'Test commands')
 			);
 			
@@ -328,10 +327,10 @@ ko.extensions.TemplateExtension.UITest = {};
 			{
 				createVbox( 'ui_test_methods', 'UITest methods' );
 
-				for(var dropdown in controls.dropdown)
-					if (controls.dropdown.hasOwnProperty(dropdown))
+				for(var dropdown_name in controls.dropdown)
+					if (controls.dropdown.hasOwnProperty(dropdown_name))
 						paneUI.append( '#ui_test_methods',
-							paneUI.dropdown().create( dropdown, controls.dropdown[dropdown], dropdown )
+							paneUI.dropdown().create( dropdown_name, controls.dropdown[dropdown_name], dropdown_name )
 						);
 			})(); 
 		};
@@ -409,8 +408,10 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			/* INIT TESTS */
 			this.AddMainControls_ControlTest_dd();
-			//this.CreateControlset_ControlTest_dd();
-			this.CreateDopdown_ControlTest_dd();
+			this.Dopdown_ControlTest_dd();
+			//this.Controlset_ControlTest_dd();
+			this.ControlsetAdjustable_ControlTest_dd();
+
 		};
 		/** test
 		 */

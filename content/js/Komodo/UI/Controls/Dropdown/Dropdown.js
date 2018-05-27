@@ -23,12 +23,12 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		};
 		/** Set controlset_element
 		 *
-		 * @param	string	controlset_element
+		 * @param	string|element	selector_or_element
 		 * @return	self 
 		 */
-		this.element = function(dropdown_selector)
+		this.element = function(selector_or_element)
 		{
-			dropdown	= self.$( dropdown_selector );
+			dropdown	= self.$( selector_or_element );
 			menupopup	= dropdown.find('menupopup').first();
 			return this;
 		};
@@ -105,9 +105,9 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 *
 		 * @return	self
 		 */
-		this.select = function(index)
-		{
-			dropdown.element().selectedIndex = getIndex(index, 'loop');
+		this.select = function(index=null)
+		{			
+			dropdown.element().selectedIndex = this.getIndex(index, 'loop');
 			
 			return this;
 		};
@@ -121,14 +121,18 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		{
 			var menuitem	= this.newNode('menuitem', attributes);
 			
-			index 	=  index > -1 ? getIndex(index) : null;
-			
+			index 	=  index > -1 ? this.getIndex(index) : null;
+			console.log(  'Dropdown.add(): index=' + index );
+
 			if( index && index>0 )
 				this.getItem(index).before( menuitem );
 				
 			else
+			{
+				console.log(  index===null || index===-1 ? 'append' : 'prepend' );
 				menupopup[ index===null || index===-1 ? 'append' : 'prepend']( menuitem );
-				
+			}
+			
 			if( select!==false )
 				this.select(index===null ? -1 : index); 	
 				
@@ -141,9 +145,10 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 * @param	int	index	Index of menu element, last item if index < 0
 		 * @return self
 		 */
-		this.delete = function(index)
+		this.delete = function(_index=null)
 		{
-			index	= getIndex(index);
+			//index	= this.getIndex(index);
+			index = _index ?  this.getIndex(_index) : this.current();
 
 			var is_last	= this.count() === index +1;
 			
@@ -171,9 +176,9 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		/** Current index
 		 * @return	int	
 		 */
-		this.current = function()
+		this.current = function(property='selectedIndex')
 		{
-			return dropdown.element().selectedIndex;
+			return dropdown.element()[property];
 		}; 
 		/*---------------------------------------
 			PRIVATE
@@ -183,7 +188,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 * @param	mixed	loop	If not null, then return first item if index is bigger then max index
 		 * @return	int		Return index, last index if 'index < 0', null if more then max index
 		 */
-		var getIndex = function(index, loop=null)
+		this.getIndex = function(index, loop=null)
 		{
 			var max_index	= self.count() -1;
 			
@@ -202,6 +207,13 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		var sanitizeId = function(id)
 		{
 			return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, '_').trim().toLowerCase();
+		};
+		
+		/** test
+		 */
+		this.test = function()
+		{
+			alert( 'Dropdown.test()' );
 		};
 	}
 	return Dropdown;
