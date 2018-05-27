@@ -106,36 +106,42 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 * @return	self
 		 */
 		this.select = function(index=null)
-		{			
+		{
+			
 			dropdown.element().selectedIndex = this.getIndex(index, 'loop');
 			
 			return this;
 		};
 		/** Add item to menu
 		 *
-		 * @param	{attr:value}	attributes	Attributes for menu item
+		 * @param	{attr:value}|string	attributes	Attributes for menu item, or separator if '-'
 		 * @param	int	index	Index where to insert item, 'null' & '-1' append at last position
 		 * @return self
+		 *
+		 * @example .add({ label: "Item Last & S" },   -1, "select")
+		 * 
 		 */
 		this.add = function(attributes, index=null, select=false)
 		{
-			var menuitem	= this.newNode('menuitem', attributes);
+			var is_separator	= attributes==='-';
+			var menuitem	= is_separator ? this.newNode('menuseparator') : this.newNode('menuitem', attributes);
 			
 			index 	=  index > -1 ? this.getIndex(index) : null;
-			console.log(  'Dropdown.add(): index=' + index );
+			
+			var item_current	= index ? this.getMenuElement( index ) : null;
 
-			if( index && index>0 )
-				this.getItem(index).before( menuitem );
-				
-			else
-			{
-				console.log(  index===null || index===-1 ? 'append' : 'prepend' );
+			if( ( is_separator && index === 0 ) || (is_separator && item_current.element().nodeName === 'menuseparator') )
+				return this; 
+			
+			if( item_current )
+				item_current.before( menuitem );
+			
+			else if( ! is_separator )
 				menupopup[ index===null || index===-1 ? 'append' : 'prepend']( menuitem );
-			}
+
 			
 			if( select!==false )
 				this.select(index===null ? -1 : index); 	
-				
 				
 			return this;
 		}; 
@@ -147,30 +153,70 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.delete = function(_index=null)
 		{
-			//index	= this.getIndex(index);
 			index = _index ?  this.getIndex(_index) : this.current();
 
-			var is_last	= this.count() === index +1;
-			
 			dropdown.element().removeItemAt( index );
 			
-			this.select( is_last ? index-1 : index );
+			removeDoubleSeparators();
+			
+			this.select( index );
 			
 			return this;
 		};
+		/** Remove double separators
+		 *
+		 * Avoid first or last item to be <menuseparator/>
+		 * Avoid double <menuseparator/><menuseparator/> 
+		 *
+		 */
+		var removeDoubleSeparators = function()
+		{
+			//console.log('removeDoubleSeparators()'); 
+			var elements	= self.menuElements();
+			//console.log( elements );
+			
+			for(let i = elements.length-1; i > -1 ;i--)
+			{
+				var is_separator	= elements[i].nodeName === 'menuseparator';
+				var is_first_separator	= is_separator && i === 0;
+				var if_prev_separator	= is_separator && elements[i-1] && elements[i-1].nodeName === 'menuseparator';
+				var is_last_separator	= is_separator && i === elements.length-1;
+				//console.log(  'is_first_separator: ' + is_first_separator );
+				//console.log(  'if_prev_separator: ' + if_prev_separator );
+				//console.log(  'is_last_separator: ' + is_last_separator );
+				
+				if( is_first_separator || is_last_separator || if_prev_separator )
+				{
+					dropdown.element().removeItemAt( i );
+					elements	= self.menuElements();
+				}
+			}
+		}; 
 		/** Count of items
 		 */
 		this.count = function()
 		{
-			return dropdown.find( 'menupopup' )._elements[0].childNodes.length;
-		}; 
+			return dropdown.find( 'menupopup' )._elements[0].childNodes.length; 
+			//return dropdown.find( 'menuitem' )._elements.length;
+		};
 		/** Get item
 		 * 
 		 */
-		this.getItem = function(index)
+		this.menuElements = function()
 		{
 			//console.log(  'index: ' + index );
-			return this.$( dropdown.find( 'menuitem' )._elements[index] );
+			//return this.$( dropdown.find( 'menuitem' )._elements[index] );
+			return dropdown.find( 'menupopup' )._elements[0].childNodes;
+			//return dropdown.find( 'menuitem' )._elements[index];
+		};
+		/** Get item
+		 * 
+		 */
+		this.getMenuElement = function(index)
+		{
+			//console.log(  'index: ' + index );
+			//return this.$( dropdown.find( 'menuitem' )._elements[index] );
+			return this.$( dropdown.find( 'menupopup' )._elements[0].childNodes[index] );
 			//return dropdown.find( 'menuitem' )._elements[index];
 		};
 		/** Current index
@@ -190,14 +236,28 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.getIndex = function(index, loop=null)
 		{
-			var max_index	= self.count() -1;
-			
+			var menu_elements	= dropdown.find( 'menupopup' )._elements[0].childNodes;
+			var max_index	= menu_elements.length -1;
+			//console.log(  'getIndex(' + index+')' );
+			//console.log( menu_elements );
 			if( index < 0 )
-				return max_index;
+				return max_index; // return last element 
 				
 			else if( index > max_index )
-				return loop ? 0 : null;
-				
+				return loop ? 0 : null; // return first element
+			
+			//var i	= 0;
+			//if( index )
+			//	while( i < index )
+			//	{
+			//		console.log( menu_elements[i] );
+			//		if( menu_elements[i].nodeName === 'menuseparator' )
+			//			index++;
+			//		i++;
+			//	}
+			
+			//console.log(  'getIndex() = ' + index );
+			
 			return index;
 		}; 
 		

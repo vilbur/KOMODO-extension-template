@@ -80,13 +80,16 @@ ko.extensions.TemplateExtension.UITest = {};
 			);
 		};
 		
+		/*---------------------------------------
+			CONTROLSET
+		-----------------------------------------*/
 		/** Create controlset
 		 */
 		this.Controlset_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_wrapper','', {caption: "Prefset test", template: '["checkbox", "textbox"]'});
+			createVbox('ui_test_controlset_wrapper','', {caption: "Controlset", template: '["checkbox", "textbox"]'});
 			
-			var perfset_values   = {  
+			var containers_data    = {  
 									'Container A':{  
 										'Control A':    false,  
 										'Enter Text A': 'Foo Text A',  
@@ -98,7 +101,7 @@ ko.extensions.TemplateExtension.UITest = {};
 								};
 			paneUI.controlset()
 					.element( '#ui_test_controlset_wrapper' )
-					.load( perfset_values)
+					.load( containers_data )
 					.select(0);
 
 		};
@@ -106,10 +109,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.ControlsetAdjustable_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_adjustable','', {caption: "Prefset Adjustable", template: '{"checkbox":{"label":"Checkbox"}, "textbox":{"label":"Enter Text"}}'});
+			createVbox('ui_test_controlset_adjustable','', { adjust: true, caption: "Controlset adjustable", template: '[{"type": "checkbox", "label":"Checkbox", "style":"color: lightgreen;" }, {"type": "textbox", "label":"Enter Text"}]'});
 			
-			//var perfset_template = {'Prefset test': ['checkbox', 'textbox']};
-			var perfset_values   = {  
+			var containers_data={  
 									'Container A':{  
 										'Checkbox':    false,  
 										'Enter Text': 'A',  
@@ -122,15 +124,17 @@ ko.extensions.TemplateExtension.UITest = {};
 										'Checkbox':    true,  
 										'Enter Text': 'B',  
 									}
-									
 								};
 								
 			paneUI.controlset()
 					.element( '#ui_test_controlset_adjustable' )
-					.load( perfset_values)
+					.load( containers_data )
 					.select(1);
 		};
-
+		
+		/*---------------------------------------
+			DROPDOWN
+		-----------------------------------------*/
 		/** Create pref set
 		 */
 		this.Dopdown_ControlTest_dd = function()
@@ -142,9 +146,12 @@ ko.extensions.TemplateExtension.UITest = {};
 			paneUI.append('#ui_test_dropdown',
 				paneUI.dropdown().create('#dropdown_button_test', {
 					
-					'Select Item B':{	oncommand: dropdown_fn+ '.select(1)'},
-					'Remove Item B':{	oncommand: dropdown_fn+ '.delete(1)'},
+					'Count of elements':{	oncommand: 'alert('+dropdown_fn+ '.count())'},
+					'Current index':{	oncommand: 'console.log( "Current index: " + '+dropdown_fn+ '.current() )'},
+					'Current element':{	oncommand: 'console.log( '+dropdown_fn+ '.getMenuElement('+dropdown_fn+ '.current()) )'},
+					'Select Next Item':{	oncommand: dropdown_fn+ '.select('+dropdown_fn+'.current() +1)'},
 					'Add Item C':{	oncommand: dropdown_fn+ '.add({ label: "Item C" })' },
+					'Add Separator':{	oncommand: dropdown_fn+ '.add("-", '+dropdown_fn+'.current() +1)' },
 					'Insert First':{	oncommand: dropdown_fn+ '.add({ label: "Item First" },	0)' }, 
 					'Insert Second & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Second" },	1,	true)' },
 					'Insert Last & Select':{	oncommand: dropdown_fn+ '.add({ label: "Item Last" },   -1, "select")'},
@@ -155,8 +162,8 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			paneUI.append('#ui_test_dropdown',
 				paneUI.dropdown().create('#dropdown_test', {
-					'Item A':'console.log("A")',
-					'Item B':{oncommand:'console.log("B")', tooltip: 'Tooltip example'},
+					'Item A':'console.log("Selected A")',
+					'Item B':{oncommand:'console.log("Selected B")', tooltip: 'Tooltip example'},
 				})
 			);
 
