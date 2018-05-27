@@ -52,9 +52,9 @@
 })().apply(ko.extensions.TemplateExtension);
 
 /** Access to extension from UI 
- *	
+ *	Access from preference.xul
  */
 function TemplateExtension()
 {
-	return ko.extensions.TemplateExtension;
+	return ko.windowManager.getMainWindow().ko.extensions.TemplateExtension;
 }

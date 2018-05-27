@@ -141,7 +141,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			createVbox('ui_test_dropdown','Dropdown');
 			
-			var dropdown_fn	= 'TemplateExtension().UI().dropdown("#dropdown_test")';
+			var dropdown_fn	= 'TemplateExtension().UI(document).dropdown("#dropdown_test")';
 			
 			paneUI.append('#ui_test_dropdown',
 				paneUI.dropdown().create('#dropdown_button_test', {
