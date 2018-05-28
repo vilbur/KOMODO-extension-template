@@ -219,7 +219,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		{
 			var dropdown	= this.dropdown();
 
-			index = dropdown.getIndex(index, 'loop');
+			index = dropdown.getIndex(index, 'loop'); 
 			
 			dropdown.select( index );
 			

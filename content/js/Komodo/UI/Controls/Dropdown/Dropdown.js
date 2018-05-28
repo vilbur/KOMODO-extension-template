@@ -83,7 +83,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.select = function(index=null)
 		{
-			dropdown.element().selectedIndex = getIndex(index, 'loop');
+			dropdown.element().selectedIndex = this.getIndex(index, 'loop');
 			
 			return this;
 		};
@@ -102,7 +102,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 			var is_separator	= attributes==='-';
 			var menuitem	= is_separator ? newNode('menuseparator') : newNode('menuitem', attributes);
 			
-			index 	=  index > -1 ? getIndex(index) : null;
+			index 	=  index > -1 ? this.getIndex(index) : null;
 			
 			var item_current	= index ? this.getMenuElement( index ) : null;
 
@@ -128,7 +128,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.delete = function(_index=null)
 		{
-			index = _index ?  getIndex(_index) : this.current();
+			index = _index ?  this.getIndex(_index) : this.current();
 
 			dropdown.element().removeItemAt( index );
 			
@@ -146,8 +146,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		{
 			return dropdown.find( 'menupopup' )._elements[0].childNodes.length; 
 		};
-		/** Get all elements from <menupopup> element
-		 * 
+		/** Get all elements from menupopup element
+		 * @return	array Array of elements
 		 */
 		this.menuElements = function()
 		{
@@ -169,17 +169,12 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		{
 			return dropdown.element().selectedIndex;
 		};
-		
-		/*---------------------------------------
-			PRIVATE
-		-----------------------------------------*/
-		
 		/** Get index value
 		 * @param	int	index	Index of menu element
 		 * @param	mixed	loop	If not null, then return first item if index is bigger then max index
 		 * @return	int		Return index, last index if 'index < 0', null if more then max index
 		 */
-		var getIndex = function(index, loop=null)
+		this.getIndex = function(index, loop=null)
 		{
 			var menu_elements	= dropdown.find( 'menupopup' )._elements[0].childNodes;
 			var max_index	= menu_elements.length -1;
@@ -192,6 +187,10 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 			
 			return index;
 		};
+		
+		/*---------------------------------------
+			PRIVATE
+		-----------------------------------------*/
 
 		/** create node
 		 */
