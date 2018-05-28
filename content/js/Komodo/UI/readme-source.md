@@ -52,14 +52,14 @@
 
 | __controlset__()	|Get Controlset class	|  
 |:---	|:---	|  
-|`@return object`	|[ControlSet](Controls\ControlSet)	|  
+|`@return object`	|[ControlSet](Controls/ControlSet)	|  
 
 ##  
 
 | __dropdown__( [selector] )	|Get Dropdown class	|  
 |:---	|:---	|  
 |`@param string` [ selector=null ]	|Selector of dropdown menu	|  
-|`@return object`	|[Dropdown](Controls\Dropdown)	|  
+|`@return object`	|[Dropdown](Controls/Dropdown)	|  
 
 ##  
   

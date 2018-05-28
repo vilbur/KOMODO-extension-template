@@ -204,7 +204,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		-----------------------------------------
 		*/
 		/** Get Controlset class
-		 * @return	object [ControlSet](Controls\ControlSet)
+		 * @return	object [ControlSet](Controls/ControlSet)
 		 */
 		this.controlset = function()
 		{
@@ -213,7 +213,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 
 		/** Get Dropdown class
 		 * @param	string	selector	Selector of dropdown menu
-		 * @return	object [Dropdown](Controls\Dropdown)
+		 * @return	object [Dropdown](Controls/Dropdown)
 		 */
 		this.dropdown = function(selector=null)
 		{
