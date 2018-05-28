@@ -1,4 +1,4 @@
-/** Dropdown
+/** Dropdown element
 *
 */
 ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
@@ -6,12 +6,12 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 	function Dropdown()
 	{
 		var self	= this;
-		var $	= require('ko/dom');
+		//var $	= require('ko/dom');
 		var document	= document;		
 		var dropdown;	// main element
 		var menupopup;	// menupopup element
 
-		/** Set document where Dropdown is operating, pane or preferences window
+		/** Set document where Dropdown is working, pane or preferences document
 		 *
 		 * @param	string	_document
 		 * @return	self 
@@ -21,46 +21,22 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 			document = _document;
 			return this;
 		};
-		/** Set controlset_element
+		/** Set dropdown element
 		 *
 		 * @param	string|element	selector_or_element
 		 * @return	self 
 		 */
 		this.element = function(selector_or_element)
 		{
-			dropdown	= self.$( selector_or_element );
+			dropdown	= require('ko/dom')( selector_or_element, document );
 			menupopup	= dropdown.find('menupopup').first();
 			return this;
-		};
-		
-		/** Query selector in document
-		 * 
-		 * @param	string	selector	Selector of node
-		 * @param	string	selector	Selector of parent, if null, then current document is used
-		 * 
-		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
-		 */
-		this.$ = function(selector)
-		{
-			//parent = parent ? this.$(parent).element() : document;
-
-			return $(selector, document);
-		};
-		
-		/** create node
-		 */
-		this.newNode = function(type, attributes)
-		{
-			return new ko.extensions.TemplateExtension.Komodo.Node()
-										 .type(type)													 
-										 .attributes(attributes)
-										 .get();
 		};
 
 		/** Create dropdown element
 		 * @param	string	id	Id of dropdown element
 		 * @param	object	items	Items for dropdown 
-		 * @param	string	[menu_text]	Text in dropdown menu button, if null then current item is shown
+		 * @param	string	[menu_text=null]	Text in dropdown menu button, if null then current item is shown
 		 *
 		 * @return	[element](https://developer.mozilla.org/en-US/docs/Web/API/Element)
 		 *
@@ -70,8 +46,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.create = function(id, items, menu_text=null)
 		{
-			dropdown	= menu_text ? self.newNode('button', {label: menu_text, type: "menu", id: sanitizeId(id) }) : self.newNode('menulist', {id: sanitizeId(id)});
-			menupopup	= self.newNode('menupopup');
+			dropdown	= menu_text ? newNode('button', {label: menu_text, type: "menu", id: sanitizeId(id) }) : newNode('menulist', {id: sanitizeId(id)});
+			menupopup	= newNode('menupopup');
 
 			/** Get item simple
 			 */
@@ -88,7 +64,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 				}else
 					attributes.oncommand = _attributes;
 				
-				return self.newNode('menuitem', attributes );
+				return newNode('menuitem', attributes );
 			}; 
 			
 			for(var label in items)
@@ -97,7 +73,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 					
 			dropdown.appendChild( menupopup );
 			
-			return  dropdown;
+			return dropdown;
 		};
 		
 		/** Select item in dropdown menu
@@ -107,8 +83,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		this.select = function(index=null)
 		{
-			
-			dropdown.element().selectedIndex = this.getIndex(index, 'loop');
+			dropdown.element().selectedIndex = getIndex(index, 'loop');
 			
 			return this;
 		};
@@ -116,6 +91,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 *
 		 * @param	{attr:value}|string	attributes	Attributes for menu item, or separator if '-'
 		 * @param	int	index	Index where to insert item, 'null' & '-1' append at last position
+		 * @param	mixed	select	Select item after insertion if not false
 		 * @return self
 		 *
 		 * @example .add({ label: "Item Last & S" },   -1, "select")
@@ -124,9 +100,9 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		this.add = function(attributes, index=null, select=false)
 		{
 			var is_separator	= attributes==='-';
-			var menuitem	= is_separator ? this.newNode('menuseparator') : this.newNode('menuitem', attributes);
+			var menuitem	= is_separator ? newNode('menuseparator') : newNode('menuitem', attributes);
 			
-			index 	=  index > -1 ? this.getIndex(index) : null;
+			index 	=  index > -1 ? getIndex(index) : null;
 			
 			var item_current	= index ? this.getMenuElement( index ) : null;
 
@@ -147,13 +123,12 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		}; 
 		/** Delete item at index
 		 *  Next item is selected after delete, if last item is deleted then previous item is selected
-		 *  
 		 * @param	int	index	Index of menu element, last item if index < 0
 		 * @return self
 		 */
 		this.delete = function(_index=null)
 		{
-			index = _index ?  this.getIndex(_index) : this.current();
+			index = _index ?  getIndex(_index) : this.current();
 
 			dropdown.element().removeItemAt( index );
 			
@@ -163,6 +138,71 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 			
 			return this;
 		};
+
+		/** Count of items, including separators
+		 * @return	int Count of items in menu
+		 */
+		this.count = function()
+		{
+			return dropdown.find( 'menupopup' )._elements[0].childNodes.length; 
+		};
+		/** Get all elements from <menupopup> element
+		 * 
+		 */
+		this.menuElements = function()
+		{
+			return dropdown.find( 'menupopup' )._elements[0].childNodes;
+		};
+		/** Get item, including separators
+		 * 
+		 * @param	int	index	Index of menu element
+		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
+		 */
+		this.getMenuElement = function(index)
+		{
+			return require('ko/dom')( dropdown.find( 'menupopup' )._elements[0].childNodes[index] );
+		};
+		/** Get index of current selected item 
+		 * @return	int	
+		 */
+		this.current = function()
+		{
+			return dropdown.element().selectedIndex;
+		};
+		
+		/*---------------------------------------
+			PRIVATE
+		-----------------------------------------*/
+		
+		/** Get index value
+		 * @param	int	index	Index of menu element
+		 * @param	mixed	loop	If not null, then return first item if index is bigger then max index
+		 * @return	int		Return index, last index if 'index < 0', null if more then max index
+		 */
+		var getIndex = function(index, loop=null)
+		{
+			var menu_elements	= dropdown.find( 'menupopup' )._elements[0].childNodes;
+			var max_index	= menu_elements.length -1;
+
+			if( index < 0 )
+				return max_index; // return last element 
+				
+			else if( index > max_index )
+				return loop ? 0 : null; // return first element
+			
+			return index;
+		};
+
+		/** create node
+		 */
+		var newNode = function(type, attributes)
+		{
+			return new ko.extensions.TemplateExtension.Komodo.Node()
+										 .type(type)													 
+										 .attributes(attributes)
+										 .get();
+		};
+		
 		/** Remove double separators
 		 *
 		 * Avoid first or last item to be <menuseparator/>
@@ -171,9 +211,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 		 */
 		var removeDoubleSeparators = function()
 		{
-			//console.log('removeDoubleSeparators()'); 
 			var elements	= self.menuElements();
-			//console.log( elements );
 			
 			for(let i = elements.length-1; i > -1 ;i--)
 			{
@@ -192,75 +230,6 @@ ko.extensions.TemplateExtension.Komodo.Controls.Dropdown = (function()
 				}
 			}
 		}; 
-		/** Count of items
-		 */
-		this.count = function()
-		{
-			return dropdown.find( 'menupopup' )._elements[0].childNodes.length; 
-			//return dropdown.find( 'menuitem' )._elements.length;
-		};
-		/** Get item
-		 * 
-		 */
-		this.menuElements = function()
-		{
-			//console.log(  'index: ' + index );
-			//return this.$( dropdown.find( 'menuitem' )._elements[index] );
-			return dropdown.find( 'menupopup' )._elements[0].childNodes;
-			//return dropdown.find( 'menuitem' )._elements[index];
-		};
-		/** Get item
-		 * 
-		 */
-		this.getMenuElement = function(index)
-		{
-			//console.log(  'index: ' + index );
-			//return this.$( dropdown.find( 'menuitem' )._elements[index] );
-			return this.$( dropdown.find( 'menupopup' )._elements[0].childNodes[index] );
-			//return dropdown.find( 'menuitem' )._elements[index];
-		};
-		/** Current index
-		 * @return	int	
-		 */
-		this.current = function(property='selectedIndex')
-		{
-			return dropdown.element()[property];
-		}; 
-		/*---------------------------------------
-			PRIVATE
-		-----------------------------------------*/
-		/** Get index value
-		 * @param	int	index	Index of menu element
-		 * @param	mixed	loop	If not null, then return first item if index is bigger then max index
-		 * @return	int		Return index, last index if 'index < 0', null if more then max index
-		 */
-		this.getIndex = function(index, loop=null)
-		{
-			var menu_elements	= dropdown.find( 'menupopup' )._elements[0].childNodes;
-			var max_index	= menu_elements.length -1;
-			//console.log(  'getIndex(' + index+')' );
-			//console.log( menu_elements );
-			if( index < 0 )
-				return max_index; // return last element 
-				
-			else if( index > max_index )
-				return loop ? 0 : null; // return first element
-			
-			//var i	= 0;
-			//if( index )
-			//	while( i < index )
-			//	{
-			//		console.log( menu_elements[i] );
-			//		if( menu_elements[i].nodeName === 'menuseparator' )
-			//			index++;
-			//		i++;
-			//	}
-			
-			//console.log(  'getIndex() = ' + index );
-			
-			return index;
-		}; 
-		
 		
 		/** Get sanitized id
 		 */

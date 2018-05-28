@@ -156,11 +156,14 @@ ko.extensions.TemplateExtension.UITest = {};
 				}, 'Test commands')
 			);
 			
+			var dropdown_items	=
+			{
+				'Item A':'console.log("Selected A")',
+				'Item B':{oncommand:'console.log("Selected B")', tooltip: 'Tooltip example'},
+			};
+			
 			paneUI.append('#ui_test_dropdown',
-				paneUI.dropdown().create('#dropdown_test', {
-					'Item A':'console.log("Selected A")',
-					'Item B':{oncommand:'console.log("Selected B")', tooltip: 'Tooltip example'},
-				})
+				paneUI.dropdown().create('#dropdown_test', dropdown_items )
 			);
 
 		};

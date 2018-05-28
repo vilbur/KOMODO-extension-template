@@ -196,7 +196,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var dropdown	= this.dropdown();
 
 			var current_index	= index ? index : dropdown.current();
-			var current_label	= index ? dropdown.getMenuElement(index).attr('label') : dropdown.current('label');
+			var current_label	= dropdown.getMenuElement(current_index).attr('label');
 			//console.log(  'current_index: ' + current_index );
 			//console.log(  'current_label: ' + current_label );
 
