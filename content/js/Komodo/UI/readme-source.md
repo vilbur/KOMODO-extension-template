@@ -50,35 +50,16 @@
 
 ##  
 
-| __createPrefSet__( prefset_selector, perfset_template, perfset_values )	|Create prefset dom with menu and toggable containers with controls	|  
+| __controlset__()	|Get Controlset class	|  
 |:---	|:---	|  
-|`@param string` prefset_selector	|Id of dom wrapper where menu abd all containers are inserted	|  
-|`@param object` perfset_template	|Representation of container xul structure	|  
-|`@param object` perfset_values	|Data for pref set`s controls	|  
+|`@return object`	|[ControlSet](Controls\ControlSet)	|  
 
 ##  
 
+| __dropdown__( [selector] )	|Get Dropdown class	|  
+|:---	|:---	|  
+|`@param string` [ selector=null ]	|Selector of dropdown menu	|  
+|`@return object`	|[Dropdown](Controls\Dropdown)	|  
 
-# Examples  
-__createPrefSet()__  - this code creates working element below  
-``` JavaScript  
-	var template = {'Prefset Caption': ['checkbox', 'textbox']};  
-    var values   = {  
-                        'Container A':{  
-                            'Control A':    false,  
-                            'Enter Text':   'Foo Text',  
-                        },  
-                        'Container B':{  
-                            'Control B':    true,  
-                            'Enter Text':   '',  
-                        }  
-                    };  
-
-	paneUI().createPrefSet('#pref_set_test', template, values );  
-```  
-__Generated prefset element__  
-[include:\Test\prefset-element-example.xul]  
-
-__Prefset element rendered__  
-![prefset](Test/prefset.gif)  
+##  
   

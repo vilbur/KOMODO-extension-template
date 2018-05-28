@@ -68,12 +68,9 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 		{
 			/** Is auto id control
 			 */
-			var isAutoIdControl = function()
-			{
-				return ['button'].indexOf( node.nodeName ) === -1;
-			}; 
+			var is_auto_id_control = ['button'].indexOf( node.nodeName ) === -1;
 			
-			if( ! isAutoIdControl() )
+			if( ! is_auto_id_control )
 				return; 
 			
 			/** Get sanitized id
@@ -105,5 +102,4 @@ ko.extensions.TemplateExtension.Komodo.Node = (function()
 	return Node;
 
 })();
-
 

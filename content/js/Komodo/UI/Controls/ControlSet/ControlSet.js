@@ -1,19 +1,17 @@
-/** ControlSet
-* Manage extension`s ui elements
-*
-*/
+/** Create sets of controls switchable with dropdown menu
+ * 
+ *
+ * 
+ */
 ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 {
 	function ControlSet()
 	{
-		var self	= this;
-		var $	= require('ko/dom');
-		
+		var self	= this;		
 		var document	= document;		
 		var controlset;
-		//var dropdown;
 
-		/** Set document where ControlSet is operating, pane or preferences window
+		/** Set document where ControlSet is working, pane or preferences document
 		 *
 		 * @param	string	_document
 		 * @return	self 
@@ -23,60 +21,25 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			document = _document;
 			return this;
 		};
-		/** Set controlset_element
+		/** Set controlset_selector
 		 *
-		 * @param	string	controlset_element
+		 * @param	string	controlset_selector
 		 * @return	self 
 		 */
 		this.element = function(controlset_selector)
 		{
-			controlset	= self.$( controlset_selector );
+			controlset	= require('ko/dom')(controlset_selector, document);
 
 			return this;
 		};
-		/** Dropdown
-		 */
-		this.dropdown = function()
-		{
-			return new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown()
-																.element( controlset.find( 'menupopup').parent() );
-		}; 
-		
-		/** Query selector in document
-		 * 
-		 * @param	string	selector	Selector of node
-		 * @param	string	selector	Selector of parent, if null, then current document is used
-		 * 
-		 * @return	type	[QueryObject](https://docs.activestate.com/komodo/11/sdk/api/module-ko_dom-QueryObject.html)
-		 */
-		this.$ = function(selector)
-		{
-			//parent = parent ? this.$(parent).element() : document;
-
-			return $(selector, document);
-		};
-		
-		/** create node
-		 */
-		this.create = function(type, attributes)
-		{
-			return new ko.extensions.TemplateExtension.Komodo.Node()
-										 .type(type)													 
-										 .attributes(attributes)
-										 .get();
-		};
 
 		/** Create controlset dom with menu and toggable containers with controls.
-		 * If exist, then controlset will be refreshed
+		 * If exist, then controlset is refreshed
 		 *
-		 * @param	string	controlset_id	Id of wrapper element where menu and all containers are inserted
-		 * @param	object	markup_template	Representation of container xul structure
-		 * @param	object	containers_data	Data for pref set`s controls
+		 * @param	object	containers_data	Data for controlset`s controls
 		 * @return	self	
 		 *
 		 * @example
-		 *		markup_template = { 'Prefset Caption': ['checkbox', 'textbox'] };
-		 * 
 		 * 		containers_data = {
 		 *			'Container A':{
 		 * 				'Control A':	true,
@@ -107,25 +70,25 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var container_labels	= Object.keys(containers_data).sort();
 			
 			/* MENU ELEMENTS ELEMENTS */
-			var menu_box	= self.create('hbox');
-			var menu_main	= self.create('menulist');
-			var menu_adjust	= self.create('button', { type: 'menu' });
+			var menu_box	= newNode('hbox');
+			var menu_main	= newNode('menulist');
+			var menu_adjust	= newNode('button', { type: 'menu' });
 			
 			/** Create containers
 			 */
 			var createContainers = function()
 			{
 				for(let i=0; i<container_labels.length;i++)
-					containers.push( self.container( container_labels[i], markup_template, containers_data[container_labels[i]] ) );
+					containers.push( createContainer( container_labels[i], markup_template, containers_data[container_labels[i]] ) );
 			}; 
 			/** Create main menu
 			 */
 			var createMainMenu = function()
 			{
-				var menupopup	= self.create('menupopup');
+				var menupopup	= newNode('menupopup');
 				
 				for(let i=0; i<containers.length;i++)
-					menupopup.appendChild( self.getMenuItem(containers[i]) );
+					menupopup.appendChild( getMenuItem(containers[i]) );
 
 				menu_main.appendChild(menupopup);
 			}; 
@@ -137,20 +100,20 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				if( ! is_adjustable )
 					return; 
 				
-				var menupopup	= self.create('menupopup');
+				var menupopup	= newNode('menupopup');
 			
 				var command_add = [
 					'var UI = TemplateExtension().UI(document)',
-					'UI.controlset().element( "#'+controlset_id+'" ).addContainer()',
+					'UI.controlset().element( "#'+controlset_id+'" ).add()',
 				];
 				
 				var command_remove = [
 					'var UI = TemplateExtension().UI(document)',
-					'UI.controlset().element( "#'+controlset_id+'" ).removeContainer()',
+					'UI.controlset().element( "#'+controlset_id+'" ).remove()',
 				];
 				
-				var menu_item_add	= self.create('menuitem', { 'label': '+', 'oncommand': command_add.join(';')} );
-				var menu_item_remove	= self.create('menuitem', { 'label': '-', 'oncommand': command_remove.join(';')} );
+				var menu_item_add	= newNode('menuitem', { 'label': '+', 'oncommand': command_add.join(';')} );
+				var menu_item_remove	= newNode('menuitem', { 'label': '-', 'oncommand': command_remove.join(';')} );
 			
 				menupopup.appendChild( menu_item_add );
 				menupopup.appendChild( menu_item_remove );
@@ -161,7 +124,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			 */
 			var addCaption = function()
 			{
-				controlset.append( self.create('caption', prefset_caption));
+				controlset.append( newNode('caption', prefset_caption));
 			}; 
 			/** Compose menu
 			 */
@@ -197,17 +160,123 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			return this; 
 		};
 
-		/**  
+		/** Add new container by markup template
+		 * @param	string	container_label	Label of container shown in dropdown
+		 * @return	self 
+		 */
+		this.add  = function(container_label=null)
+		{
+			//var dropdown	= this.dropdown();
+
+			if( ! container_label )
+				container_label	= require("ko/dialogs").prompt('Add new set name');
+				
+			if( ! container_label )
+				return;
+			
+			var markup_template	= JSON.parse( controlset.attr('template') );
+
+			var container = createContainer(container_label, markup_template);
+			
+			this.dropdown().add( getMenuItemAttributes(container) );
+			//dropdown().add( self.getMenuItemAttributes(container) );
+
+			controlset.append( container );
+			
+			this.select(-1);
+			
+			return this; 
+		}; 
+		/** Remove container
+		 * @param	int	index	Index of container to remove, if null, then current is removed
+		 * @return	self
+		 */
+		this.remove  = function(index=null)
+		{
+			var dropdown	= this.dropdown();
+
+			var current_index	= index ? index : dropdown.current();
+			var current_label	= index ? dropdown.getMenuElement(index).attr('label') : dropdown.current('label');
+			//console.log(  'current_index: ' + current_index );
+			//console.log(  'current_label: ' + current_label );
+
+			if( ! require("ko/dialogs").confirm("Remove set '" + current_label +"' ?") )
+				return; 
+			
+			dropdown.delete();
+			
+			controlset.find('.controlset-container')._elements[current_index].remove();
+			
+			this.select(current_index);
+			
+			return this; 
+		}; 
+		/** Select item in menu and change visible container
+		 * @param	int	index	Index of menu element, select last item if select_index < 0
+		 * @return	self
+		 */
+		this.select = function(index)
+		{
+			var dropdown	= this.dropdown();
+
+			index = dropdown.getIndex(index, 'loop');
+			
+			dropdown.select( index );
+			
+			/* Hide containers  */
+			controlset.find('.controlset-container').each(function(i) // class 'controlset-container' is important, it is defined in ControlSet class
+			{
+				var display	= index==i ? 'block' : 'none';
+				
+				this.classList.remove( 'shown' );
+
+				this.setAttribute('style', this.getAttribute('style').replace(/display:\s*(none|block);/gi, '') + 'display:'+display+';');
+
+				if( index==i )
+					this.classList.add( 'shown' );
+			});
+			return this; 
+		};
+		/** Get dropdown in control set
+		 *
+		 * @return	object [Dropdown](../Dropdown)
+		 */
+		this.dropdown = function()
+		{
+			return new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown()
+																.element( controlset.find( 'menupopup').parent() );
+		};
+		
+		/** test
+		 */
+		this.test = function()
+		{
+			alert( 'ControlSet.test()' );
+		};
+		
+		/** create node
+		 */
+		var newNode = function(type, attributes)
+		{
+			return new ko.extensions.TemplateExtension.Komodo.Node()
+										 .type(type)													 
+										 .attributes(attributes)
+										 .get();
+		};
+
+		/**  Get container dom
 		 *
 		 * @param	string	container_label	Label of container used in dropdown menu
 		 * @param	array	markup_template	Array of control types of attribute objects for controls 
 		 * @param	object	controls_data	Values for controls {'control label': 'value'}
 		 *
+		 * @return element
+		 * 
 		 * @example markup_template=["checkbox", "textbox"]
 		 * @example markup_template=[{"type": "checkbox": "label":"Checkbox" }, {"type": "textbox": "label":"Enter Text"}]
 		 * 
 		 */
-		this.container = function(container_label, markup_template, controls_data=null)
+		var createContainer = function(container_label, markup_template, controls_data=null)
 		{			
 			//console.log('ControlSet.container()'); 
 			var controls_data_labels = controls_data ? Object.keys(controls_data) : null;
@@ -233,7 +302,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			 */
 			var container = (function()
 			{
-				var container	= self.create( 'groupbox', {
+				var container	= newNode( 'groupbox', {
 										'label': container_label,	// sanitized label become id attribute, label is for save and restore element from prefs
 										'class': 'controlset-container',	// class 'controlset-container' is for identification of container in controlset DOM
 								 });
@@ -248,7 +317,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			var appendControlToContainer = function(index)
 			{
 				//var type	= markup_template[index].type;
-				var control	= self.create(markup_template[index].type, markup_template[index]);
+				var control	= newNode(markup_template[index].type, markup_template[index]);
 				
 				/** Add label if not checkbox 
 				 */
@@ -257,8 +326,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 					if( markup_template[index].type === 'checkbox' )
 						return;
 					
-					var hbox	= self.create( 'hbox' );
-					var label	= self.create( 'label', {'value': markup_template[index].label, 'control': control.getAttribute('id') });
+					var hbox	= newNode( 'hbox' );
+					var label	= newNode( 'label', {'value': markup_template[index].label, 'control': control.getAttribute('id') });
 				
 					hbox.appendChild( label );
 					hbox.appendChild( control );
@@ -275,84 +344,11 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			return container;
 		};
 		
-		/** Add container 
-		 */
-		this.addContainer  = function(container_label=null)
-		{
-			//var dropdown	= this.dropdown();
-
-			if( ! container_label )
-				container_label	= require("ko/dialogs").prompt('Add new set name');
-				
-			if( ! container_label )
-				return;
-			
-			var markup_template	= JSON.parse( controlset.attr('template') );
-
-			var container = this.container(container_label, markup_template);
-			
-			this.dropdown().add( self.getMenuItemAttributes(container) );
-			//dropdown().add( self.getMenuItemAttributes(container) );
-
-			controlset.append( container );
-			
-			this.select(-1);
-		}; 
-		/** Add container 
-		 */
-		this.removeContainer  = function()
-		{
-			//console.log('removeContainer()');
-			var dropdown	= this.dropdown();
-
-			//var menulist	= controlset.find( 'menulist' ).first();
-			var current_index	= dropdown.current();
-			var current_label	= dropdown.current('label');
-			//console.log(  'current_index: ' + current_index );
-			//console.log(  'current_label: ' + current_label );
-
-			if( ! require("ko/dialogs").confirm("Remove set '" + current_label +"' ?") )
-				return; 
-			
-			dropdown.delete();
-			
-			controlset.find('.controlset-container')._elements[current_index].remove();
-			
-			this.select(current_index);
-			
-		}; 
-		/** select item in menu and change visible container
-		 * @param	int	select_index	Index of menu element, select last item if select_index < 0
-		 */
-		this.select = function(index)
-		{
-			var dropdown	= this.dropdown();
-			//alert( 'ControlSet.select()' );
-			index = dropdown.getIndex(index, 'loop');
-			
-			dropdown.select( index );
-			
-			/* Hide containers  */
-			controlset.find('.controlset-container').each(function(i) // class 'controlset-container' is important, it is defined in ControlSet class
-			{
-				var display	= index==i ? 'block' : 'none';
-				
-				this.classList.remove( 'shown' );
-				//this.setAttribute('style', 'display:'+display+';');
-				this.setAttribute('style', this.getAttribute('style').replace(/display:\s*(none|block);/gi, '') + 'display:'+display+';');
-
-				if( index==i )
-					this.classList.add( 'shown' );
-
-				//this.setAttribute('style', this.getAttribute('style') +';display:'+display+';');
-			});
-		}; 
-
 		/** Create markup_template
 		 *
 		 * @param	object	controls_data	Container-id: {control id-label: value}
 		 */
-		this.getMenuItemAttributes = function( container )
+		var getMenuItemAttributes = function( container )
 		{
 			var toggle_containers =
 			[
@@ -379,15 +375,15 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 *
 		 * @param	object	controls_data	Container-id: {control id-label: value}
 		 */
-		this.getMenuItem = function( container )
+		var getMenuItem = function( container )
 		{
-			return self.create('menuitem', this.getMenuItemAttributes(container) );
+			return newNode('menuitem', getMenuItemAttributes(container) );
 		};
-		/** test
+		/** Get sanitized id
 		 */
-		this.test = function()
+		var sanitizeId = function(id)
 		{
-			alert( 'ControlSet.test()' );
+			return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, '_').trim().toLowerCase();
 		};
 		 
 	}

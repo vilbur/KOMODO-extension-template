@@ -1,0 +1,14 @@
+<!--Controlset-->
+<vbox id="controlset_wrapper"  
+      caption="Controlset"  
+      template='["checkbox", "textbox"]'  
+>  
+</vbox>
+
+<!--Controlset adjustable-->
+<vbox id="controlset_wrapper"
+      adjust="true"
+      caption="Controlset"
+      template='[{"type":"checkbox","label":"Checkbox",},{"type":"textbox","label":"Enter Text"}]'
+>  
+</vbox>

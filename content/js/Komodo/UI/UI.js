@@ -203,30 +203,17 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			PREFSET DOM
 		-----------------------------------------
 		*/
-		/** Create prefset dom with menu and toggable containers with controls.
-		 * If exist, then prefset will be refreshed
-		 *
-		 * @param	string	controlset_selector	Id of wrapper element where menu and all containers are inserted
-		 * @param	object	markup_template	Representation of container xul structure
-		 * @param	object	set_values	Data for pref set`s controls
-		 *
-		 * @example
-		 *		markup_template = { 'Prefset Caption': ['checkbox', 'textbox'] };
-		 * 
-		 * 		set_values = {
-		 *			'Container A':{
-		 * 				'Control A':	true,
-		 * 				Enter Text A':	'Foo Text A',
-		 * 			}
-		 * 		};
-		 * 
+		/** Get Controlset class
+		 * @return	object [ControlSet](Controls\ControlSet)
 		 */
 		this.controlset = function()
 		{
 			return  new ko.extensions.TemplateExtension.Komodo.Controls.ControlSet().document(document);
 		};
 
-		/** 
+		/** Get Dropdown class
+		 * @param	string	selector	Selector of dropdown menu
+		 * @return	object [Dropdown](Controls\Dropdown)
 		 */
 		this.dropdown = function(selector=null)
 		{

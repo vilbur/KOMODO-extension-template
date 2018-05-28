@@ -87,7 +87,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.Controlset_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_wrapper','', {caption: "Controlset", template: '["checkbox", "textbox"]'});
+			createVbox('controlset_wrapper','', {caption: "Controlset", template: '["checkbox", "textbox"]'});
 			
 			var containers_data    = {  
 									'Container A':{  
@@ -100,7 +100,7 @@ ko.extensions.TemplateExtension.UITest = {};
 									}
 								};
 			paneUI.controlset()
-					.element( '#ui_test_controlset_wrapper' )
+					.element( '#controlset_wrapper' )
 					.load( containers_data )
 					.select(0);
 
@@ -109,17 +109,13 @@ ko.extensions.TemplateExtension.UITest = {};
 		 */
 		this.ControlsetAdjustable_ControlTest_dd = function()
 		{
-			createVbox('ui_test_controlset_adjustable','', { adjust: true, caption: "Controlset adjustable", template: '[{"type": "checkbox", "label":"Checkbox", "style":"color: lightgreen;" }, {"type": "textbox", "label":"Enter Text"}]'});
+			createVbox('test_controlset_adjustable','', { adjust: true, caption: "Controlset adjustable", template: '[{"type":"checkbox","label":"Checkbox"},{"type":"textbox","label":"Enter Text"}]'});
 			
 			var containers_data={  
 									'Container A':{  
 										'Checkbox':    false,  
 										'Enter Text': 'A',  
-									},  
-									'Container C':{  
-										'Checkbox':    true,  
-										'Enter Text': 'C',  
-									},  
+									},
 									'Container B':{  
 										'Checkbox':    true,  
 										'Enter Text': 'B',  
@@ -127,7 +123,7 @@ ko.extensions.TemplateExtension.UITest = {};
 								};
 								
 			paneUI.controlset()
-					.element( '#ui_test_controlset_adjustable' )
+					.element( '#test_controlset_adjustable' )
 					.load( containers_data )
 					.select(1);
 		};
@@ -416,7 +412,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			/* INIT TESTS */
 			this.AddMainControls_ControlTest_dd();
 			this.Dopdown_ControlTest_dd();
-			//this.Controlset_ControlTest_dd();
+			this.Controlset_ControlTest_dd();
 			this.ControlsetAdjustable_ControlTest_dd();
 
 		};
