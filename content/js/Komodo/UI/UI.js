@@ -34,8 +34,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.$ = function(selector, parent=null)
 		{
-			//if( ! selector.match(/^[#\.]/) )
-			//	selector = '#' +selector;
 			parent = parent ? this.$(parent).element() : document;
 
 			return $(selector, parent);
@@ -245,7 +243,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			*/
 			var preferenceTest = function(element)
 			{
-				//return only_prefs===false || (element.hasAttribute('prefs') && element.getAttribute('prefs')!=='false');
 				return only_prefs===false || element.getAttribute('prefs')!=='false';
 			}; 
 			/** Set to value to values object
@@ -268,8 +265,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				{
 					var value = preferenceTest(this) ? self.value( this ) : null;
 						
-					if( value && this.id )
-						container_values[this.id] = value;
+					container_values[this.getAttribute('label')] = value;
 				});
 				
 				var controlset	= $(container).parent();
@@ -291,18 +287,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 				child_nodes.each(function()
 				{
 					var id	= this.getAttribute('id');
-					//console.log( '-----child_node: '+id );
-					//console.log( this );
-					//console.log( ! Object.keys(this.childNodes).length );
 					
 					if( ! Object.keys(this.childNodes).length ){
 						if( preferenceTest(this) )
 							setToValues( id, self.value(this) );
 								
 					}else if( this.classList.contains('controlset-container') )
-						//console.log(  'PREF SET: ' + id );
 						setControlsetValues( this );
-						//setToValues( id, getControlsetValues(id) );
 					
 					else
 						loopNestedElements( $(this.childNodes) );
@@ -353,7 +344,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			var element	= self.$(selector).element();
 			
-			if( element.nodeName === 'checkbox' )
+			if( ! self.exists(selector) )
+				return exception( 'Control '+selector+' does not exists' );
+						
+			if( typeof value === 'object'  )
+				self.controlset().element(element).load(value);
+			
+			else if( element.nodeName === 'checkbox' )
 				 element.checked = value;
 			
 			else
@@ -366,6 +363,13 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			return id.replace(/[^a-z0-9\s-_]/gi, '').replace(/\s+/gi, '_').trim().toLowerCase();
 		};
+		/** Thrownotification warning message
+		 */
+		var exception = function(message)
+		{
+			ko.statusBar.AddMessage( message, 'TemplateExtension', 0, true); 
+			return; 
+		}; 
 		/** test
 		 */
 		this.test = function()

@@ -46,7 +46,7 @@
 	<!--
 		EXTENSION PANE
 	-->
-    <ko-pane id="workspace_bottom_area">
+    <ko-pane id="workspace_left_area">
         <browser type="ko-widget"
 				label="&pane.label;"
 				src="chrome://TemplateExtension/content/xul/pane.xul"

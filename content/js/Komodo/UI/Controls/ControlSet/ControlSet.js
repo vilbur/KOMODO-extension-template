@@ -29,6 +29,10 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		this.element = function(controlset_selector)
 		{
 			controlset	= require('ko/dom')(controlset_selector, document);
+				
+			if( ! controlset.exists() )
+				console.log( 'ControlSetDoes not exists\n\n'+controlset_selector );
+			
 						
 			return this;
 		};
@@ -50,6 +54,11 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 */
 		this.load = function(containers_data)
 		{
+			console.log('ControlSet.load');
+			console.log( containers_data );
+			
+
+			
 			var strToJson = function(str) {
 				try {
 					return JSON.parse(str);
@@ -58,7 +67,6 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				}
 				return null;
 			};
-			
 						
 			var containers	= [];
 
@@ -93,7 +101,6 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 
 				menu_main.appendChild(menupopup);
 			}; 
-			
 			/** Compose menu
 			 */
 			var createAdjustMenu = function()
@@ -158,15 +165,17 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 
 			console.log( controlset.element().outerHTML ); // DEBUG: get element as plain text
 
-			setControlSetAttribute();
+			//setControlSetAttribute();
+			
+			this.select(0);
 			return this; 
 		};
-		/** Set control set attribute for identification on pref data
-		 */
-		var setControlSetAttribute = function()
-		{
-			controlset.attr('controlset', 'true');
-		}; 
+		///** Set control set attribute for identification on pref data
+		// */
+		//var setControlSetAttribute = function()
+		//{
+		//	controlset.attr('controlset', 'true');
+		//}; 
 
 		/** Add new container by markup template
 		 * @param	string	container_label	Label of container shown in dropdown
@@ -286,7 +295,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		 */
 		var createContainer = function(container_label, markup_template, controls_data=null)
 		{			
-			//console.log('ControlSet.container()'); 
+			console.log('ControlSet.container('+container_label+')'); 
 			var controls_data_labels = controls_data ? Object.keys(controls_data) : null;
 			
 			/* Merge markup_template & controls_data to one object 
@@ -345,7 +354,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				
 				container.appendChild( label_box ? label_box : control );
 			};
-			
+			console.log( markup_template );
 			for(let c=0; c<markup_template.length;c++)
 				appendControlToContainer(c);
 				
