@@ -29,7 +29,7 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 		this.element = function(controlset_selector)
 		{
 			controlset	= require('ko/dom')(controlset_selector, document);
-
+						
 			return this;
 		};
 
@@ -58,7 +58,8 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 				}
 				return null;
 			};
-			//console.log('ControlSet.load()'); 
+			
+						
 			var containers	= [];
 
 			var controlset_id	= controlset.attr('id');
@@ -157,8 +158,15 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 
 			console.log( controlset.element().outerHTML ); // DEBUG: get element as plain text
 
+			setControlSetAttribute();
 			return this; 
 		};
+		/** Set control set attribute for identification on pref data
+		 */
+		var setControlSetAttribute = function()
+		{
+			controlset.attr('controlset', 'true');
+		}; 
 
 		/** Add new container by markup template
 		 * @param	string	container_label	Label of container shown in dropdown

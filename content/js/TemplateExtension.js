@@ -4,8 +4,7 @@
 {
 	function TemplateExtension()
 	{
-		var _this	= this;
-		var Logger	= ko.extensions.Logger_v3 ? new ko.extensions.Logger_v3(this).clear(false).off(false) : require('ko/console');
+		var self	= this;
 	
 		/** localizedTest
 		 */
@@ -30,7 +29,8 @@
 			return new this.Komodo[_class]();
 		};
 		
-		/** UI
+		/** Access to UI class
+		 * @param	object	_document	Document where UI is working
 		 */
 		this.UI = function(_document=null)
 		{
@@ -38,13 +38,12 @@
 		}; 
 		/** 
 		 */ 
-		this.test = function(value='')
+		this.test = function()
 		{
 			alert( 'TemplateExtension.test()' );
 			console.log( window.frameElement.contentWindow.document.location );
 		};
 		
-		//registerPreferences();
 	}
 
 	return TemplateExtension;

@@ -9,7 +9,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		var self	= this;
 		var $	= require('ko/dom');
 		var document	= document;		
-
+		var control_types	= ['checkbox','textbox','radio'];
 		/*---------------------------------------
 			SETUP
 		-----------------------------------------
@@ -238,12 +238,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		var getValues = function(selector, only_prefs=false)
 		{
 			var values	= {};
-			
+			//console.log(  'getValues()' );
+
 			/** Test if getting only preferences,
 			* 		if so, then if control has not 
 			*/
 			var preferenceTest = function(element)
 			{
+				//return only_prefs===false || (element.hasAttribute('prefs') && element.getAttribute('prefs')!=='false');
 				return only_prefs===false || element.getAttribute('prefs')!=='false';
 			}; 
 			/** Set to value to values object
@@ -257,38 +259,26 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			 
 			/** Get prefset values
 			 */
-			var getPrefsetValues = function(prefset_id)
+			var setControlsetValues = function(container)
 			{
-				var prefset_values	= {};
-
-				/** Loop containers
-				 */
-				var loopContainers = function()
+				//console.log('setControlsetValues()');
+				var container_values	= {};
+				
+				$(container).find( control_types.join(',') ).each(function()
 				{
-					/** Get elements values
-					 */
-					var getElementsValues = function(container)
-					{
-						var prefset_values	= {};
+					var value = preferenceTest(this) ? self.value( this ) : null;
+						
+					if( value && this.id )
+						container_values[this.id] = value;
+				});
+				
+				var controlset	= $(container).parent();
+				var controlset_id	= controlset.attr('id');
 
-						$(container).children().each(function()
-						{
-							var value = preferenceTest() ? self.value( this ) : null;
-							
-							if( value )
-								prefset_values[this.id] = value;
-						});
-						return prefset_values;
-					}; 
-					
-					self.$('#'+prefset_id +' .prefset-container').each(function()
-					{	
-						prefset_values[this.getAttribute('label')] = getElementsValues(this);
-					});
-				}; 
-				loopContainers();
-
-				return prefset_values;
+				if( typeof values[controlset_id] === 'undefined'  )
+					values[controlset_id] = {};
+				
+				values[controlset_id][$(container).attr('label')] = container_values;
 			};
 			
 			/** Get values form child nodes
@@ -309,9 +299,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 						if( preferenceTest(this) )
 							setToValues( id, self.value(this) );
 								
-					}else if( this.hasAttribute('prefset') )
+					}else if( this.classList.contains('controlset-container') )
 						//console.log(  'PREF SET: ' + id );
-						setToValues( id, getPrefsetValues(id) );
+						setControlsetValues( this );
+						//setToValues( id, getControlsetValues(id) );
 					
 					else
 						loopNestedElements( $(this.childNodes) );
@@ -319,7 +310,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			}; 
 
 			loopNestedElements( self.$(selector).children() );
-			
+
 			return values;
 		};
 
@@ -340,12 +331,14 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			/** I element type node
 			*/
-			var is_control_node = ['checkbox','textbox','radio'].indexOf( element.nodeName ) > -1;
+			var is_control_node = control_types.indexOf( element.nodeName ) > -1;
 			
-			if( element.id && is_control_node )
-				return element.nodeName == 'checkbox' ? element.checked : element.value;
+			if( ! is_control_node || ! element.id )
+				return null;
+			//console.log(  'getValue()' );
+			//console.log( element );
 			
-			return null;
+			return element.nodeName == 'checkbox' ? element.checked : element.value;
 		};
 		
 		/** Set element value
@@ -354,9 +347,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		var setValue = function(selector, value)
 		{
-			console.log(  'setValue()' );
-			console.log( selector );
-			console.log( value );
+			//console.log(  'setValue()' );
+			//console.log( selector );
+			//console.log( value );
 			
 			var element	= self.$(selector).element();
 			

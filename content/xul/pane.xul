@@ -30,6 +30,7 @@
 
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
+	<!--EXTENSION CONNECTION TO KOMODO-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Komodo/Komodo.js"/>
@@ -39,10 +40,12 @@
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Controls/Dropdown/Dropdown.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Prefs/Prefs.js"/>	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/Pane/Pane.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/PrefsWindow/PrefsWindow.js"/>		
+    <!--<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/window/PrefsWindow/PrefsWindow.js"/>		-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Node/Node.js"/>
+	
+	<!--EXTENSION SCRIPTS-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtensionScript/TemplateExtensionScript.js"/>
-
+	
 	<!--TEST-->
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Test/UITest.js"/>
 	

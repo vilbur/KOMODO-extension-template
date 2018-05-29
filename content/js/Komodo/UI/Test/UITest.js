@@ -14,7 +14,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		var $	= require('ko/dom');
 		var self	= this;
 		
-		var prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefset('ui-test');
+		var Prefs	= ko.extensions.TemplateExtension.Komodo.Prefs.prefset('ui-test');
 		var paneUI	= null;
 		
 		/** Test box selectors
@@ -33,11 +33,10 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			console.log( 'InitUiTest_UiTest_btn' );  
 			initControlTestBox();
-			//this.init();
 			AddUiTestButtons();
 			
 			/* INIT TESTS */
-			this.AddMainControls_ControlTest_dd();
+			//this.AddMainControls_ControlTest_dd();
 		};
 		/** Test controls init pane
 		 */
@@ -220,19 +219,25 @@ ko.extensions.TemplateExtension.UITest = {};
 		this.SavePrefs_PrefsTest_dd = function()
 		{
 			var values	= paneUI.values( main_element, 'only-prefs' );
+			//var values	= paneUI.values( main_element);
 			console.log( values );
-			prefs.set(values);
+			Prefs.set(values);
 		}; 
 		/** PrefsTest_SavePrefs
 		 */
 		this.LoadPrefs_PrefsTest_dd = function()
 		{
 			//console.log('PrefsTest_btn()'); 
-			var values	= prefs.get();
+			var values	= Prefs.get();
 			console.log( values );
 			paneUI.values( values );
 		}; 
-
+		/** PrefsTest_SavePrefs
+		 */
+		this.DeletePrefs_PrefsTest_dd = function()
+		{
+			Prefs.delete('ui-test');
+		}; 
 		/*---------------------------------------
 			PREPARE TEST CLASS AND PANE UI
 		-----------------------------------------
