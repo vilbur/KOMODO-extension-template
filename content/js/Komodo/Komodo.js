@@ -1,4 +1,4 @@
-/** Container for classes which are not related to extension
+/** Container for classes which are related to Komodo
  * 
  */
 (function()

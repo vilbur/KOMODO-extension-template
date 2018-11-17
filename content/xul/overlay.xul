@@ -9,9 +9,9 @@
 		xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
 	<!--EXTENSION CONNECTION TO KOMODO-->
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespaceSetup/namespaceSetup.js"/>
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>	
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Komodo/Komodo.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Komodo.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/UI.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/UI/Controls/ControlSet/ControlSet.js"/>

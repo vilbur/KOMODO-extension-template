@@ -21,7 +21,7 @@
 			
 			alert('ko.extensions.TemplateExtension.Test("'+string+'")\n\n'+GetLocalizedString('property.property_test') );
 		};
-		/** Get new instance of object in this
+		/** Get new instance of object in this.Komodo 
 		 * @example _new('UI') get new instance of this.UI()  
 		 */
 		this._new = function(_class)

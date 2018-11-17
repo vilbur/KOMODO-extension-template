@@ -130,7 +130,7 @@ ko.extensions.TemplateExtension.UITest = {};
 		
 		/** Create pref set
 		 */
-		this.Dopdown_ControlTest_dd = function()
+		this.Dr opdown_ControlTest_dd = function()
 		{
 			createVbox('ui_test_dropdown','Dropdown');
 			
@@ -241,9 +241,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		/** Pane ui
 		 * @return	object	UI class in pane
 		 */
-		var setPaneUI = function(_document)
+		var setUI = function(_document)
 		{
-			console.log('UITest.setPaneUI()' + _document.location.href); 
+			console.log('UITest.setUI()' + _document.location.href); 
 			UI = new ko.extensions.TemplateExtension.Komodo.UI().document(_document);
 			
 			return UI;
@@ -403,9 +403,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		{
 			main_element = getMainElementId(init_button);
 
-			setPaneUI(init_button.ownerDocument);
+			setUI(init_button.ownerDocument);
 			
-			UI.delete(init_button);
+			UI.empty(main_element);
 
 			initControlTestBox();
 			
@@ -415,7 +415,7 @@ ko.extensions.TemplateExtension.UITest = {};
 			
 			/* INIT TESTS */
 			this.AddMainControls_ControlTest_dd();
-			this.Dopdown_ControlTest_dd();
+			this.Dropdown_ControlTest_dd();
 			this.Controlset_ControlTest_dd();
 			this.ControlsetAdjustable_ControlTest_dd();
 

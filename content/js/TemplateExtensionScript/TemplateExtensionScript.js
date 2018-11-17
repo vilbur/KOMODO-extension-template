@@ -1,13 +1,3 @@
-
-
-//if( typeof ko.extensions.TemplateExtension === 'undefined'  )
-	//ko.extensions.TemplateExtension = {};
-	
-
-//ko.extensions.TemplateExtension.TemplateExtensionScript = {};
-
-
-
 /** TemplateExtensionScript
  */
 var TemplateExtensionScript = (function()
@@ -18,11 +8,13 @@ var TemplateExtensionScript = (function()
 		 */
 		this.test = function()
 		{
-			alert( 'TemplateExtensionScript' );
+			alert( 'TemplateExtensionScript.test()' );
 			return new ko.extensions.TemplateExtension.UI();
 		}; 
 	}
 	return TemplateExtensionScript;
 })();
 
+/** Apply to namespace 
+ */
 TemplateExtensionScript.apply(ko.extensions.TemplateExtension.TemplateExtensionScript);
