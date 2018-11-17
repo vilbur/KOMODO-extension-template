@@ -22,9 +22,9 @@
 | __create__( type, [attributes], [children] )	|Create dom element or array of elements	|  
 |:---	|:---	|  
 |`@param string` type	|Type of node to append	|  
-|`@param null|string|object|[object]` [attributes]	|Attributes for controls, define array of strings or array of objects for adding multiple nodes	|  
-|`@param array` [ children=null ]	|Array of attributes [type, attributes, create] for nested loop of create() function  
-|`@return array`	|created node or array of created nodes	|  
+|`@param null|string|array|object|[object]` [attributes]	|Attributes for controls, define array of strings or array of objects for adding multiple nodes	|  
+|`@param array` [ children=null ]	|Array of attributes [type, attributes, create] for nested loop of create() function	|  
+|`@return element|[ elements ]`	|created node or array of created nodes	|  
 
 ##  
 | __values__( selector, [only_prefs], parent_selector )	|Get values of parent node controls	|  
