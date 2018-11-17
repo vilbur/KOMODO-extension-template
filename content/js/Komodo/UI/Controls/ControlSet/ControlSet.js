@@ -254,14 +254,23 @@ ko.extensions.TemplateExtension.Komodo.Controls.ControlSet = (function()
 			});
 			return this; 
 		};
-		/** Get dropdown in control set
+		/** Get dropdown object in control set
 		 *
-		 * @return	object [Dropdown](../Dropdown)
+		 * @return object [Dropdown](../Dropdown)
 		 */
 		this.dropdown = function()
 		{
-			return new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown()
-																.element( controlset.find( 'menupopup').parent() );
+			// DELETE THIS !!!
+			////return new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown()
+			////													.element( controlset.find( 'menupopup').parent() );
+			var menupopup	= controlset.find( 'menupopup' );
+			var dropdown	= new ko.extensions.TemplateExtension.Komodo.Controls.Dropdown();
+			
+			if( typeof menupopup.element()!=='undefined' )
+				dropdown.element( menupopup.parent() );
+			
+			return dropdown;
+			
 		};
 		
 		/** test

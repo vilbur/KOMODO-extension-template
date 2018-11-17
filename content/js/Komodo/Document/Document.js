@@ -3,7 +3,7 @@
  * @example  Document.get('preferences') return document of preferences.xul
  *
  */
-ko.extensions.TemplateExtension.Komodo.Document = {};
+//ko.extensions.TemplateExtension.Komodo.Document = {};
 (function()
 {
 	function Document()

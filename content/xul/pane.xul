@@ -31,7 +31,7 @@
     <script type="application/x-javascript" src="chrome://komodo/content/library/less_loader.js"/>
 
 	<!--EXTENSION CONNECTION TO KOMODO-->
-    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespace.js"/>
+    <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/namespaceSetup/namespaceSetup.js"/>
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/TemplateExtension.js"/>	
     <script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Komodo/Komodo.js"/>
 	<script type="application/x-javascript" src="chrome://TemplateExtension/content/js/Komodo/Document/Document.js"/>

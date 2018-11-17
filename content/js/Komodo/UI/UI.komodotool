@@ -48,7 +48,7 @@
     "\t\t */", 
     "\t\tthis.exists = function(selector, parent=null)", 
     "\t\t{", 
-    "\t\t\treturn typeof this.$(selector, parent).element()!=='undefined'; ", 
+    "\t\t\treturn typeof this.$(selector, parent).element()!=='undefined';", 
     "\t\t}; ", 
     "\t\t/** Create dom element or array of elements", 
     "\t\t * ", 

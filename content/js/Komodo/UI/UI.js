@@ -42,7 +42,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		this.exists = function(selector, parent=null)
 		{
-			return typeof this.$(selector, parent).element()!=='undefined'; 
+			return typeof this.$(selector, parent).element()!=='undefined';
 		}; 
 		/** Create dom element or array of elements
 		 * 
