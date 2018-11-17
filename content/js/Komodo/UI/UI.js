@@ -1,5 +1,13 @@
-/** UI
-* Manage extension`s ui elements
+/** Manage xul elements
+*
+*
+* ADDITIONAL ATTRIBUTES of xul elements:
+*		prefs="false"	// value of this element will not saved as preference	
+* 
+* @Example
+*	<checkbox	label="Example of attributes"	
+*		prefs="false"	
+* 	/>
 *
 */
 ko.extensions.TemplateExtension.Komodo.UI = (function()
@@ -10,10 +18,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		var $	= require('ko/dom');
 		var document	= document;		
 		var control_types	= ['checkbox','textbox','radio'];
-		/*---------------------------------------
-			SETUP
-		-----------------------------------------
-		*/
+	
+		/*		SETUP
+		-----------------------------------------*/
+	
 		/** Set document where UI is operating, pane or preferences window
 		 *
 		 * @param	string	_document
@@ -22,6 +30,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.document = function(_document)
 		{
 			document = _document;
+			
 			return this;
 		};
 
@@ -44,24 +53,24 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		{
 			return typeof this.$(selector, parent).element()!=='undefined';
 		}; 
-		/** Create dom element or array of elements
+		/** Create dom element or elements
 		 * 
-		 * @example 
-		 *		.create('checkbox', 'Checkbox 1')	// single node, attribute is label
-		 *		.create('checkbox', {label: 'Checkbox 1'})	// single node with attributes		 
-		 *		.create('checkbox', ['Checkbox 1', 'Checkbox 2'])	// multiple nodes
-		 *		.create('checkbox', [{label: 'Checkbox 1'}, {label: 'Checkbox 2'}])	// multiple nodes with attributes
-		 *
-		 *		.create('groupbox')	// node without attributes
-		 *		.create('groupbox', {id: 'gp_id'})	// node with attributes
-		 *		.create('groupbox', null, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with children
-		 *		.create('groupbox', {id: 'gp_id'}, ['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with attributes and children
-		 *
 		 * @param	string	type	Type of node to append
-		 * @param	null|string|object|[object] 	[attributes]	Attributes for controls, define array of strings or array of objects for adding multiple nodes 
+		 * @param	null|string|array|object|[object] 	[attributes]	Attributes for control(s)
 		 * @param	[type, attributes]	children	Array of attributes [type, attributes, create] for nested loop of create() function
 		 * 
 		 * @return element|[elements] created node or array of created nodes
+		 * 
+		 * @example of parameter 'attributes'
+		 *		.create('checkbox', 'Checkbox 1')	// STRING:	single node
+		 *		.create('checkbox', ['Checkbox 1', 'Checkbox 2'])	// ARRAY OF STRINGS:	multiple nodes
+		 *		.create('checkbox', {label:  'Checkbox 1'})	// OBJECT:	single node with attributes
+		 *		.create('checkbox', [{label: 'Checkbox 1'}, {label: 'Checkbox 2'}])	// ARRAY OF OBJECTS:	multiple nodes with attributes
+		 *
+		 * @example of parameter 'children' 
+		 *		.create('groupbox')		// node without attributes
+		 *		.create('groupbox', null,	['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with children
+		 *		.create('groupbox', {id: 'gp_id'},	['checkbox', ['Checkbox 1', 'Checkbox 2']] )	// node with attributes and children
 		 */
 		this.create = function(type, attributes=null, children=null)
 		{
@@ -91,7 +100,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return created_nodes.length > 1 ? created_nodes : lastNode ;
 		};
-		/** Delete Node
+		/** Delete element
 		 */
 		this.delete = function(selector_or_element, parent=null)
 		{
@@ -100,14 +109,15 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		};
 		
 		/** Get\Set values of controls
+		 *
 		 * @param	string	param1
 		 * @param	mixed	param2	if not false, then take only nodes without attribute prefs="false"
 		 * @return	{id: value}	Object of node ids and values
 		 *
 		 * @example values()	// GET all values from docuent
 		 * @example values('id')	// GET all values from element
-		 * @example values('only-prefs')	// GET prefs values from docuent
-		 * @example values('id', 'only-prefs')	// GET prefs values from element
+		 * @example values('only-prefs')	// GET preferences values from docuent
+		 * @example values('id', 'only-prefs')	// GET preferences values from element
 		 * 
 		 * @example values({'id': 'value to set'})	// mass SET values by object
 		 * 
@@ -115,7 +125,6 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		this.values = function(param1, param2=false)
 		{
 			console.log(  'UI.values()' );
-
 			return typeof param1 === 'object' ? setValues(param1) : getValues(param1, param2) ;
 		};
 		
@@ -187,7 +196,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return this;
 		};
 		
-		/** Remove child element
+		/** Remove child elements
 		 * @param	string	selector	Selector of node
 		 * @return	self
 		 */
@@ -197,10 +206,10 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			
 			return this;
 		};
-		/*---------------------------------------
-			PREFSET DOM
-		-----------------------------------------
-		*/
+		
+		/*		PREFSET DOM
+		-----------------------------------------*/
+		
 		/** Get Controlset class
 		 * @return	object [ControlSet](Controls/ControlSet)
 		 */
@@ -223,10 +232,9 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			return dropdown;
 		}; 
 		
-		/*---------------------------------------
-			PRIVATE VALUE METHODS
-		-----------------------------------------
-		*/
+		/*		PRIVATE VALUE METHODS
+		-----------------------------------------*/
+		
 		/** Get values from controls
 		 *
 		 * @param	string	selector	Selector of node or parent nodes whereto get values
@@ -235,47 +243,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		var getValues = function(selector, only_prefs=false)
 		{
+			console.log(  'UI.getValues()' );
 			var values	= {};
-			//console.log(  'getValues()' );
-
-			/** Test if getting only preferences,
-			* 		if so, then if control has not 
-			*/
-			var preferenceTest = function(element)
-			{
-				return only_prefs===false || element.getAttribute('prefs')!=='false';
-			}; 
-			/** Set to value to values object
-			 */
-			var setToValues = function(id, value)
-			{
-				//console.log(  'setToValues(): ' + id +', '+ value );
-				if( value!==null )
-					values[id] = value;
-			};
-			 
-			/** Get prefset values
-			 */
-			var setControlsetValues = function(container)
-			{
-				//console.log('setControlsetValues()');
-				var container_values	= {};
-				
-				$(container).find( control_types.join(',') ).each(function()
-				{
-					var value = preferenceTest(this) ? self.value( this ) : null;
-						
-					container_values[this.getAttribute('label')] = value;
-				});
-				
-				var controlset	= $(container).parent();
-				var controlset_id	= controlset.attr('id');
-
-				if( typeof values[controlset_id] === 'undefined'  )
-					values[controlset_id] = {};
-				
-				values[controlset_id][$(container).attr('label')] = container_values;
-			};
 			
 			/** Get values form child nodes
 			 * @param	array	child_nodes	Element list of child nodes
@@ -284,6 +253,46 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 			{
 				//console.log('loopNestedElements');
 				//console.log( child_nodes );
+				/** Test if getting only preferences,
+				* 		if so, then if control has not 
+				*/
+				var preferenceTest = function(element)
+				{
+					return only_prefs===false || element.getAttribute('prefs')!=='false';
+				}; 
+				
+				/** Set to value to values object
+				 */
+				var setToValues = function(id, value)
+				{
+					//console.log(  'setToValues(): ' + id +', '+ value );
+					if( value!==null )
+						values[id] = value;
+				};
+				
+				/** Get prefset values
+				 */
+				var setControlsetValues = function(container)
+				{
+					//console.log('setControlsetValues()');
+					var container_values	= {};
+					
+					$(container).find( control_types.join(',') ).each(function()
+					{
+						var value = preferenceTest(this) ? self.value( this ) : null;
+							
+						container_values[this.getAttribute('label')] = value;
+					});
+					
+					var controlset	= $(container).parent();
+					var controlset_id	= controlset.attr('id');
+	
+					if( typeof values[controlset_id] === 'undefined'  )
+						values[controlset_id] = {};
+					
+					values[controlset_id][$(container).attr('label')] = container_values;
+				};
+				
 				child_nodes.each(function()
 				{
 					var id	= this.getAttribute('id');
@@ -310,6 +319,7 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		var setValues = function(values_data)
 		{
+			console.log(  'UI.setValues()');
 			for(var id in values_data)
 				if (values_data.hasOwnProperty(id))
 					setValue( '#' + id,  values_data[id] );
@@ -320,8 +330,8 @@ ko.extensions.TemplateExtension.Komodo.UI = (function()
 		 */
 		var getValue = function(element)
 		{
-			/** I element type node
-			*/
+			//console.log(  'UI.getValue()');
+
 			var is_control_node = control_types.indexOf( element.nodeName ) > -1;
 			
 			if( ! is_control_node || ! element.id )

@@ -59,7 +59,7 @@
 		<!--UITest-->
 		<vbox id="UiTest-pane"><!-- UiTest wrapper with id attribute - Not required, but bettwer if exists -->
 			<button 
-				label="UITest.ini()"
+				label="UITest.init()"
 				style="border:1px solid lightblue"
 				oncommand="ko.windowManager.getMainWindow().ko.extensions.TemplateExtension.UITest.init(this);"/>
 		</vbox>
