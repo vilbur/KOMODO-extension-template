@@ -23,10 +23,9 @@ ko.extensions.TemplateExtension.UITest = {};
 		var main_element	= '';	// E.G.: '#TemplateExtension-preferences'
 		var controls_box	= ''; // final selector of test box element E.G.: '#TemplateExtension-preferences #generated_example'
 
-		/*---------------------------------------
-			UITest TEST CONTROLS
-		-----------------------------------------
-		*/
+		/*		UITest TEST CONTROLS
+		-----------------------------------------*/
+		
 		/** Test controls init pane
 		 */
 		this.InitUiTest_UiTest_btn = function()
@@ -51,10 +50,9 @@ ko.extensions.TemplateExtension.UITest = {};
 			}
 		};
 		
-		/*---------------------------------------
-			CONTROL TESTS
-		-----------------------------------------
-		*/
+		/*		CONTROL TESTS
+		-----------------------------------------*/
+		
 		/** Add controls
 		 */
 		this.AddMainControls_ControlTest_dd = function()
@@ -79,9 +77,9 @@ ko.extensions.TemplateExtension.UITest = {};
 			);
 		};
 		
-		/*---------------------------------------
-			CONTROLSET
+		/*		CONTROLSET
 		-----------------------------------------*/
+		
 		/** Create controlset
 		 */
 		this.Controlset_ControlTest_dd = function()
@@ -127,9 +125,9 @@ ko.extensions.TemplateExtension.UITest = {};
 					.select(1);
 		};
 		
-		/*---------------------------------------
-			DROPDOWN
+		/*		DROPDOWN
 		-----------------------------------------*/
+		
 		/** Create pref set
 		 */
 		this.Dopdown_ControlTest_dd = function()
@@ -180,10 +178,9 @@ ko.extensions.TemplateExtension.UITest = {};
 			UI.append( '#this.should_not_exists_parent_dd',	control );
 			UI.append( '#box_controls_exists',	control );
 		};
-		/*---------------------------------------
-			VALUES TESTS
-		-----------------------------------------
-		*/
+		/*		VALUES TESTS
+		-----------------------------------------*/
+		
 		/** Get values
 		 */
 		this.getValuesFromDocumentTest_ValuesTest_dd = function()
@@ -210,10 +207,9 @@ ko.extensions.TemplateExtension.UITest = {};
 			console.log( UI.values( main_element, 'only-prefs' ) );
 		};
 
-		/*---------------------------------------
-			PREFS TESTS
-		-----------------------------------------
-		*/
+		/*		PREFS TESTS
+		-----------------------------------------*/
+		
 		/** PrefsTest_SavePrefs
 		 */
 		this.SavePrefs_PrefsTest_dd = function()
@@ -237,11 +233,11 @@ ko.extensions.TemplateExtension.UITest = {};
 		this.DeletePrefs_PrefsTest_dd = function()
 		{
 			Prefs.delete('ui-test');
-		}; 
-		/*---------------------------------------
-			PREPARE TEST CLASS AND PANE UI
-		-----------------------------------------
-		*/
+		};
+		
+		/*		PREPARE TEST CLASS AND PANE UI
+		-----------------------------------------*/
+		
 		/** Pane ui
 		 * @return	object	UI class in pane
 		 */
