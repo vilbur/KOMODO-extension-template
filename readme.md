@@ -7,4 +7,4 @@ __UI Templates:__
 * Pane  
 * Preferences  
 
-[comment]: TEST COMMENT  
+<!--- TEST COMMENT   --->  
